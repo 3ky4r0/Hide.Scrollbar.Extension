@@ -1,8 +1,7 @@
 # Hide Scrollbar Extension
-
-| Icon | Store |
-| :---: | :---: |
-| <img src="assets/icons/icon128.png" width="48" height="48"> | [![Chrome Web Store](https://www.google.com/s2/favicons?sz=64&domain=chromewebstore.google.com)](https://chromewebstore.google.com/detail/gngenlhkmpneoiicndbjghjhpogdcncl?utm_source=item-share-cb) |
+| Icon | Chrome Web Store | Microsoft Edge Add-ons |
+| :--: | :--------------: | :---------------------: |
+| <img src="assets/icons/icon128.png" width="48" height="48"> | <a href="https://chromewebstore.google.com/detail/gngenlhkmpneoiicndbjghjhpogdcncl?utm_source=item-share-cb"><img src="https://img.shields.io/badge/Chrome-Web%20Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white"></a> | <a href="https://microsoftedge.microsoft.com/addons/detail/%E1%BA%A9n-thanh-cu%E1%BB%99n/oaneeaellpjjchegefmjkeenjnogegkn"><img src="https://img.shields.io/badge/Edge-Add--ons-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=white"></a> |
 
 
 A browser extension to hide scrollbars for a cleaner interface, while keeping scrolling functionality intact.
