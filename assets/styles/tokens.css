@@ -1,25 +1,17 @@
 :root {
   --bg: #f2f4f8;
   --text: #2f3446;
-  --border: #d0d0d0;
-  --label: #333;
-  --slider-bg: #b0b0b0;
   --accent: #2772ed;
   --secondary-bg: #e6ebf4;
   --danger: #e53528;
   --muted: #a3abb9;
-  --input-bg: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0d1117;
     --text: #e6edf3;
-    --border: #30363d;
-    --label: #9198a1;
-    --slider-bg: #30363d;
     --secondary-bg: #161b22;
-    --input-bg: #0d1117;
     --muted: #8b949e;
     --accent: #2f81f7;
     --danger: #f85149;
