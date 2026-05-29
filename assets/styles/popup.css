@@ -1,7 +1,6 @@
 body {
   width: 220px;
   overflow: hidden;
-  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -17,10 +16,13 @@ body {
 }
 
 .domain-display {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
   line-height: normal;
 }
 
@@ -30,8 +32,6 @@ body {
   align-items: center;
   flex: 1;
   padding: 10px 0;
-  position: relative;
-  overflow: hidden;
   min-height: 140px;
 }
 
