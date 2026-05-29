@@ -16,13 +16,10 @@ body {
 }
 
 .domain-display {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: normal;
   color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
+  word-break: break-all;
   line-height: normal;
 }
 
