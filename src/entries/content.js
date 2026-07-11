@@ -34,7 +34,17 @@
   const update = async () => {
     try {
       const state = await getSyncState();
-      applyStyle(state.scrollbarHidden && !isWhitelisted(window.location.hostname, state.whitelist));
+      const shouldHide = state.scrollbarHidden && !isWhitelisted(window.location.hostname, state.whitelist);
+      
+      const styleBefore = document.getElementById(STYLE_ID);
+      applyStyle(shouldHide);
+      const styleAfter = document.getElementById(STYLE_ID);
+
+      if (shouldHide && !styleBefore && styleAfter && window === window.top) {
+        chrome.storage.local.get({ hideCount: 0 }, (res) => {
+          chrome.storage.local.set({ hideCount: res.hideCount + 1 });
+        });
+      }
     } catch (err) {
       console.error('[Content] Failed to read sync state', { error: err });
     }

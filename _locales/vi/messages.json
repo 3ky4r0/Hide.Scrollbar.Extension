@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Mở ngoại lệ"
+    },
+    "info": {
+        "message": "Thông tin"
+    },
+    "statsStatus": {
+        "message": "Trạng thái"
+    },
+    "statsExceptions": {
+        "message": "Ngoại lệ"
+    },
+    "statsCleaned": {
+        "message": "Đã ẩn"
+    },
+    "statusActive": {
+        "message": "Đang ẩn"
+    },
+    "statusDisabled": {
+        "message": "Đang tắt"
+    },
+    "statusWhitelisted": {
+        "message": "Ngoại lệ"
+    },
+    "statusRestricted": {
+        "message": "Giới hạn"
     }
 }

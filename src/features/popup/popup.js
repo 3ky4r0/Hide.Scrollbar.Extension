@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const exportBtn = document.getElementById('exportBtn');
   const importBtn = document.getElementById('importBtn');
   const importFile = document.getElementById('importFile');
+  const infoBtn = document.getElementById('infoBtn');
 
   let currentHostname = '';
   let isRestricted = false;
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.disabled = true;
     toggle.style.opacity = '0.4';
     toggle.style.pointerEvents = 'none';
-    restrictedNotice.style.display = 'block';
+    restrictedNotice.style.display = 'flex';
     addCurrentBtn.disabled = true;
   };
 
@@ -35,19 +36,53 @@ document.addEventListener('DOMContentLoaded', () => {
     addCurrentBtn.title = label;
   };
 
+  const updateStats = (whitelist, scrollbarHidden) => {
+    const statusVal = document.getElementById('statusValue');
+    const exceptionsCnt = document.getElementById('exceptionsCount');
+    const cleanedCnt = document.getElementById('cleanedCount');
+
+    if (exceptionsCnt) {
+      exceptionsCnt.textContent = Array.isArray(whitelist) ? whitelist.length : 0;
+    }
+
+    if (cleanedCnt) {
+      chrome.storage.local.get({ hideCount: 0 }, (res) => {
+        cleanedCnt.textContent = res.hideCount.toLocaleString();
+      });
+    }
+
+    if (statusVal) {
+      statusVal.className = 'stats-value';
+      if (isRestricted) {
+        statusVal.textContent = chrome.i18n.getMessage('statusRestricted') || 'Restricted';
+        statusVal.classList.add('restricted');
+      } else if (isWhitelisted(currentHostname, whitelist)) {
+        statusVal.textContent = chrome.i18n.getMessage('statusWhitelisted') || 'Whitelisted';
+        statusVal.classList.add('whitelisted');
+      } else if (scrollbarHidden) {
+        statusVal.textContent = chrome.i18n.getMessage('statusActive') || 'Active';
+        statusVal.classList.add('active');
+      } else {
+        statusVal.textContent = chrome.i18n.getMessage('statusDisabled') || 'Disabled';
+        statusVal.classList.add('disabled');
+      }
+    }
+  };
+
   const updateNotice = (whitelist) => {
     if (!currentHostname) {
       whitelistedNotice.style.display = 'none';
       domainDisplay.textContent = chrome.i18n.getMessage('cantAddPage') || 'Invalid Page';
       addCurrentBtn.disabled = true;
       updateAddButtonState(false);
+      updateStats(whitelist, false);
       return;
     }
 
     domainDisplay.textContent = currentHostname;
 
     const inList = isWhitelisted(currentHostname, whitelist);
-    whitelistedNotice.style.display = inList ? 'block' : 'none';
+    whitelistedNotice.style.display = inList ? 'flex' : 'none';
     updateAddButtonState(inList);
 
     if (inList || isRestricted) {
@@ -55,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toggle.disabled = true;
       toggle.style.opacity = '0.4';
       toggle.style.pointerEvents = 'none';
+      updateStats(whitelist, false);
     } else {
       getSyncValue({ scrollbarHidden: true })
         .then((data) => {
@@ -63,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
           toggle.disabled = false;
           toggle.style.opacity = '1';
           toggle.style.pointerEvents = 'auto';
+          updateStats(whitelist, data.scrollbarHidden);
         })
         .catch((err) => {
           console.error('[Popup] getSyncValue failed', { context: 'updateNotice', error: err });
@@ -119,9 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
   toggle.addEventListener('click', () => {
     toggle.classList.toggle('active');
     const hidden = toggle.classList.contains('active');
-    setSyncValue({ scrollbarHidden: hidden }).catch((err) => {
-      console.error('[Popup] Failed to toggle scrollbar state', { hidden, error: err });
-    });
+    setSyncValue({ scrollbarHidden: hidden })
+      .then(() => {
+        return getSyncValue({ whitelist: [] });
+      })
+      .then((data) => {
+        updateStats(data.whitelist, hidden);
+      })
+      .catch((err) => {
+        console.error('[Popup] Failed to toggle scrollbar state', { hidden, error: err });
+      });
   });
 
   addCurrentBtn.addEventListener('click', () => {
@@ -207,6 +251,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reader.readAsText(file);
     importFile.value = '';
+  });
+
+  infoBtn.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('src/features/info/info.html') });
+  });
+
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes.hideCount) {
+      const cleanedCnt = document.getElementById('cleanedCount');
+      if (cleanedCnt) {
+        cleanedCnt.textContent = (changes.hideCount.newValue || 0).toLocaleString();
+      }
+    }
   });
 
   applyI18n();

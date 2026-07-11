@@ -16,12 +16,26 @@
 
   <div class="main-power-section">
     <button id="toggleScroll" class="power-btn" aria-label="Toggle hiding scrollbar" title="Toggle scrollbar">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
         <line x1="12" y1="2" x2="12" y2="12"></line>
       </svg>
     </button>
+    <div class="stats-section">
+      <div class="stats-item">
+        <span class="stats-label" data-i18n="statsStatus">Status</span>
+        <span id="statusValue" class="stats-value">...</span>
+      </div>
+      <div class="stats-item">
+        <span class="stats-label" data-i18n="statsExceptions">Exceptions</span>
+        <span id="exceptionsCount" class="stats-value">0</span>
+      </div>
+      <div class="stats-item">
+        <span class="stats-label" data-i18n="statsCleaned">Cleaned</span>
+        <span id="cleanedCount" class="stats-value">0</span>
+      </div>
+    </div>
   </div>
 
   <div class="bottom-controls">
@@ -51,6 +65,15 @@
       </svg>
     </button>
     <input type="file" id="importFile" accept=".json" hidden>
+
+    <button id="infoBtn" class="control-btn" title="Info" aria-label="Info" data-i18n-title="info" data-i18n-aria-label="info">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </button>
 
     <button id="toggleWhitelist" class="control-btn" title="Open exceptions" aria-label="Open exceptions" data-i18n-aria-label="openExceptions" data-i18n-title="openExceptions">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"

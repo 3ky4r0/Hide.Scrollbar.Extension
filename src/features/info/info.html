@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollHide - Guide</title>
+  <link rel="stylesheet" href="../../../assets/styles/tokens.css">
+  <style>
+    body {
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 24px;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 30px;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .h2-icon {
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    p {
+      margin-bottom: 16px;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .note-box {
+      background: var(--secondary-bg);
+      padding: 16px;
+      margin-top: 32px;
+      font-size: 15px;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      background: rgba(127, 127, 127, 0.1);
+      padding: 2px 4px;
+    }
+    .footer {
+      margin-top: 48px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .logo-link {
+      display: inline-block;
+      text-decoration: none;
+      outline: none;
+      flex-shrink: 0;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      display: block;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-container">
+    <a href="https://chromewebstore.google.com/detail/gngenlhkmpneoiicndbjghjhpogdcncl" target="_blank" rel="noopener noreferrer" class="logo-link" title="View on Chrome Web Store">
+      <img src="https://lh3.googleusercontent.com/f6E8JPA0obx5j36NjPsEnNx180EtK0wyWrVvl-ttqC99oYM9UgYC6q0V5BQ5DvCKLVLkS14XbcKdsrU5g2axJayYjEk=s60" alt="ScrollHide Logo" class="logo">
+    </a>
+    <div>
+      <h1 style="margin-bottom: 4px;">ScrollHide Guide</h1>
+      <p style="margin: 0; font-size: 14px; color: var(--muted);">A lightweight extension to hide web page scrollbars while keeping scrolling fully functional.</p>
+    </div>
+  </header>
+
+  <main>
+    <h2>
+      <svg class="h2-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+      </svg>
+      How to Use
+    </h2>
+    <ul>
+      <li><strong>Toggle Globally:</strong> Click the large power button in the extension popup to turn scrollbar hiding ON or OFF.</li>
+      <li><strong>Exclude Websites (Whitelist):</strong>
+        <ul>
+          <li>Click the <strong>+ / -</strong> button in the popup to add or remove the current website.</li>
+          <li>Click the <strong>Sidebar</strong> button to manage all excluded domains manually.</li>
+        </ul>
+      </li>
+      <li><strong>Sync & Backup:</strong> Use the <strong>Export (↑)</strong> and <strong>Import (↓)</strong> buttons in the popup to backup or merge your exception list.</li>
+    </ul>
+
+    <h2>
+      <svg class="h2-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+      Tips & Troubleshooting
+    </h2>
+    <ul>
+      <li><strong>Pin the Extension:</strong> Pin the icon to your toolbar to see the status badge: <code>ON</code> (blue) means active, <code>OFF</code> (grey) means disabled/whitelisted, and no badge means restricted.</li>
+      <li><strong>Page Refresh:</strong> If scrollbars do not hide or reappear immediately, try refreshing the page.</li>
+      <li><strong>Canvas Scrollbars:</strong> A few websites or special PDF viewers draw their own scrollbars dynamically. These cannot be hidden by browser extensions.</li>
+    </ul>
+
+    <div class="note-box">
+      <strong>Restricted Pages:</strong> By default, browser security policies restrict extensions from modifying internal pages (such as <code>chrome://</code>, <code>chrome-extension://</code>, DevTools, or the Chrome Web Store).
+    </div>
+  </main>
+
+  <footer class="footer">
+    ScrollHide Extension
+  </footer>
+</body>
+</html>
