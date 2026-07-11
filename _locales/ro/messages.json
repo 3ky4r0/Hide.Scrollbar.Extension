@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Deschide excepțiile"
+    },
+    "info": {
+        "message": "Informații"
+    },
+    "statsStatus": {
+        "message": "Status"
+    },
+    "statsExceptions": {
+        "message": "Excepții"
+    },
+    "statsCleaned": {
+        "message": "Ascunse"
+    },
+    "statusActive": {
+        "message": "Activ"
+    },
+    "statusDisabled": {
+        "message": "Dezactivat"
+    },
+    "statusWhitelisted": {
+        "message": "Excepție"
+    },
+    "statusRestricted": {
+        "message": "Restricționat"
     }
 }

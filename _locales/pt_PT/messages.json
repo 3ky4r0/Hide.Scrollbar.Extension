@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Abrir exceções"
+    },
+    "info": {
+        "message": "Informações"
+    },
+    "statsStatus": {
+        "message": "Estado"
+    },
+    "statsExceptions": {
+        "message": "Exceções"
+    },
+    "statsCleaned": {
+        "message": "Ocultados"
+    },
+    "statusActive": {
+        "message": "Ativo"
+    },
+    "statusDisabled": {
+        "message": "Desativado"
+    },
+    "statusWhitelisted": {
+        "message": "Lista branca"
+    },
+    "statusRestricted": {
+        "message": "Restrito"
     }
 }

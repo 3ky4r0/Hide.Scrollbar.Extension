@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "打开例外"
+    },
+    "info": {
+        "message": "信息"
+    },
+    "statsStatus": {
+        "message": "状态"
+    },
+    "statsExceptions": {
+        "message": "例外列表"
+    },
+    "statsCleaned": {
+        "message": "已隐藏"
+    },
+    "statusActive": {
+        "message": "启用"
+    },
+    "statusDisabled": {
+        "message": "禁用"
+    },
+    "statusWhitelisted": {
+        "message": "白名单"
+    },
+    "statusRestricted": {
+        "message": "受限"
     }
 }

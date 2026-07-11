@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "예외 열기"
+    },
+    "info": {
+        "message": "정보"
+    },
+    "statsStatus": {
+        "message": "상태"
+    },
+    "statsExceptions": {
+        "message": "예외"
+    },
+    "statsCleaned": {
+        "message": "숨김됨"
+    },
+    "statusActive": {
+        "message": "활성화"
+    },
+    "statusDisabled": {
+        "message": "비활성화"
+    },
+    "statusWhitelisted": {
+        "message": "화이트리스트"
+    },
+    "statusRestricted": {
+        "message": "제한됨"
     }
 }

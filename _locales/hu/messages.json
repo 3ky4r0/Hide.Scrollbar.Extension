@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Kivételek megnyitása"
+    },
+    "info": {
+        "message": "Információ"
+    },
+    "statsStatus": {
+        "message": "Státusz"
+    },
+    "statsExceptions": {
+        "message": "Kivételek"
+    },
+    "statsCleaned": {
+        "message": "Elrejtve"
+    },
+    "statusActive": {
+        "message": "Aktív"
+    },
+    "statusDisabled": {
+        "message": "Kikapcsolva"
+    },
+    "statusWhitelisted": {
+        "message": "Kivétel"
+    },
+    "statusRestricted": {
+        "message": "Korlátozott"
     }
 }

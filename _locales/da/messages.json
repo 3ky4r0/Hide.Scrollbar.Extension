@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Åbn undtagelser"
+    },
+    "info": {
+        "message": "Information"
+    },
+    "statsStatus": {
+        "message": "Status"
+    },
+    "statsExceptions": {
+        "message": "Undtagelser"
+    },
+    "statsCleaned": {
+        "message": "Skjult"
+    },
+    "statusActive": {
+        "message": "Aktiv"
+    },
+    "statusDisabled": {
+        "message": "Deaktiveret"
+    },
+    "statusWhitelisted": {
+        "message": "Undtaget"
+    },
+    "statusRestricted": {
+        "message": "Begrænset"
     }
 }

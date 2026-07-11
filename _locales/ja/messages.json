@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "例外を開く"
+    },
+    "info": {
+        "message": "情報"
+    },
+    "statsStatus": {
+        "message": "ステータス"
+    },
+    "statsExceptions": {
+        "message": "例外リスト"
+    },
+    "statsCleaned": {
+        "message": "非表示数"
+    },
+    "statusActive": {
+        "message": "有効"
+    },
+    "statusDisabled": {
+        "message": "無効"
+    },
+    "statusWhitelisted": {
+        "message": "除外"
+    },
+    "statusRestricted": {
+        "message": "制限あり"
     }
 }

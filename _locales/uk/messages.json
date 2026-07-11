@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Відкрити винятки"
+    },
+    "info": {
+        "message": "Інформація"
+    },
+    "statsStatus": {
+        "message": "Статус"
+    },
+    "statsExceptions": {
+        "message": "Винятки"
+    },
+    "statsCleaned": {
+        "message": "Приховано"
+    },
+    "statusActive": {
+        "message": "Активний"
+    },
+    "statusDisabled": {
+        "message": "Вимкнено"
+    },
+    "statusWhitelisted": {
+        "message": "Виняток"
+    },
+    "statusRestricted": {
+        "message": "Обмежено"
     }
 }

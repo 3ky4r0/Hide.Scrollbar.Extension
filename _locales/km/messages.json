@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "បើកករណីលើកលែង"
+    },
+    "info": {
+        "message": "ព័ត៌មាន"
+    },
+    "statsStatus": {
+        "message": "ស្ថានភាព"
+    },
+    "statsExceptions": {
+        "message": "ការលើកលែង"
+    },
+    "statsCleaned": {
+        "message": "បានលាក់"
+    },
+    "statusActive": {
+        "message": "សកម្ម"
+    },
+    "statusDisabled": {
+        "message": "បានបិទ"
+    },
+    "statusWhitelisted": {
+        "message": "បញ្ជីស"
+    },
+    "statusRestricted": {
+        "message": "បានកម្រិត"
     }
 }

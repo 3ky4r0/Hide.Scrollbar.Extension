@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Άνοιγμα εξαιρέσεων"
+    },
+    "info": {
+        "message": "Πληροφορίες"
+    },
+    "statsStatus": {
+        "message": "Κατάσταση"
+    },
+    "statsExceptions": {
+        "message": "Εξαιρέσεις"
+    },
+    "statsCleaned": {
+        "message": "Κρυμμένα"
+    },
+    "statusActive": {
+        "message": "Ενεργό"
+    },
+    "statusDisabled": {
+        "message": "Απενεργοποιημένο"
+    },
+    "statusWhitelisted": {
+        "message": "Εξαίρεση"
+    },
+    "statusRestricted": {
+        "message": "Περιορισμένο"
     }
 }

@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "เปิดข้อยกเว้น"
+    },
+    "info": {
+        "message": "ข้อมูล"
+    },
+    "statsStatus": {
+        "message": "สถานะ"
+    },
+    "statsExceptions": {
+        "message": "ข้อยกเว้น"
+    },
+    "statsCleaned": {
+        "message": "ซ่อนแล้ว"
+    },
+    "statusActive": {
+        "message": "เปิดใช้งาน"
+    },
+    "statusDisabled": {
+        "message": "ปิดใช้งาน"
+    },
+    "statusWhitelisted": {
+        "message": "ยกเว้น"
+    },
+    "statusRestricted": {
+        "message": "จำกัด"
     }
 }

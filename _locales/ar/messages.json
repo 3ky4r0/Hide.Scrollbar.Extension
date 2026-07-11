@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "فتح الاستثناءات"
+    },
+    "info": {
+        "message": "معلومات"
+    },
+    "statsStatus": {
+        "message": "الحالة"
+    },
+    "statsExceptions": {
+        "message": "الاستثناءات"
+    },
+    "statsCleaned": {
+        "message": "تم إخفاؤها"
+    },
+    "statusActive": {
+        "message": "نشط"
+    },
+    "statusDisabled": {
+        "message": "معطل"
+    },
+    "statusWhitelisted": {
+        "message": "في القائمة البيضاء"
+    },
+    "statusRestricted": {
+        "message": "مقيد"
     }
 }

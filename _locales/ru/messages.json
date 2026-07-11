@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Открыть исключения"
+    },
+    "info": {
+        "message": "Информация"
+    },
+    "statsStatus": {
+        "message": "Статус"
+    },
+    "statsExceptions": {
+        "message": "Исключения"
+    },
+    "statsCleaned": {
+        "message": "Скрыто"
+    },
+    "statusActive": {
+        "message": "Активен"
+    },
+    "statusDisabled": {
+        "message": "Отключен"
+    },
+    "statusWhitelisted": {
+        "message": "Исключен"
+    },
+    "statusRestricted": {
+        "message": "Ограничен"
     }
 }

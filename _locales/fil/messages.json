@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Buksan ang mga exception"
+    },
+    "info": {
+        "message": "Impormasyon"
+    },
+    "statsStatus": {
+        "message": "Katayuan"
+    },
+    "statsExceptions": {
+        "message": "Mga Exception"
+    },
+    "statsCleaned": {
+        "message": "Naitago"
+    },
+    "statusActive": {
+        "message": "Aktibo"
+    },
+    "statusDisabled": {
+        "message": "Disabled"
+    },
+    "statusWhitelisted": {
+        "message": "Naka-whitelist"
+    },
+    "statusRestricted": {
+        "message": "Restricted"
     }
 }

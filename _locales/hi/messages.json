@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "अपवाद खोलें"
+    },
+    "info": {
+        "message": "जानकारी"
+    },
+    "statsStatus": {
+        "message": "स्थिति"
+    },
+    "statsExceptions": {
+        "message": "अपवाद"
+    },
+    "statsCleaned": {
+        "message": "साफ़ किया गया"
+    },
+    "statusActive": {
+        "message": "सक्रिय"
+    },
+    "statusDisabled": {
+        "message": "निष्क्रिय"
+    },
+    "statusWhitelisted": {
+        "message": "श्वेतसूची"
+    },
+    "statusRestricted": {
+        "message": "प्रतिबंधित"
     }
 }

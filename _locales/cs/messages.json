@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Otevřít výjimky"
+    },
+    "info": {
+        "message": "Informace"
+    },
+    "statsStatus": {
+        "message": "Stav"
+    },
+    "statsExceptions": {
+        "message": "Výjimky"
+    },
+    "statsCleaned": {
+        "message": "Skryto"
+    },
+    "statusActive": {
+        "message": "Aktivní"
+    },
+    "statusDisabled": {
+        "message": "Vypnuto"
+    },
+    "statusWhitelisted": {
+        "message": "Výjimka"
+    },
+    "statusRestricted": {
+        "message": "Omezeno"
     }
 }

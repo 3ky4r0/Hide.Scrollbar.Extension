@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Avaa poikkeukset"
+    },
+    "info": {
+        "message": "Tiedot"
+    },
+    "statsStatus": {
+        "message": "Tila"
+    },
+    "statsExceptions": {
+        "message": "Poikkeukset"
+    },
+    "statsCleaned": {
+        "message": "Piilotettu"
+    },
+    "statusActive": {
+        "message": "Aktiivinen"
+    },
+    "statusDisabled": {
+        "message": "Pois käytöstä"
+    },
+    "statusWhitelisted": {
+        "message": "Sallittu"
+    },
+    "statusRestricted": {
+        "message": "Rajoitettu"
     }
 }

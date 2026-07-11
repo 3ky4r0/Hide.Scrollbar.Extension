@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "Uitzonderingen openen"
+    },
+    "info": {
+        "message": "Informatie"
+    },
+    "statsStatus": {
+        "message": "Status"
+    },
+    "statsExceptions": {
+        "message": "Uitzonderingen"
+    },
+    "statsCleaned": {
+        "message": "Verborgen"
+    },
+    "statusActive": {
+        "message": "Actief"
+    },
+    "statusDisabled": {
+        "message": "Uitgeschakeld"
+    },
+    "statusWhitelisted": {
+        "message": "Whitelist"
+    },
+    "statusRestricted": {
+        "message": "Beperkt"
     }
 }

@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "開啟例外"
+    },
+    "info": {
+        "message": "資訊"
+    },
+    "statsStatus": {
+        "message": "狀態"
+    },
+    "statsExceptions": {
+        "message": "例外清單"
+    },
+    "statsCleaned": {
+        "message": "已隱藏"
+    },
+    "statusActive": {
+        "message": "啟用"
+    },
+    "statusDisabled": {
+        "message": "停用"
+    },
+    "statusWhitelisted": {
+        "message": "白名單"
+    },
+    "statusRestricted": {
+        "message": "受限"
     }
 }

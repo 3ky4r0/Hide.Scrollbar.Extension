@@ -45,5 +45,29 @@
     },
     "openExceptions": {
         "message": "İstisnaları aç"
+    },
+    "info": {
+        "message": "Bilgi"
+    },
+    "statsStatus": {
+        "message": "Durum"
+    },
+    "statsExceptions": {
+        "message": "İstisnalar"
+    },
+    "statsCleaned": {
+        "message": "Gizlenen"
+    },
+    "statusActive": {
+        "message": "Etkin"
+    },
+    "statusDisabled": {
+        "message": "Devre dışı"
+    },
+    "statusWhitelisted": {
+        "message": "İstisna"
+    },
+    "statusRestricted": {
+        "message": "Kısıtlı"
     }
 }
