@@ -11,7 +11,7 @@
 
   globalThis.ScrollHideConstants = {
     BACKUP_FILENAME: 'scrollhide-backup.json',
-    BADGE_ACTIVE_COLOR: '#007aff',
+    BADGE_ACTIVE_COLOR: '#2772ed',
     BADGE_INACTIVE_COLOR: '#888',
     DEFAULT_SYNC_STATE,
     RESTRICTED_HOSTS: ['chrome.google.com', 'chromewebstore.google.com'],
