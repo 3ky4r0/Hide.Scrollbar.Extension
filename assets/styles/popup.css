@@ -19,8 +19,11 @@ body {
   font-size: 16px;
   font-weight: normal;
   color: var(--text);
-  word-break: break-all;
   line-height: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 .main-power-section {
