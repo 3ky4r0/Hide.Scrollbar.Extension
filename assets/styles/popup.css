@@ -28,12 +28,19 @@ body {
 
 .main-power-section {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex: 1;
-  padding: 14px 20px;
+  padding: 15px;
   min-height: 90px;
-  gap: 16px;
+  gap: 15px;
+}
+
+.divider {
+  width: 1px;
+  height: 48px;
+  background: var(--muted);
+  opacity: 0.4;
+  flex-shrink: 0;
 }
 
 .power-btn {
@@ -47,6 +54,12 @@ body {
   transition: color 0.2s ease;
   flex-shrink: 0;
   padding: 0;
+  width: 60px;
+  height: 60px;
+}
+
+.power-btn svg {
+  transform: translateY(-2px);
 }
 
 .power-btn.active {
