@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Restricționat"
+    },
+    "invalidFileError": {
+        "message": "Eroare: Format de fișier nevalid!"
     }
 }

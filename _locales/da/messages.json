@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Begrænset"
+    },
+    "invalidFileError": {
+        "message": "Fejl: Ugyldigt filformat!"
     }
 }

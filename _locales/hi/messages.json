@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "प्रतिबंधित"
+    },
+    "invalidFileError": {
+        "message": "त्रुटि: अमान्य फ़ाइल स्वरूप!"
     }
 }

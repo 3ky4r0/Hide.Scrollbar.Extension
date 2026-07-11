@@ -21,22 +21,24 @@ const updateBadge = async (tabId, scrollbarHidden, whitelist) => {
       if (!restricted) {
         whitelisted = isWhitelisted(new URL(tab.url).hostname, whitelist);
       }
+    } else {
+      restricted = true;
     }
   } catch (_) {
     restricted = true;
   }
 
   if (restricted) {
-    chrome.action.setBadgeText({ text: '', tabId });
+    chrome.action.setBadgeText({ text: '', tabId }).catch(() => {});
     return;
   }
 
   const active = scrollbarHidden && !whitelisted;
-  chrome.action.setBadgeText({ text: active ? 'ON' : 'OFF', tabId });
+  chrome.action.setBadgeText({ text: active ? 'ON' : 'OFF', tabId }).catch(() => {});
   chrome.action.setBadgeBackgroundColor({
     color: active ? BADGE_ACTIVE_COLOR : BADGE_INACTIVE_COLOR,
     tabId,
-  });
+  }).catch(() => {});
 };
 
 const updateBadgeForTab = async (tabId) => {

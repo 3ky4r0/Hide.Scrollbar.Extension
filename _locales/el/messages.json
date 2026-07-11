@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Περιορισμένο"
+    },
+    "invalidFileError": {
+        "message": "Σφάλμα: Μη έγκυρη μορφή αρχείου!"
     }
 }

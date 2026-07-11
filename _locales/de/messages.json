@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Eingeschränkt"
+    },
+    "invalidFileError": {
+        "message": "Fehler: Ungültiges Dateiformat!"
     }
 }

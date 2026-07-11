@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Omezeno"
+    },
+    "invalidFileError": {
+        "message": "Chyba: Neplatný formát souboru!"
     }
 }

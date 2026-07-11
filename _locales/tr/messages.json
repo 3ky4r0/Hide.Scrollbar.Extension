@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Kısıtlı"
+    },
+    "invalidFileError": {
+        "message": "Hata: Geçersiz dosya biçimi!"
     }
 }

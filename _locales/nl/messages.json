@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Beperkt"
+    },
+    "invalidFileError": {
+        "message": "Fout: Ongeldige bestandsindeling!"
     }
 }

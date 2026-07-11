@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "បានកម្រិត"
+    },
+    "invalidFileError": {
+        "message": "កំហុស៖ ទ្រង់ទ្រាយឯកសារមិនត្រឹមត្រូវ!"
     }
 }

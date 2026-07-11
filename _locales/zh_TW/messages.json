@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "受限"
+    },
+    "invalidFileError": {
+        "message": "錯誤：檔案格式無效！"
     }
 }

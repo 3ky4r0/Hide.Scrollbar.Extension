@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Restringido"
+    },
+    "invalidFileError": {
+        "message": "¡Error: Formato de archivo no válido!"
     }
 }

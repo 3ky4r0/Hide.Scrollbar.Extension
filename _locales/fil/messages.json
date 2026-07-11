@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Restricted"
+    },
+    "invalidFileError": {
+        "message": "Error: Invalid na format ng file!"
     }
 }

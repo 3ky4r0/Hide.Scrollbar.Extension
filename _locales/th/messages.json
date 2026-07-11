@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "จำกัด"
+    },
+    "invalidFileError": {
+        "message": "ข้อผิดพลาด: รูปแบบไฟล์ไม่ถูกต้อง!"
     }
 }

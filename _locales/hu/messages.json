@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Korlátozott"
+    },
+    "invalidFileError": {
+        "message": "Hiba: Érvénytelen fájlformátum!"
     }
 }

@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "제한됨"
+    },
+    "invalidFileError": {
+        "message": "오류: 잘못된 파일 형식입니다!"
     }
 }

@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "مقيد"
+    },
+    "invalidFileError": {
+        "message": "خطأ: تنسيق الملف غير صالح!"
     }
 }

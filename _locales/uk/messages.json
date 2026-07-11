@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Обмежено"
+    },
+    "invalidFileError": {
+        "message": "Помилка: недійсний формат файлу!"
     }
 }

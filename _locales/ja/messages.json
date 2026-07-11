@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "制限あり"
+    },
+    "invalidFileError": {
+        "message": "エラー：無効なファイル形式です！"
     }
 }

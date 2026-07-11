@@ -219,7 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.onload = (loadEvent) => {
       try {
         const data = JSON.parse(loadEvent.target.result);
-        if (!data || !Array.isArray(data.whitelist)) return;
+        if (!data || !Array.isArray(data.whitelist)) {
+          alert(chrome.i18n.getMessage('invalidFileError') || 'Lỗi: Tệp tin không hợp lệ!');
+          return;
+        }
 
         const nextState = {
           whitelist: normalizeWhitelist(data.whitelist),
@@ -245,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
       } catch (err) {
         console.error('[Popup] Invalid JSON during import', { fileName: file.name, error: err });
-        alert(chrome.i18n.getMessage('error') || 'Lỗi: Tệp tin không hợp lệ!');
+        alert(chrome.i18n.getMessage('invalidFileError') || 'Lỗi: Tệp tin không hợp lệ!');
       }
     };
 

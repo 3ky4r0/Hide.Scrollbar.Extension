@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Giới hạn"
+    },
+    "invalidFileError": {
+        "message": "Lỗi: Tệp tin không hợp lệ!"
     }
 }

@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Rajoitettu"
+    },
+    "invalidFileError": {
+        "message": "Virhe: Virheellinen tiedostomuoto!"
     }
 }

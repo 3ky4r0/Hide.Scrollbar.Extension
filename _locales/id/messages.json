@@ -69,5 +69,8 @@
     },
     "statusRestricted": {
         "message": "Dibatasi"
+    },
+    "invalidFileError": {
+        "message": "Kesalahan: Format file tidak valid!"
     }
 }
