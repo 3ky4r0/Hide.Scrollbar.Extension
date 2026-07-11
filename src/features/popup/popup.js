@@ -52,20 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (statusVal) {
-      statusVal.className = 'stats-value';
+      statusVal.className = 'status-dot';
+      statusVal.textContent = ''; // No text, only color dot
+
+      let statusText = '';
       if (isRestricted) {
-        statusVal.textContent = chrome.i18n.getMessage('statusRestricted') || 'Restricted';
+        statusText = chrome.i18n.getMessage('statusRestricted') || 'Restricted';
         statusVal.classList.add('restricted');
       } else if (isWhitelisted(currentHostname, whitelist)) {
-        statusVal.textContent = chrome.i18n.getMessage('statusWhitelisted') || 'Whitelisted';
+        statusText = chrome.i18n.getMessage('statusWhitelisted') || 'Whitelisted';
         statusVal.classList.add('whitelisted');
       } else if (scrollbarHidden) {
-        statusVal.textContent = chrome.i18n.getMessage('statusActive') || 'Active';
+        statusText = chrome.i18n.getMessage('statusActive') || 'Active';
         statusVal.classList.add('active');
       } else {
-        statusVal.textContent = chrome.i18n.getMessage('statusDisabled') || 'Disabled';
+        statusText = chrome.i18n.getMessage('statusDisabled') || 'Disabled';
         statusVal.classList.add('disabled');
       }
+      statusVal.title = statusText;
     }
   };
 
@@ -106,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    addCurrentBtn.disabled = false;
+    addCurrentBtn.disabled = isRestricted;
   };
 
   const loadState = () => {
@@ -276,9 +280,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const tabUrl = tab?.url || '';
       isRestricted = isRestrictedUrl(tabUrl);
 
-      if (!isRestricted && tabUrl) {
+      if (tabUrl) {
         try {
-          currentHostname = new URL(tabUrl).hostname;
+          const parsed = new URL(tabUrl);
+          const RESTRICTED_PROTOCOLS = globalThis.ScrollHideConstants.RESTRICTED_PROTOCOLS;
+          if (RESTRICTED_PROTOCOLS.includes(parsed.protocol) || parsed.protocol === 'file:') {
+            if (parsed.protocol === 'about:') {
+              currentHostname = parsed.href;
+            } else {
+              currentHostname = parsed.protocol + '//' + parsed.hostname;
+            }
+          } else {
+            currentHostname = parsed.hostname;
+          }
         } catch (_) {
           currentHostname = '';
         }

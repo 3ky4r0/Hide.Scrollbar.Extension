@@ -76,16 +76,28 @@ body {
   text-align: right;
 }
 
-#statusValue.disabled {
-  color: var(--muted);
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-#statusValue.whitelisted {
-  color: #ff9500;
+.status-dot.active {
+  background: var(--accent);
 }
 
-#statusValue.restricted {
-  color: var(--danger);
+.status-dot.disabled {
+  background: var(--muted);
+}
+
+.status-dot.whitelisted {
+  background: #ff9500;
+}
+
+.status-dot.restricted {
+  background: var(--danger);
 }
 
 .bottom-controls {
