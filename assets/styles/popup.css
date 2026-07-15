@@ -51,7 +51,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease;
+  transition: color 0s ease;
   flex-shrink: 0;
   padding: 0;
   width: 60px;
