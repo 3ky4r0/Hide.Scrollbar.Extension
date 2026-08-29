@@ -3,7 +3,7 @@ const assert = require('assert');
 // Mock globalThis.ScrollHideConstants
 global.globalThis = global;
 global.ScrollHideConstants = {
-    RESTRICTED_HOSTS: ['chrome.google.com', 'chrome-extension://'],
+    RESTRICTED_HOSTS: ['chromewebstore.google.com'],
     RESTRICTED_PROTOCOLS: ['chrome:', 'edge:', 'about:', 'chrome-extension:']
 };
 
@@ -35,7 +35,8 @@ function runTests() {
     // Test isRestrictedUrl
     assert.strictEqual(service.isRestrictedUrl('chrome://settings'), true);
     assert.strictEqual(service.isRestrictedUrl('https://wikipedia.org'), false);
-    assert.strictEqual(service.isRestrictedUrl('https://chrome.google.com/webstore'), true);
+    assert.strictEqual(service.isRestrictedUrl('https://chromewebstore.google.com/detail/123'), true);
+    assert.strictEqual(service.isRestrictedUrl('https://chrome.google.com/'), false);
     console.log('✅ isRestrictedUrl: OK');
 
     console.log('--- Tất cả các bài test đã VƯỢT QUA! ---');

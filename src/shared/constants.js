@@ -14,7 +14,7 @@
     BADGE_ACTIVE_COLOR: '#2772ed',
     BADGE_INACTIVE_COLOR: '#888',
     DEFAULT_SYNC_STATE,
-    RESTRICTED_HOSTS: ['chrome.google.com', 'chromewebstore.google.com'],
+    RESTRICTED_HOSTS: ['chromewebstore.google.com'],
     RESTRICTED_PROTOCOLS: [
       'chrome:',
       'chrome-extension:',

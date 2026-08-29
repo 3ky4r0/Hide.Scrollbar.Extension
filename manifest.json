@@ -13,8 +13,7 @@
     "tabs",
     "sidePanel",
     "scripting",
-    "contextMenus",
-    "notifications"
+    "contextMenus"
   ],
   "host_permissions": [
     "<all_urls>"

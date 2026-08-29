@@ -131,16 +131,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   if (info.menuItemId === COLOR_PICKER_MENU_ID) {
     try {
-      const results = await chrome.scripting.executeScript({
+      await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: async () => {
           if (!('EyeDropper' in window)) {
-            return { error: 'not_supported' };
+            alert('EyeDropper is not supported on this page.');
+            return;
           }
           try {
             const dropper = new window.EyeDropper();
             const result = await dropper.open();
-            const hex = result.sRGBHex;
+            const hex = (result.sRGBHex || '').toUpperCase();
             try {
               await navigator.clipboard.writeText(hex);
             } catch (_) {
@@ -153,52 +154,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
               document.execCommand('copy');
               ta.remove();
             }
-            return { hex, copied: true };
+            alert(`${hex}\nHex code copied to clipboard!`);
           } catch (err) {
             if (err && err.name === 'AbortError') {
-              return { aborted: true };
+              return;
             }
-            return { error: 'eyedropper_error' };
+            alert('Could not pick a color. Please try again.');
           }
         },
       });
-
-      const res = results?.[0]?.result;
-      if (!res || res.aborted) return;
-
-      const iconUrl = chrome.runtime.getURL('assets/icons/icon48.png');
-
-      if (res.error === 'not_supported') {
-        chrome.notifications.create({
-          type: 'basic',
-          iconUrl,
-          title: 'Pick Color',
-          message: 'EyeDropper is not supported on this page.',
-        });
-        return;
-      }
-
-      if (res.error) {
-        chrome.notifications.create({
-          type: 'basic',
-          iconUrl,
-          title: 'Pick Color',
-          message: 'Could not pick a color. Please try again.',
-        });
-        return;
-      }
-
-      if (res.hex) {
-        const hex = res.hex.toUpperCase();
-        chrome.notifications.create({
-          type: 'basic',
-          iconUrl,
-          title: hex,
-          message: 'Hex code copied to clipboard!',
-        });
-      }
-    } catch (err) {
-      console.error('[Background] EyeDropper execution failed', err);
+    } catch (_) {
+      // Ignored for internal browser pages where script injection is restricted
     }
   }
 
@@ -248,12 +214,12 @@ const openTabFallback = (tab) => {
   const tabUrl = tab?.url || '';
 
   if (!favUrl && !tabUrl) {
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: chrome.runtime.getURL('assets/icons/icon48.png'),
-      title: 'Get Favicon',
-      message: 'No favicon found on this page.',
-    });
+    if (tab?.id && chrome.scripting) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => alert('No favicon found on this page.'),
+      }).catch(() => {});
+    }
     return;
   }
 
