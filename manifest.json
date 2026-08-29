@@ -12,7 +12,9 @@
     "storage",
     "tabs",
     "sidePanel",
-    "scripting"
+    "scripting",
+    "contextMenus",
+    "notifications"
   ],
   "host_permissions": [
     "<all_urls>"

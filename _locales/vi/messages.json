@@ -72,5 +72,11 @@
     },
     "invalidFileError": {
         "message": "Lỗi: Tệp tin không hợp lệ!"
+    },
+    "pickColor": {
+        "message": "Lấy mã màu"
+    },
+    "colorCopied": {
+        "message": "Đã sao chép!"
     }
 }

@@ -72,5 +72,11 @@
     },
     "invalidFileError": {
         "message": "Error: Invalid file format!"
+    },
+    "pickColor": {
+        "message": "Pick Color"
+    },
+    "colorCopied": {
+        "message": "Copied!"
     }
 }

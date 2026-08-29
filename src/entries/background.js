@@ -1,8 +1,8 @@
 if (typeof importScripts === 'function') {
   importScripts(
-    '../shared/constants.js',
-    '../shared/storage.js',
-    '../features/whitelist/whitelist-service.js'
+    '/src/shared/constants.js',
+    '/src/shared/storage.js',
+    '/src/features/whitelist/whitelist-service.js'
   );
 }
 
@@ -94,3 +94,130 @@ chrome.runtime.onInstalled.addListener(injectAllTabs);
 injectAllTabs().catch((err) => {
   console.error('[Background] Startup injectAllTabs failed', { error: err });
 });
+
+/* ── Color Picker — Context Menu ─────────────────────────── */
+
+const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
+const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
+
+const setupContextMenus = () => {
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: COLOR_PICKER_MENU_ID,
+      title: 'Pick Color',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: FAVICON_MENU_ID,
+      title: 'Get Favicon',
+      contexts: ['all'],
+    });
+  });
+};
+
+chrome.runtime.onInstalled.addListener(setupContextMenus);
+chrome.runtime.onStartup.addListener(setupContextMenus);
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  if (!tab || !tab.id) return;
+
+  if (info.menuItemId === COLOR_PICKER_MENU_ID) {
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: async () => {
+          if (!('EyeDropper' in window)) {
+            return { error: 'not_supported' };
+          }
+          try {
+            const dropper = new window.EyeDropper();
+            const result = await dropper.open();
+            const hex = result.sRGBHex;
+            try {
+              await navigator.clipboard.writeText(hex);
+            } catch (_) {
+              const ta = document.createElement('textarea');
+              ta.value = hex;
+              ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+              document.body.appendChild(ta);
+              ta.focus();
+              ta.select();
+              document.execCommand('copy');
+              ta.remove();
+            }
+            return { hex, copied: true };
+          } catch (err) {
+            if (err && err.name === 'AbortError') {
+              return { aborted: true };
+            }
+            return { error: 'eyedropper_error' };
+          }
+        },
+      });
+
+      const res = results?.[0]?.result;
+      if (!res || res.aborted) return;
+
+      const iconUrl = chrome.runtime.getURL('assets/icons/icon48.png');
+
+      if (res.error === 'not_supported') {
+        chrome.notifications.create({
+          type: 'basic',
+          iconUrl,
+          title: 'Pick Color',
+          message: 'EyeDropper is not supported on this page.',
+        });
+        return;
+      }
+
+      if (res.error) {
+        chrome.notifications.create({
+          type: 'basic',
+          iconUrl,
+          title: 'Pick Color',
+          message: 'Could not pick a color. Please try again.',
+        });
+        return;
+      }
+
+      if (res.hex) {
+        const hex = res.hex.toUpperCase();
+        chrome.notifications.create({
+          type: 'basic',
+          iconUrl,
+          title: hex,
+          message: 'Hex code copied to clipboard!',
+        });
+      }
+    } catch (err) {
+      console.error('[Background] EyeDropper execution failed', err);
+    }
+  }
+
+  if (info.menuItemId === FAVICON_MENU_ID) {
+    openFaviconViewer(tab);
+  }
+});
+
+/* ── Favicon Viewer ───────────────────────────────────────── */
+
+const openFaviconViewer = (tab) => {
+  const favUrl = tab.favIconUrl || '';
+  const tabUrl = tab.url || '';
+
+  if (!favUrl) {
+    chrome.notifications.create({
+      type: 'basic',
+      iconUrl: chrome.runtime.getURL('assets/icons/icon48.png'),
+      title: 'Get Favicon',
+      message: 'No favicon found on this page.',
+    });
+    return;
+  }
+
+  const viewerUrl = chrome.runtime.getURL('src/features/favicon/favicon.html')
+    + `?favUrl=${encodeURIComponent(favUrl)}&tabUrl=${encodeURIComponent(tabUrl)}`;
+
+  chrome.tabs.create({ url: viewerUrl });
+};
+

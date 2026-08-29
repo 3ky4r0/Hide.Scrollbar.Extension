@@ -1,0 +1,268 @@
+body {
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 24px;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 28px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.h2-icon {
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.logo-link {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-bg);
+  border: 2px solid var(--muted);
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.fallback-logo {
+  color: var(--muted);
+}
+
+.inline-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Input Group ──────────────────────────────────────────── */
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.input-wrapper {
+  position: relative;
+  flex-grow: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.text-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px 0 42px;
+  border-radius: 8px;
+  border: 2px solid var(--muted);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: 14px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+  min-width: 44px;
+  padding: 0;
+  border-radius: 8px;
+  border: 2px solid var(--muted);
+  background: var(--secondary-bg);
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.btn-accent:hover {
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.btn.success {
+  background: #3fb950 !important;
+  border-color: #3fb950 !important;
+  color: #ffffff !important;
+}
+
+/* ── Results & Cards ──────────────────────────────────────── */
+
+.results-section {
+  margin-top: 24px;
+}
+
+.domain-info-card {
+  background: var(--secondary-bg);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.domain-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: inherit;
+}
+
+/* ── Favicon Grid ─────────────────────────────────────────── */
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.fav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: var(--secondary-bg);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+}
+
+.fav-item:hover {
+  border-color: var(--muted);
+  transform: translateY(-2px);
+}
+
+.fav-item.selected {
+  border-color: var(--accent);
+  background: var(--bg);
+  box-shadow: 0 4px 12px rgba(39, 114, 237, 0.15);
+}
+
+.fav-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.size-label {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--muted);
+}
+
+.fav-item.selected .size-label {
+  color: var(--accent);
+}
+
+/* ── Selected Details ─────────────────────────────────────── */
+
+.selected-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--secondary-bg);
+}
+
+.format-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.format-row .text-input {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 0 14px;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.note-box {
+  background: var(--secondary-bg);
+  padding: 16px;
+  margin-top: 28px;
+  font-size: 15px;
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.footer {
+  margin-top: 48px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
