@@ -260,13 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
     importFile.value = '';
   });
 
-  const speedtestBtn = document.getElementById('speedtestBtn');
-  if (speedtestBtn) {
-    speedtestBtn.addEventListener('click', () => {
-      chrome.tabs.create({ url: 'https://speed.cloudflare.com/' });
-    });
-  }
-
   infoBtn.addEventListener('click', () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('src/features/info/info.html') });
   });
