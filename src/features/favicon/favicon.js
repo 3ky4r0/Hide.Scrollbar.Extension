@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Initial Load from Query Params ──────────────────────── */
+  /* ── Initial Load: Query Params or Active Tab in Sidepanel ── */
 
   const params = new URLSearchParams(location.search);
   const tabUrl = params.get('tabUrl') || '';
@@ -306,5 +306,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (tabUrl) {
     if (urlInput) urlInput.value = tabUrl;
     extractFavicons(tabUrl, favUrl);
+  } else if (chrome.tabs && chrome.tabs.query) {
+    // Automatically detect active tab when opened inside sidepanel
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs?.[0];
+      if (activeTab && activeTab.url && !activeTab.url.startsWith('chrome://')) {
+        if (urlInput) urlInput.value = activeTab.url;
+        extractFavicons(activeTab.url, activeTab.favIconUrl || '');
+      }
+    });
   }
 });

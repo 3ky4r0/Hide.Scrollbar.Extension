@@ -99,8 +99,17 @@ injectAllTabs().catch((err) => {
 
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
+const SPEEDTEST_MENU_ID    = 'scroll-hide-speedtest';
 
 const setupContextMenus = () => {
+  if (chrome.sidePanel && chrome.sidePanel.setOptions) {
+    // Disable side panel globally by default so it never leaks to other tabs
+    chrome.sidePanel.setOptions({ enabled: false }).catch(() => {});
+  }
+  if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
+    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false }).catch(() => {});
+  }
+
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: COLOR_PICKER_MENU_ID,
@@ -112,6 +121,11 @@ const setupContextMenus = () => {
       title: 'Get Favicon',
       contexts: ['all'],
     });
+    chrome.contextMenus.create({
+      id: SPEEDTEST_MENU_ID,
+      title: 'Speedtest',
+      contexts: ['all'],
+    });
   });
 };
 
@@ -120,6 +134,11 @@ chrome.runtime.onStartup.addListener(setupContextMenus);
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;
+
+  if (info.menuItemId === SPEEDTEST_MENU_ID) {
+    chrome.tabs.create({ url: 'https://speed.cloudflare.com/' });
+    return;
+  }
 
   if (info.menuItemId === COLOR_PICKER_MENU_ID) {
     try {
@@ -199,13 +218,47 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-/* ── Favicon Viewer ───────────────────────────────────────── */
+/* ── Favicon Viewer (Side Panel) ──────────────────────────── */
 
 const openFaviconViewer = (tab) => {
-  const favUrl = tab.favIconUrl || '';
-  const tabUrl = tab.url || '';
+  if (chrome.sidePanel && chrome.sidePanel.open && tab) {
+    // Set path for this tab
+    if (tab.id) {
+      chrome.sidePanel.setOptions({
+        tabId: tab.id,
+        path: 'src/features/favicon/favicon.html',
+        enabled: true,
+      }).catch(() => {});
+    }
 
-  if (!favUrl) {
+    // Call open immediately to preserve the synchronous user gesture
+    const openPromise = tab.id
+      ? chrome.sidePanel.open({ tabId: tab.id })
+      : chrome.sidePanel.open({ windowId: tab.windowId });
+
+    openPromise.catch((err) => {
+      console.warn('[Background] sidePanel.open with tabId failed, trying windowId:', err);
+      if (tab.windowId) {
+        chrome.sidePanel.open({ windowId: tab.windowId }).catch((err2) => {
+          console.warn('[Background] sidePanel.open with windowId failed, falling back to tab:', err2);
+          openTabFallback(tab);
+        });
+      } else {
+        openTabFallback(tab);
+      }
+    });
+
+    return;
+  }
+
+  openTabFallback(tab);
+};
+
+const openTabFallback = (tab) => {
+  const favUrl = tab?.favIconUrl || '';
+  const tabUrl = tab?.url || '';
+
+  if (!favUrl && !tabUrl) {
     chrome.notifications.create({
       type: 'basic',
       iconUrl: chrome.runtime.getURL('assets/icons/icon48.png'),

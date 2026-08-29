@@ -8,6 +8,13 @@
     if (chrome.sidePanel && chrome.sidePanel.open) {
       const tab = await getActiveTab();
       if (!tab) return false;
+      if (chrome.sidePanel.setOptions && tab.id) {
+        await chrome.sidePanel.setOptions({
+          tabId: tab.id,
+          path: 'src/features/sidepanel/sidepanel.html',
+          enabled: true,
+        }).catch(() => {});
+      }
       await chrome.sidePanel.open({ tabId: tab.id });
       return true;
     }
