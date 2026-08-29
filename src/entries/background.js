@@ -99,7 +99,6 @@ injectAllTabs().catch((err) => {
 
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
-const SPEEDTEST_MENU_ID    = 'scroll-hide-speedtest';
 
 const setupContextMenus = () => {
   if (chrome.sidePanel && chrome.sidePanel.setOptions) {
@@ -121,11 +120,6 @@ const setupContextMenus = () => {
       title: 'Get Favicon',
       contexts: ['all'],
     });
-    chrome.contextMenus.create({
-      id: SPEEDTEST_MENU_ID,
-      title: 'Speedtest',
-      contexts: ['all'],
-    });
   });
 };
 
@@ -134,11 +128,6 @@ chrome.runtime.onStartup.addListener(setupContextMenus);
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;
-
-  if (info.menuItemId === SPEEDTEST_MENU_ID) {
-    chrome.tabs.create({ url: 'https://speed.cloudflare.com/' });
-    return;
-  }
 
   if (info.menuItemId === COLOR_PICKER_MENU_ID) {
     try {
