@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const parsed = normalizeUrl(rawUrl);
     if (!parsed) {
       if (errorMsg) {
-        errorMsg.textContent = 'Đường dẫn không hợp lệ. Vui lòng thử lại.';
+        errorMsg.textContent = 'Invalid URL. Please try again.';
         errorMsg.style.display = 'block';
       }
       return;
