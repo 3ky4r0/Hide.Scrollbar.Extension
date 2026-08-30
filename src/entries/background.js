@@ -100,6 +100,8 @@ injectAllTabs().catch((err) => {
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
 
+const CONTEXT_MENU_PATTERNS = ['http://*/*', 'https://*/*', 'file://*/*'];
+
 const setupContextMenus = () => {
   if (chrome.sidePanel && chrome.sidePanel.setOptions) {
     // Disable side panel globally by default so it never leaks to other tabs
@@ -114,11 +116,13 @@ const setupContextMenus = () => {
       id: COLOR_PICKER_MENU_ID,
       title: 'Pick Color',
       contexts: ['all'],
+      documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
     chrome.contextMenus.create({
       id: FAVICON_MENU_ID,
       title: 'Get Favicon',
       contexts: ['all'],
+      documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
   });
 };
