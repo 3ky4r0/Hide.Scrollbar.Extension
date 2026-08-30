@@ -35,37 +35,47 @@ assert(missingInVi.length === 0, `All EN keys present in VI (Missing: ${missingI
 const missingInEn = viKeys.filter(k => !en[k]);
 assert(missingInEn.length === 0, `All VI keys present in EN (Missing: ${missingInEn.join(', ') || 'none'})`);
 
-// 3. Verify HTML and Referenced Assets
+// 3. Verify HTML and Referenced Assets (check against dist/ for script files)
 console.log('\n--- 3. Testing HTML references and files ---');
-function checkHtmlFile(relPath) {
-  const fullPath = path.resolve(__dirname, '..', relPath);
-  assert(fs.existsSync(fullPath), `HTML file exists: ${relPath}`);
-  const content = fs.readFileSync(fullPath, 'utf8');
-  const dir = path.dirname(fullPath);
+const distRoot = path.resolve(__dirname, '../dist');
+const srcRoot = path.resolve(__dirname, '..');
 
-  // Script tags
+function checkHtmlFile(relPath) {
+  // HTML source file must exist
+  const srcFullPath = path.resolve(srcRoot, relPath);
+  assert(fs.existsSync(srcFullPath), `HTML file exists: ${relPath}`);
+  const content = fs.readFileSync(srcFullPath, 'utf8');
+  
+  // HTML must also exist in dist/
+  const distFullPath = path.resolve(distRoot, relPath);
+  assert(fs.existsSync(distFullPath), `HTML file in dist/: dist/${relPath}`);
+
+  const distDir = path.dirname(distFullPath);
+
+  // Script tags — resolve against dist/ (where .js files live)
   const scriptMatches = content.matchAll(/<script\s+[^>]*src=["']([^"']+)["']/g);
   for (const m of scriptMatches) {
     if (!m[1].startsWith('http')) {
-      const target = path.resolve(dir, m[1]);
-      assert(fs.existsSync(target), `Script exists in ${relPath}: ${m[1]}`);
+      const target = path.resolve(distDir, m[1]);
+      assert(fs.existsSync(target), `Script exists in dist/${relPath}: ${m[1]}`);
     }
   }
 
-  // Link stylesheet tags
+  // Link stylesheet tags — resolve against src/ (CSS stays in src/)
+  const srcDir = path.dirname(srcFullPath);
   const linkMatches = content.matchAll(/<link\s+[^>]*href=["']([^"']+)["']/g);
   for (const m of linkMatches) {
     if (!m[1].startsWith('http')) {
-      const target = path.resolve(dir, m[1]);
+      const target = path.resolve(srcDir, m[1]);
       assert(fs.existsSync(target), `Stylesheet exists in ${relPath}: ${m[1]}`);
     }
   }
 
-  // Img tags
+  // Img tags — resolve against src/
   const imgMatches = content.matchAll(/<img\s+[^>]*src=["']([^"']+)["']/g);
   for (const m of imgMatches) {
     if (m[1] && !m[1].startsWith('http') && !m[1].startsWith('data:')) {
-      const target = path.resolve(dir, m[1]);
+      const target = path.resolve(srcDir, m[1]);
       assert(fs.existsSync(target), `Image exists in ${relPath}: ${m[1]}`);
     }
   }
@@ -75,11 +85,12 @@ checkHtmlFile('src/features/popup/popup.html');
 checkHtmlFile('src/features/settings/settings.html');
 checkHtmlFile('src/features/favicon/favicon.html');
 
+
 // 4. Whitelist Service logic
 console.log('\n--- 4. Testing Whitelist & Sanitization logic ---');
 global.globalThis = global;
-require('../src/shared/constants.js');
-require('../src/features/whitelist/whitelist-service.js');
+require('../dist/src/shared/constants.js');
+require('../dist/src/features/whitelist/whitelist-service.js');
 const service = global.ScrollHideWhitelist;
 
 assert(service.sanitizeDomain('https://example.com/path?query=1') === 'example.com', 'Sanitize URL to domain');
@@ -99,6 +110,21 @@ assert(service.isRestrictedUrl('edge://extensions') === true, 'Restricted on edg
 assert(service.isRestrictedUrl('about:blank') === true, 'Restricted on about:');
 assert(service.isRestrictedUrl('https://chromewebstore.google.com') === false, 'Chrome Web Store is NOT restricted');
 assert(service.isRestrictedUrl('https://google.com') === false, 'google.com is NOT restricted');
+
+// 5. Verify Dist Output
+console.log('\n--- 5. Testing dist/ bundle integrity ---');
+const distPath = path.resolve(__dirname, '../dist');
+assert(fs.existsSync(distPath), 'dist/ directory exists');
+assert(fs.existsSync(path.join(distPath, 'manifest.json')), 'dist/manifest.json exists');
+assert(fs.existsSync(path.join(distPath, '_locales/en/messages.json')), 'dist/_locales/en/messages.json exists');
+assert(fs.existsSync(path.join(distPath, '_locales/vi/messages.json')), 'dist/_locales/vi/messages.json exists');
+assert(fs.existsSync(path.join(distPath, 'src/entries/background.js')), 'dist/src/entries/background.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/entries/content.js')), 'dist/src/entries/content.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/features/popup/popup.js')), 'dist/src/features/popup/popup.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/features/ruler/ruler.js')), 'dist/src/features/ruler/ruler.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/features/settings/settings.js')), 'dist/src/features/settings/settings.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/features/favicon/favicon.js')), 'dist/src/features/favicon/favicon.js compiled');
+assert(fs.existsSync(path.join(distPath, 'src/features/sidepanel/sidepanel.js')), 'dist/src/features/sidepanel/sidepanel.js compiled');
 
 console.log('\n======================================================');
 if (allPassed) {

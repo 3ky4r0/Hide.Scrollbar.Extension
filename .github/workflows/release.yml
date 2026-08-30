@@ -16,29 +16,46 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Update manifest versions
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build extension (TypeScript → dist/)
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Update manifest version
         id: version
         run: |
-          BASE_VERSION=$(jq -r '.version' manifest.json)
+          BASE_VERSION=$(jq -r '.version' dist/manifest.json)
           RUN_NUMBER=${{ github.run_number }}
           MAJOR=$(echo $BASE_VERSION | cut -d. -f1)
           MINOR_BASE=$(echo $BASE_VERSION | cut -d. -f2)
           MINOR_BASE=${MINOR_BASE:-0}
-          
+
           PATCH=$((RUN_NUMBER % 10))
           INCREMENT=$((RUN_NUMBER / 10))
           NEW_MINOR=$((MINOR_BASE + INCREMENT))
-          
+
           NEW_VERSION="${MAJOR}.${NEW_MINOR}.${PATCH}"
           echo "Updating version from $BASE_VERSION to $NEW_VERSION"
 
-          jq ".version = \"$NEW_VERSION\"" manifest.json > tmp.json && mv tmp.json manifest.json
+          jq ".version = \"$NEW_VERSION\"" dist/manifest.json > tmp.json && mv tmp.json dist/manifest.json
 
           echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-      - name: Create Zip Archives
+      - name: Create ZIP from dist/
         run: |
-          zip -r extension-chrome-v${{ env.VERSION }}.zip . -x "*.git*" "*.github*" "*.vscode*" "*.agents*" "skills-lock.json" "README.md" "tmp.json" "*.zip" "demo/*" "test/*" "chrome_store_fix_plan.md"
+          cd dist
+          zip -r ../extension-chrome-v${{ env.VERSION }}.zip .
+          cd ..
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

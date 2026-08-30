@@ -1,9 +1,9 @@
 (function () {
-  const { STYLE_ID } = globalThis.ScrollHideConstants;
-  const { getSyncState } = globalThis.ScrollHideStorage;
-  const { isWhitelisted } = globalThis.ScrollHideWhitelist;
+  const { STYLE_ID } = (globalThis as any).ScrollHideConstants || { STYLE_ID: 'hide-scrollbar-style' };
+  const { getSyncState } = (globalThis as any).ScrollHideStorage || {};
+  const { isWhitelisted } = (globalThis as any).ScrollHideWhitelist || {};
 
-  const applyStyle = (hide) => {
+  const applyStyle = (hide: boolean): void => {
     let style = document.getElementById(STYLE_ID);
     if (hide && !style) {
       style = document.createElement('style');
@@ -31,18 +31,20 @@
     }
   };
 
-  const update = async () => {
+  const update = async (): Promise<void> => {
+    if (!getSyncState) return;
     try {
       const state = await getSyncState();
-      const shouldHide = state.scrollbarHidden && !isWhitelisted(window.location.hostname, state.whitelist);
-      
+      const isWhite = isWhitelisted ? isWhitelisted(window.location.hostname, state.whitelist) : false;
+      const shouldHide = state.scrollbarHidden && !isWhite;
+
       const styleBefore = document.getElementById(STYLE_ID);
       applyStyle(shouldHide);
       const styleAfter = document.getElementById(STYLE_ID);
 
-      if (shouldHide && !styleBefore && styleAfter && window === window.top) {
+      if (shouldHide && !styleBefore && styleAfter && window === window.top && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         chrome.storage.local.get({ hideCount: 0 }, (res) => {
-          chrome.storage.local.set({ hideCount: res.hideCount + 1 });
+          chrome.storage.local.set({ hideCount: ((res.hideCount as number) || 0) + 1 });
         });
       }
     } catch (err) {
@@ -52,10 +54,11 @@
 
   update();
 
-  chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'sync' && (changes.scrollbarHidden || changes.whitelist)) {
-      update();
-    }
-  });
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync' && (changes.scrollbarHidden || changes.whitelist)) {
+        update();
+      }
+    });
+  }
 })();
-

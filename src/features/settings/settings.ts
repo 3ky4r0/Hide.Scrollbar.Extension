@@ -1,38 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  const { BACKUP_FILENAME, DEFAULT_SYNC_STATE } = globalThis.ScrollHideConstants;
-  const { getSyncState, setSyncValue } = globalThis.ScrollHideStorage;
-  const { normalizeWhitelist, sanitizeDomain } = globalThis.ScrollHideWhitelist;
+  const { BACKUP_FILENAME, DEFAULT_SYNC_STATE } = (globalThis as any).ScrollHideConstants || {};
+  const { getSyncState, setSyncValue } = (globalThis as any).ScrollHideStorage || {};
+  const { normalizeWhitelist, sanitizeDomain } = (globalThis as any).ScrollHideWhitelist || {};
 
   // Tabs
-  const navTabs = document.querySelectorAll('.nav-tab[data-tab]');
-  const tabPanes = document.querySelectorAll('.tab-pane');
+  const navTabs = document.querySelectorAll<HTMLElement>('.nav-tab[data-tab]');
+  const tabPanes = document.querySelectorAll<HTMLElement>('.tab-pane');
 
   // Settings elements
-  const settingHideScrollbar = document.getElementById('settingHideScrollbar');
-  const statCleanedCount = document.getElementById('statCleanedCount');
-  const btnResetCleaned = document.getElementById('btnResetCleaned');
-  const btnExportSettings = document.getElementById('btnExportSettings');
-  const btnImportSettings = document.getElementById('btnImportSettings');
-  const settingsFileInput = document.getElementById('settingsFileInput');
-  const btnResetDefaults = document.getElementById('btnResetDefaults');
+  const settingHideScrollbar = document.getElementById('settingHideScrollbar') as HTMLInputElement | null;
+  const statCleanedCount = document.getElementById('statCleanedCount') as HTMLElement | null;
+  const btnResetCleaned = document.getElementById('btnResetCleaned') as HTMLButtonElement | null;
+  const btnExportSettings = document.getElementById('btnExportSettings') as HTMLButtonElement | null;
+  const btnImportSettings = document.getElementById('btnImportSettings') as HTMLButtonElement | null;
+  const settingsFileInput = document.getElementById('settingsFileInput') as HTMLInputElement | null;
+  const btnResetDefaults = document.getElementById('btnResetDefaults') as HTMLButtonElement | null;
 
   // Whitelist elements
-  const btnApplyWhitelist = document.getElementById('btnApplyWhitelist');
-  const btnRevertWhitelist = document.getElementById('btnRevertWhitelist');
-  const btnImportWhitelist = document.getElementById('btnImportWhitelist');
-  const btnExportWhitelist = document.getElementById('btnExportWhitelist');
-  const whitelistFileInput = document.getElementById('whitelistFileInput');
-  const saveIndicator = document.getElementById('saveIndicator');
-  const lineNumbers = document.getElementById('lineNumbers');
-  const whitelistEditor = document.getElementById('whitelistEditor');
+  const btnApplyWhitelist = document.getElementById('btnApplyWhitelist') as HTMLButtonElement | null;
+  const btnRevertWhitelist = document.getElementById('btnRevertWhitelist') as HTMLButtonElement | null;
+  const btnImportWhitelist = document.getElementById('btnImportWhitelist') as HTMLButtonElement | null;
+  const btnExportWhitelist = document.getElementById('btnExportWhitelist') as HTMLButtonElement | null;
+  const whitelistFileInput = document.getElementById('whitelistFileInput') as HTMLInputElement | null;
+  const saveIndicator = document.getElementById('saveIndicator') as HTMLElement | null;
+  const lineNumbers = document.getElementById('lineNumbers') as HTMLElement | null;
+  const whitelistEditor = document.getElementById('whitelistEditor') as HTMLTextAreaElement | null;
 
   let lastSavedWhitelistText = '';
 
   /* ── Tab Switching ────────────────────────────────────────── */
 
-  function switchTab(tabName) {
+  function switchTab(tabName: string | undefined): void {
+    if (!tabName) return;
     navTabs.forEach((tab) => {
       const isTarget = tab.dataset.tab === tabName;
       tab.classList.toggle('active', isTarget);
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Line Numbers & Editor Helper ─────────────────────────── */
 
-  function updateLineNumbers() {
+  function updateLineNumbers(): void {
     if (!whitelistEditor || !lineNumbers) return;
     const lines = whitelistEditor.value.split('\n');
     const count = Math.max(lines.length, 1);
@@ -70,79 +71,89 @@ document.addEventListener('DOMContentLoaded', () => {
     lineNumbers.textContent = nums;
   }
 
-  function checkWhitelistDirty() {
+  function checkWhitelistDirty(): void {
+    if (!whitelistEditor || !btnApplyWhitelist || !btnRevertWhitelist) return;
     const isDirty = whitelistEditor.value !== lastSavedWhitelistText;
     btnApplyWhitelist.disabled = !isDirty;
     btnRevertWhitelist.disabled = !isDirty;
   }
 
-  whitelistEditor.addEventListener('input', () => {
-    updateLineNumbers();
-    checkWhitelistDirty();
-  });
+  if (whitelistEditor) {
+    whitelistEditor.addEventListener('input', () => {
+      updateLineNumbers();
+      checkWhitelistDirty();
+    });
 
-  whitelistEditor.addEventListener('scroll', () => {
-    lineNumbers.scrollTop = whitelistEditor.scrollTop;
-  });
-
-  // Support Ctrl+S / Cmd+S to apply changes
-  whitelistEditor.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      if (!btnApplyWhitelist.disabled) {
-        applyWhitelistChanges();
+    whitelistEditor.addEventListener('scroll', () => {
+      if (lineNumbers && whitelistEditor) {
+        lineNumbers.scrollTop = whitelistEditor.scrollTop;
       }
-    }
-  });
+    });
 
-  function showSavedToast(msg = 'Changes saved') {
+    // Support Ctrl+S / Cmd+S to apply changes
+    whitelistEditor.addEventListener('keydown', (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (btnApplyWhitelist && !btnApplyWhitelist.disabled) {
+          applyWhitelistChanges();
+        }
+      }
+    });
+  }
+
+  function showSavedToast(msg: string = 'Changes saved'): void {
+    if (!saveIndicator) return;
     saveIndicator.textContent = msg;
     saveIndicator.classList.add('visible');
     setTimeout(() => {
-      saveIndicator.classList.remove('visible');
+      saveIndicator?.classList.remove('visible');
     }, 2000);
   }
 
   /* ── Parse & Normalize Lines ──────────────────────────────── */
 
-  function parseEditorContent(text) {
+  function parseEditorContent(text: string): string[] {
     const lines = text.split('\n');
-    const domains = [];
+    const domains: string[] = [];
 
     lines.forEach((line) => {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith('!') || trimmed.startsWith('#')) {
         return;
       }
-      const cleaned = sanitizeDomain(trimmed);
+      const cleaned = sanitizeDomain ? sanitizeDomain(trimmed) : trimmed;
       if (cleaned) {
         domains.push(cleaned);
       }
     });
 
-    return normalizeWhitelist(domains);
+    return normalizeWhitelist ? normalizeWhitelist(domains) : domains;
   }
 
   /* ── Load State ───────────────────────────────────────────── */
 
-  function loadAllState() {
-    getSyncState().then((state) => {
-      // Settings
-      if (settingHideScrollbar) {
-        settingHideScrollbar.checked = Boolean(state.scrollbarHidden);
-      }
+  function loadAllState(): void {
+    if (getSyncState) {
+      getSyncState().then((state: { scrollbarHidden?: boolean; whitelist?: string[] }) => {
+        // Settings
+        if (settingHideScrollbar) {
+          settingHideScrollbar.checked = Boolean(state.scrollbarHidden);
+        }
 
-      // Whitelist
-      const domains = normalizeWhitelist(state.whitelist || []);
-      const text = domains.join('\n');
-      whitelistEditor.value = text;
-      lastSavedWhitelistText = text;
-      updateLineNumbers();
-      checkWhitelistDirty();
-    });
+        // Whitelist
+        const domains = normalizeWhitelist ? normalizeWhitelist(state.whitelist || []) : (state.whitelist || []);
+        const text = domains.join('\n');
+        if (whitelistEditor) {
+          whitelistEditor.value = text;
+          lastSavedWhitelistText = text;
+          updateLineNumbers();
+          checkWhitelistDirty();
+        }
+      });
+    }
 
     // Cleaned counter
-    if (statCleanedCount && chrome.storage && chrome.storage.local) {
+    if (statCleanedCount && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
       chrome.storage.local.get({ hideCount: 0 }, (res) => {
         statCleanedCount.textContent = (res.hideCount || 0).toLocaleString();
       });
@@ -153,56 +164,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Settings Event Listeners ─────────────────────────────── */
 
-  if (settingHideScrollbar) {
+  if (settingHideScrollbar && setSyncValue) {
     settingHideScrollbar.addEventListener('change', () => {
       setSyncValue({ scrollbarHidden: settingHideScrollbar.checked });
     });
   }
 
-  if (btnResetCleaned) {
+  if (btnResetCleaned && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     btnResetCleaned.addEventListener('click', () => {
       chrome.storage.local.set({ hideCount: 0 }, () => {
-        statCleanedCount.textContent = '0';
+        if (statCleanedCount) statCleanedCount.textContent = '0';
       });
     });
   }
 
-  if (btnExportSettings) {
+  if (btnExportSettings && getSyncState) {
     btnExportSettings.addEventListener('click', () => {
-      getSyncState().then((data) => {
+      getSyncState().then((data: unknown) => {
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const anchor = document.createElement('a');
         anchor.href = url;
-        anchor.download = BACKUP_FILENAME;
+        anchor.download = BACKUP_FILENAME || 'scrollhide-backup.json';
         anchor.click();
         URL.revokeObjectURL(url);
       });
     });
   }
 
-  if (btnImportSettings && settingsFileInput) {
+  if (btnImportSettings && settingsFileInput && setSyncValue) {
     btnImportSettings.addEventListener('click', () => settingsFileInput.click());
 
-    settingsFileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
+    settingsFileInput.addEventListener('change', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
-          const data = JSON.parse(event.target.result);
+          const data = JSON.parse(event.target?.result as string);
           if (!data || typeof data !== 'object') {
             alert('Invalid configuration file.');
             return;
           }
-          const nextState = {};
+          const nextState: Record<string, unknown> = {};
           if (typeof data.scrollbarHidden === 'boolean') {
             nextState.scrollbarHidden = data.scrollbarHidden;
           }
           if (Array.isArray(data.whitelist)) {
-            nextState.whitelist = normalizeWhitelist(data.whitelist);
+            nextState.whitelist = normalizeWhitelist ? normalizeWhitelist(data.whitelist) : data.whitelist;
           }
 
           setSyncValue(nextState).then(() => {
@@ -218,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (btnResetDefaults) {
+  if (btnResetDefaults && setSyncValue) {
     btnResetDefaults.addEventListener('click', () => {
       if (confirm('Are you sure you want to reset all settings and whitelist to default?')) {
         setSyncValue(DEFAULT_SYNC_STATE).then(() => {
@@ -230,7 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Whitelist Tab Event Listeners ────────────────────────── */
 
-  function applyWhitelistChanges() {
+  function applyWhitelistChanges(): void {
+    if (!whitelistEditor || !setSyncValue) return;
     const domains = parseEditorContent(whitelistEditor.value);
     setSyncValue({ whitelist: domains }).then(() => {
       lastSavedWhitelistText = whitelistEditor.value;
@@ -239,16 +252,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  btnApplyWhitelist.addEventListener('click', applyWhitelistChanges);
+  if (btnApplyWhitelist) {
+    btnApplyWhitelist.addEventListener('click', applyWhitelistChanges);
+  }
 
-  btnRevertWhitelist.addEventListener('click', () => {
-    whitelistEditor.value = lastSavedWhitelistText;
-    updateLineNumbers();
-    checkWhitelistDirty();
-  });
+  if (btnRevertWhitelist) {
+    btnRevertWhitelist.addEventListener('click', () => {
+      if (whitelistEditor) {
+        whitelistEditor.value = lastSavedWhitelistText;
+        updateLineNumbers();
+        checkWhitelistDirty();
+      }
+    });
+  }
 
   if (btnExportWhitelist) {
     btnExportWhitelist.addEventListener('click', () => {
+      if (!whitelistEditor) return;
       const content = whitelistEditor.value;
       const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -263,14 +283,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnImportWhitelist && whitelistFileInput) {
     btnImportWhitelist.addEventListener('click', () => whitelistFileInput.click());
 
-    whitelistFileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
+    whitelistFileInput.addEventListener('change', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = (event) => {
-        const text = event.target.result;
-        let importedLines = [];
+        const text = event.target?.result as string;
+        let importedLines: string[] = [];
 
         try {
           // Try JSON format first
@@ -285,12 +306,14 @@ document.addEventListener('DOMContentLoaded', () => {
           importedLines = text.split('\n');
         }
 
-        const currentVal = whitelistEditor.value.trim();
-        const appendText = importedLines.map((l) => String(l).trim()).filter(Boolean).join('\n');
+        if (whitelistEditor) {
+          const currentVal = whitelistEditor.value.trim();
+          const appendText = importedLines.map((l) => String(l).trim()).filter(Boolean).join('\n');
 
-        whitelistEditor.value = currentVal ? `${currentVal}\n${appendText}` : appendText;
-        updateLineNumbers();
-        checkWhitelistDirty();
+          whitelistEditor.value = currentVal ? `${currentVal}\n${appendText}` : appendText;
+          updateLineNumbers();
+          checkWhitelistDirty();
+        }
       };
 
       reader.readAsText(file);
@@ -299,8 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Report Tab: Copy System Info
-  const btnCopyReportInfo = document.getElementById('btnCopyReportInfo');
-  const copyReportInfoText = document.getElementById('copyReportInfoText');
+  const btnCopyReportInfo = document.getElementById('btnCopyReportInfo') as HTMLButtonElement | null;
+  const copyReportInfoText = document.getElementById('copyReportInfoText') as HTMLElement | null;
   if (btnCopyReportInfo) {
     btnCopyReportInfo.addEventListener('click', async () => {
       const info = [
@@ -317,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const original = copyReportInfoText.textContent;
           copyReportInfoText.textContent = 'Copied!';
           setTimeout(() => {
-            copyReportInfoText.textContent = original;
+            if (copyReportInfoText) copyReportInfoText.textContent = original;
           }, 2000);
         }
       } catch (_) {}
@@ -325,11 +348,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Listen to remote changes
-  chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'sync') {
-      if (changes.scrollbarHidden && settingHideScrollbar) {
-        settingHideScrollbar.checked = Boolean(changes.scrollbarHidden.newValue);
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync') {
+        if (changes.scrollbarHidden && settingHideScrollbar) {
+          settingHideScrollbar.checked = Boolean(changes.scrollbarHidden.newValue);
+        }
       }
-    }
-  });
+    });
+  }
 });

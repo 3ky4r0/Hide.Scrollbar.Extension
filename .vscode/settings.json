@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "files.exclude": {
+    "dist/": true,
+    "node_modules/": true
+  },
+  "search.exclude": {
+    "dist/": true,
+    "node_modules/": true
+  },
+  "task.allowAutomaticTasks": "on"
+}

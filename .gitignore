@@ -3,3 +3,14 @@
 .claude/
 AGENTS.md
 CLAUDE.md
+
+# Dependencies
+node_modules/
+
+# Build output (load Chrome extension from dist/ folder)
+dist/
+
+# TypeScript compiled artifacts in source (esbuild handles compilation to dist/)
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts

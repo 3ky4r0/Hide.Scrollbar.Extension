@@ -1,14 +1,60 @@
+import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../../shared/types';
+
 (() => {
-  if (window.__SCROLLHIDE_PAGE_RULER__) {
-    window.__SCROLLHIDE_PAGE_RULER__.destroy();
-    window.__SCROLLHIDE_PAGE_RULER__ = null;
+  const win = window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null };
+  if (win.__SCROLLHIDE_PAGE_RULER__) {
+    win.__SCROLLHIDE_PAGE_RULER__.destroy();
+    win.__SCROLLHIDE_PAGE_RULER__ = null;
     return;
   }
 
   class PageRuler {
+    mode: RulerMode;
+    locked: boolean;
+    isDragging: boolean;
+    isResizing: boolean;
+    resizeHandle: string | null;
+    resizeStart: ResizeStartState | null;
+    startX: number;
+    startY: number;
+    selection: SelectionRect | null;
+    hoveredElement: Element | null;
+
+    host!: HTMLDivElement;
+    shadow!: ShadowRoot;
+    interactiveLayer!: HTMLDivElement;
+    highlightBox!: HTMLDivElement;
+    highlightBadge!: HTMLDivElement;
+    lockDot!: HTMLSpanElement;
+    selectionBox!: HTMLDivElement;
+    selectionLabel!: HTMLDivElement;
+    hud!: HTMLDivElement;
+    toast!: HTMLDivElement;
+
+    sW!: HTMLElement | null;
+    sH!: HTMLElement | null;
+    sX!: HTMLElement | null;
+    sY!: HTMLElement | null;
+    btnInspect!: HTMLButtonElement | null;
+    btnSelect!: HTMLButtonElement | null;
+    btnCopy!: HTMLButtonElement | null;
+    btnMove!: HTMLButtonElement | null;
+    btnClose!: HTMLButtonElement | null;
+
+    positionIdx: number;
+    positions: CornerPosition[];
+
+    _toastT?: ReturnType<typeof setTimeout>;
+    _onMove!: (e: PointerEvent) => void;
+    _onDown!: (e: PointerEvent) => void;
+    _onUp!: (e: PointerEvent) => void;
+    _onKey!: (e: KeyboardEvent) => void;
+    _onScroll!: () => void;
+    _onClick!: (e: MouseEvent) => void;
+
     constructor() {
-      this.mode = 'selection'; // 'selection' | 'inspect'
-      this.locked = false;     // inspect lock: pin element on click
+      this.mode = 'selection';
+      this.locked = false;
       this.isDragging = false;
       this.isResizing = false;
       this.resizeHandle = null;
@@ -18,16 +64,24 @@
       this.selection = null;
       this.hoveredElement = null;
 
+      this.positionIdx = 0;
+      this.positions = [
+        { bottom: '14px', left: '14px',  top: 'auto', right: 'auto'  },
+        { bottom: '14px', right: '14px', top: 'auto', left: 'auto'   },
+        { top:    '14px', right: '14px', bottom: 'auto', left: 'auto' },
+        { top:    '14px', left: '14px',  bottom: 'auto', right: 'auto' },
+      ];
+
       this.init();
     }
 
-    init() {
+    init(): void {
       this.createHost();
       this.render();
       this.bindEvents();
     }
 
-    createHost() {
+    createHost(): void {
       this.host = document.createElement('div');
       this.host.id = 'scrollhide-page-ruler-root';
       this.host.style.cssText = 'all:initial;position:absolute;top:0;left:0;z-index:2147483647;pointer-events:none;';
@@ -35,7 +89,7 @@
       (document.body || document.documentElement).appendChild(this.host);
     }
 
-    render() {
+    render(): void {
       const style = document.createElement('style');
       style.textContent = `
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -279,7 +333,7 @@
 
       // Interactive layer
       this.interactiveLayer = document.createElement('div');
-      this.interactiveLayer.className = 'interactive-layer';
+      this.interactiveLayer.className = 'interactive-layer active';
 
       // Highlight box
       this.highlightBox = document.createElement('div');
@@ -351,12 +405,8 @@
       this.toast = document.createElement('div');
       this.toast.className = 'toast';
 
-      this.interactiveLayer = document.createElement('div');
-      this.interactiveLayer.className = 'interactive-layer active';
-
       this.shadow.appendChild(this.interactiveLayer);
       this.shadow.appendChild(this.highlightBox);
-
       this.shadow.appendChild(this.selectionBox);
       this.shadow.appendChild(this.hud);
       this.shadow.appendChild(this.toast);
@@ -366,23 +416,14 @@
       this.sH = this.shadow.getElementById('sH');
       this.sX = this.shadow.getElementById('sX');
       this.sY = this.shadow.getElementById('sY');
-      this.btnInspect = this.shadow.getElementById('btnInspect');
-      this.btnSelect  = this.shadow.getElementById('btnSelect');
-      this.btnCopy    = this.shadow.getElementById('btnCopy');
-      this.btnMove    = this.shadow.getElementById('btnMove');
-      this.btnClose   = this.shadow.getElementById('btnClose');
-
-      // Position cycling: bottom-left → bottom-right → top-right → top-left
-      this.positionIdx = 0;
-      this.positions = [
-        { bottom: '14px', left: '14px',  top: 'auto', right: 'auto'  },
-        { bottom: '14px', right: '14px', top: 'auto', left: 'auto'   },
-        { top:    '14px', right: '14px', bottom: 'auto', left: 'auto' },
-        { top:    '14px', left: '14px',  bottom: 'auto', right: 'auto' },
-      ];
+      this.btnInspect = this.shadow.getElementById('btnInspect') as HTMLButtonElement | null;
+      this.btnSelect  = this.shadow.getElementById('btnSelect') as HTMLButtonElement | null;
+      this.btnCopy    = this.shadow.getElementById('btnCopy') as HTMLButtonElement | null;
+      this.btnMove    = this.shadow.getElementById('btnMove') as HTMLButtonElement | null;
+      this.btnClose   = this.shadow.getElementById('btnClose') as HTMLButtonElement | null;
     }
 
-    bindEvents() {
+    bindEvents(): void {
       this._onMove  = this.onMove.bind(this);
       this._onDown  = this.onDown.bind(this);
       this._onUp    = this.onUp.bind(this);
@@ -395,17 +436,15 @@
       window.addEventListener('keydown',     this._onKey,  { capture: true });
       window.addEventListener('scroll',      this._onScroll, { passive: true });
 
-      this.btnInspect.addEventListener('click', e => { e.stopPropagation(); this.setMode('inspect'); });
-      this.btnSelect.addEventListener('click',  e => { e.stopPropagation(); this.setMode('selection'); });
-      this.btnCopy.addEventListener('click',    e => { e.stopPropagation(); this.copy(); });
-      this.btnMove.addEventListener('click',    e => { e.stopPropagation(); this.cyclePosition(); });
-      this.btnClose.addEventListener('click',   e => { e.stopPropagation(); this.destroy(); });
+      this.btnInspect?.addEventListener('click', e => { e.stopPropagation(); this.setMode('inspect'); });
+      this.btnSelect?.addEventListener('click',  e => { e.stopPropagation(); this.setMode('selection'); });
+      this.btnCopy?.addEventListener('click',    e => { e.stopPropagation(); this.copy(); });
+      this.btnMove?.addEventListener('click',    e => { e.stopPropagation(); this.cyclePosition(); });
+      this.btnClose?.addEventListener('click',   e => { e.stopPropagation(); this.destroy(); });
 
       // Block all click events on page in inspect mode
-      // (pointerdown preventDefault alone doesn't stop synthesized clicks)
-      this._onClick = (e) => {
+      this._onClick = (e: MouseEvent) => {
         if (this.mode !== 'inspect') return;
-        // allow clicks that originated inside our shadow DOM (HUD buttons)
         const path = e.composedPath ? e.composedPath() : [];
         if (path.includes(this.host)) return;
         e.preventDefault();
@@ -414,14 +453,13 @@
       window.addEventListener('click', this._onClick, { capture: true });
     }
 
-    setMode(m) {
+    setMode(m: RulerMode): void {
       this.mode = m;
       this.locked = false;
-      this.btnInspect.classList.toggle('active', m === 'inspect');
-      this.btnSelect.classList.toggle('active',  m === 'selection');
+      this.btnInspect?.classList.toggle('active', m === 'inspect');
+      this.btnSelect?.classList.toggle('active',  m === 'selection');
 
       if (m === 'inspect') {
-        // Keep interactive layer active as a physical pointer barrier
         this.interactiveLayer.classList.add('active');
         this.selectionBox.style.display = 'none';
         this.selection = null;
@@ -433,26 +471,24 @@
       }
     }
 
-    cyclePosition() {
+    cyclePosition(): void {
       this.positionIdx = (this.positionIdx + 1) % this.positions.length;
       const pos = this.positions[this.positionIdx];
       Object.assign(this.hud.style, pos);
     }
 
-    updateStats(w, h, x, y) {
-      this.sW.textContent = w != null ? `${w}px` : '—';
-      this.sH.textContent = h != null ? `${h}px` : '—';
-      this.sX.textContent = x != null ? `${x}px` : '—';
-      this.sY.textContent = y != null ? `${y}px` : '—';
+    updateStats(w: number | null, h: number | null, x: number | null, y: number | null): void {
+      if (this.sW) this.sW.textContent = w != null ? `${w}px` : '—';
+      if (this.sH) this.sH.textContent = h != null ? `${h}px` : '—';
+      if (this.sX) this.sX.textContent = x != null ? `${x}px` : '—';
+      if (this.sY) this.sY.textContent = y != null ? `${y}px` : '—';
     }
 
-    copy() {
-      const w = this.sW.textContent;
-      const h = this.sH.textContent;
-      if (w === '—') return;
+    copy(): void {
+      const w = this.sW?.textContent;
+      const h = this.sH?.textContent;
+      if (!w || !h || w === '—') return;
       const text = `${w} × ${h}`;
-      // clipboard API requires clipboardWrite permission in content scripts;
-      // use textarea execCommand fallback which works without extra permissions.
       try {
         const ta = document.createElement('textarea');
         ta.value = text;
@@ -464,13 +500,12 @@
         ta.remove();
         this.showToast(ok ? `Copied ${text}` : `${text}`);
       } catch (_) {
-        // last resort: try modern API
-        navigator.clipboard.writeText(text).catch(() => {});
+        navigator.clipboard?.writeText(text).catch(() => {});
         this.showToast(`Copied ${text}`);
       }
     }
 
-    showToast(msg) {
+    showToast(msg: string): void {
       this.toast.textContent = msg;
       this.toast.classList.add('show');
       clearTimeout(this._toastT);
@@ -479,7 +514,7 @@
 
     /* ── Events ── */
 
-    onMove(e) {
+    onMove(e: PointerEvent): void {
       if (this.mode === 'inspect') {
         if (!this.locked) {
           this.inspectAt(e.clientX, e.clientY);
@@ -498,16 +533,13 @@
       }
     }
 
-    onDown(e) {
-      // Check if click originated inside our shadow DOM (HUD)
+    onDown(e: PointerEvent): void {
       const path = e.composedPath ? e.composedPath() : [];
       if (path.includes(this.host) && path.some(n => n === this.hud)) return;
 
       if (this.mode === 'inspect') {
-        // block ALL page interactions (links, buttons, etc.)
         e.preventDefault();
         e.stopImmediatePropagation();
-        // relock to element under pointer
         this.locked = false;
         this.inspectAt(e.clientX, e.clientY);
         if (this.hoveredElement) {
@@ -518,7 +550,8 @@
       }
 
       // selection mode
-      const handle = e.target?.dataset?.handle;
+      const targetEl = e.target as HTMLElement | null;
+      const handle = targetEl?.dataset?.handle;
       if (handle && this.selection) {
         this.isResizing = true;
         this.resizeHandle = handle;
@@ -534,17 +567,16 @@
       e.preventDefault();
     }
 
-    onUp() {
+    onUp(): void {
       this.isDragging = false;
       this.isResizing = false;
       this.resizeHandle = null;
     }
 
-    onKey(e) {
+    onKey(e: KeyboardEvent): void {
       if (e.key === 'Escape') {
         e.preventDefault();
         if (this.locked) {
-          // unlock first press: unpin, resume hover
           this.locked = false;
           this.highlightBox.classList.remove('locked');
         } else {
@@ -553,7 +585,7 @@
       }
     }
 
-    onScroll() {
+    onScroll(): void {
       if (this.mode === 'inspect' && this.hoveredElement) {
         const r = this.hoveredElement.getBoundingClientRect();
         const sx = window.scrollX, sy = window.scrollY;
@@ -564,7 +596,7 @@
 
     /* ── Inspect ── */
 
-    inspectAt(cx, cy) {
+    inspectAt(cx: number, cy: number): void {
       this.host.style.visibility = 'hidden';
       const el = document.elementFromPoint(cx, cy);
       this.host.style.visibility = '';
@@ -583,7 +615,6 @@
       this.highlightBox.style.width   = `${w}px`;
       this.highlightBox.style.height  = `${h}px`;
 
-      // Flip badge below if element is within top ~80px (HUD height + margin)
       this.highlightBadge.classList.toggle('below', r.top < 80);
 
       const tag  = el.tagName.toLowerCase();
@@ -592,12 +623,10 @@
         ? el.className.split(' ').filter(Boolean).slice(0,2).map(c => `.${c}`).join('')
         : '';
 
-      // keep the lockDot as first child, then set text via adjacent spans
       const tagSpan = `<span class="badge-tag">${tag}${id}${cls}</span>`;
       const dimSpan = `<span class="badge-dim">${w} × ${h}</span>`;
-      // clear all except lockDot, then append
       while (this.highlightBadge.children.length > 1) {
-        this.highlightBadge.removeChild(this.highlightBadge.lastChild);
+        this.highlightBadge.removeChild(this.highlightBadge.lastChild!);
       }
       this.highlightBadge.insertAdjacentHTML('beforeend', tagSpan + dimSpan);
 
@@ -606,7 +635,7 @@
 
     /* ── Selection ── */
 
-    setSelection(x, y, w, h) {
+    setSelection(x: number, y: number, w: number, h: number): void {
       w = Math.round(w); h = Math.round(h);
       this.selection = { x, y, width: w, height: h };
 
@@ -620,7 +649,8 @@
       this.updateStats(w, h, Math.round(x), Math.round(y));
     }
 
-    doResize(px, py) {
+    doResize(px: number, py: number): void {
+      if (!this.resizeStart || !this.resizeHandle) return;
       const { x, y, width, height, mx, my } = this.resizeStart;
       const dx = px - mx, dy = py - my;
       let nx = x, ny = y, nw = width, nh = height;
@@ -636,7 +666,7 @@
 
     /* ── Cleanup ── */
 
-    destroy() {
+    destroy(): void {
       window.removeEventListener('pointermove', this._onMove, { capture: true });
       window.removeEventListener('pointerdown', this._onDown, { capture: true });
       window.removeEventListener('pointerup',   this._onUp,   { capture: true });
@@ -645,9 +675,9 @@
       window.removeEventListener('scroll',      this._onScroll);
       clearTimeout(this._toastT);
       this.host?.parentNode?.removeChild(this.host);
-      window.__SCROLLHIDE_PAGE_RULER__ = null;
+      (window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null }).__SCROLLHIDE_PAGE_RULER__ = null;
     }
   }
 
-  window.__SCROLLHIDE_PAGE_RULER__ = new PageRuler();
+  (window as unknown as { __SCROLLHIDE_PAGE_RULER__: PageRuler }).__SCROLLHIDE_PAGE_RULER__ = new PageRuler();
 })();

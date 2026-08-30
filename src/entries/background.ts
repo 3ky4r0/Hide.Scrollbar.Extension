@@ -1,3 +1,7 @@
+export {};
+
+declare function importScripts(...urls: string[]): void;
+
 if (typeof importScripts === 'function') {
   importScripts(
     '/src/shared/constants.js',
@@ -6,19 +10,23 @@ if (typeof importScripts === 'function') {
   );
 }
 
-const { BADGE_ACTIVE_COLOR, BADGE_INACTIVE_COLOR } = globalThis.ScrollHideConstants;
-const { getSyncState } = globalThis.ScrollHideStorage;
-const { isRestrictedUrl, isWhitelisted } = globalThis.ScrollHideWhitelist;
+const { BADGE_ACTIVE_COLOR, BADGE_INACTIVE_COLOR } = (globalThis as any).ScrollHideConstants || {
+  BADGE_ACTIVE_COLOR: '#2772ed',
+  BADGE_INACTIVE_COLOR: '#888',
+};
+const { getSyncState } = (globalThis as any).ScrollHideStorage || {};
+const { isRestrictedUrl, isWhitelisted } = (globalThis as any).ScrollHideWhitelist || {};
 
-const updateBadge = async (tabId, scrollbarHidden, whitelist) => {
+const updateBadge = async (tabId: number | undefined, scrollbarHidden: boolean, whitelist: string[]): Promise<void> => {
+  if (tabId === undefined) return;
   let restricted = false;
   let whitelisted = false;
 
   try {
     const tab = await chrome.tabs.get(tabId);
     if (tab.url) {
-      restricted = isRestrictedUrl(tab.url);
-      if (!restricted) {
+      restricted = isRestrictedUrl ? isRestrictedUrl(tab.url) : false;
+      if (!restricted && isWhitelisted) {
         whitelisted = isWhitelisted(new URL(tab.url).hostname, whitelist);
       }
     } else {
@@ -41,12 +49,14 @@ const updateBadge = async (tabId, scrollbarHidden, whitelist) => {
   }).catch(() => {});
 };
 
-const updateBadgeForTab = async (tabId) => {
+const updateBadgeForTab = async (tabId: number | undefined): Promise<void> => {
+  if (tabId === undefined || !getSyncState) return;
   const { scrollbarHidden, whitelist } = await getSyncState();
   await updateBadge(tabId, scrollbarHidden, whitelist);
 };
 
-const updateAllBadges = async () => {
+const updateAllBadges = async (): Promise<void> => {
+  if (!getSyncState) return;
   const { scrollbarHidden, whitelist } = await getSyncState();
 
   chrome.tabs.query({}, (tabs) => {
@@ -54,14 +64,15 @@ const updateAllBadges = async () => {
   });
 };
 
-const injectAllTabs = async () => {
+const injectAllTabs = async (): Promise<void> => {
+  if (!getSyncState) return;
   const { scrollbarHidden, whitelist } = await getSyncState();
 
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
       updateBadge(tab.id, scrollbarHidden, whitelist);
 
-      if (tab.url && !isRestrictedUrl(tab.url) && chrome.scripting) {
+      if (tab.id && tab.url && (!isRestrictedUrl || !isRestrictedUrl(tab.url)) && chrome.scripting) {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           files: [
@@ -91,11 +102,11 @@ chrome.storage.onChanged.addListener((_, namespace) => {
 chrome.runtime.onStartup.addListener(injectAllTabs);
 chrome.runtime.onInstalled.addListener(injectAllTabs);
 
-injectAllTabs().catch((err) => {
+injectAllTabs().catch((err: unknown) => {
   console.error('[Background] Startup injectAllTabs failed', { error: err });
 });
 
-/* ── Color Picker — Context Menu ─────────────────────────── */
+/* ── Context Menu ────────────────────────────────────────── */
 
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
@@ -103,9 +114,8 @@ const RULER_MENU_ID        = 'scroll-hide-page-ruler';
 
 const CONTEXT_MENU_PATTERNS = ['http://*/*', 'https://*/*', 'file://*/*'];
 
-const setupContextMenus = () => {
+const setupContextMenus = (): void => {
   if (chrome.sidePanel && chrome.sidePanel.setOptions) {
-    // Disable side panel globally by default so it never leaks to other tabs
     chrome.sidePanel.setOptions({ enabled: false }).catch(() => {});
   }
   if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
@@ -151,7 +161,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
             return;
           }
           try {
-            const dropper = new window.EyeDropper();
+            const dropper = new (window as any).EyeDropper();
             const result = await dropper.open();
             const hex = (result.sRGBHex || '').toUpperCase();
             try {
@@ -167,7 +177,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
               ta.remove();
             }
             alert(`${hex}\nHex code copied to clipboard!`);
-          } catch (err) {
+          } catch (err: any) {
             if (err && err.name === 'AbortError') {
               return;
             }
@@ -175,9 +185,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           }
         },
       });
-    } catch (_) {
-      // Ignored for internal browser pages where script injection is restricted
-    }
+    } catch (_) {}
   }
 
   if (info.menuItemId === FAVICON_MENU_ID) {
@@ -196,9 +204,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 /* ── Favicon Viewer (Side Panel) ──────────────────────────── */
 
-const openFaviconViewer = (tab) => {
+const openFaviconViewer = (tab: chrome.tabs.Tab): void => {
   if (chrome.sidePanel && chrome.sidePanel.open && tab) {
-    // Set path for this tab
     if (tab.id) {
       chrome.sidePanel.setOptions({
         tabId: tab.id,
@@ -207,7 +214,6 @@ const openFaviconViewer = (tab) => {
       }).catch(() => {});
     }
 
-    // Call open immediately to preserve the synchronous user gesture
     const openPromise = tab.id
       ? chrome.sidePanel.open({ tabId: tab.id })
       : chrome.sidePanel.open({ windowId: tab.windowId });
@@ -230,7 +236,7 @@ const openFaviconViewer = (tab) => {
   openTabFallback(tab);
 };
 
-const openTabFallback = (tab) => {
+const openTabFallback = (tab: chrome.tabs.Tab): void => {
   const favUrl = tab?.favIconUrl || '';
   const tabUrl = tab?.url || '';
 
@@ -249,4 +255,3 @@ const openTabFallback = (tab) => {
 
   chrome.tabs.create({ url: viewerUrl });
 };
-

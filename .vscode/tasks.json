@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Watch: Auto Build (esbuild)",
+      "type": "shell",
+      "command": "npm run watch",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "build"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+)\\s+-\\s+error\\s+TS(\\d+):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "code": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "🚀 Building",
+          "endsPattern": "⚡ Watching for changes"
+        }
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Build Once",
+      "type": "shell",
+      "command": "npm run build",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "npm test",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

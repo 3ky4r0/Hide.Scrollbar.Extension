@@ -1,32 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  const SIZES = [16, 32, 48, 64, 96, 128, 180, 192, 256];
+  const SIZES = [16, 32, 48, 64, 96, 128, 180, 192, 256] as const;
+
+  interface FaviconCandidate {
+    url: string;
+    label: string;
+  }
 
   // DOM Elements
-  const urlInput               = document.getElementById('urlInput');
-  const pasteBtn               = document.getElementById('pasteBtn');
-  const extractBtn             = document.getElementById('extractBtn');
-  const errorMsg               = document.getElementById('errorMsg');
-  const resultsContainer       = document.getElementById('resultsContainer');
-  const noFaviconNotice        = document.getElementById('noFaviconNotice');
-  const siteHostTitle          = document.getElementById('siteHostTitle');
-  const favGrid                = document.getElementById('favGrid');
-  const selectedActionsSection = document.getElementById('selectedActionsSection');
-  const selectedUrlInput       = document.getElementById('selectedUrlInput');
-  const copySelectedBtn        = document.getElementById('copySelectedBtn');
-  const openNewTabBtn          = document.getElementById('openNewTabBtn');
-  const downloadBtn            = document.getElementById('downloadBtn');
-  const headerFavicon          = document.getElementById('headerFavicon');
-  const headerFallback         = document.getElementById('headerFallback');
+  const urlInput               = document.getElementById('urlInput') as HTMLInputElement | null;
+  const pasteBtn               = document.getElementById('pasteBtn') as HTMLButtonElement | null;
+  const extractBtn             = document.getElementById('extractBtn') as HTMLButtonElement | null;
+  const errorMsg               = document.getElementById('errorMsg') as HTMLDivElement | null;
+  const resultsContainer       = document.getElementById('resultsContainer') as HTMLDivElement | null;
+  const noFaviconNotice        = document.getElementById('noFaviconNotice') as HTMLDivElement | null;
+  const siteHostTitle          = document.getElementById('siteHostTitle') as HTMLElement | null;
+  const favGrid                = document.getElementById('favGrid') as HTMLDivElement | null;
+  const selectedActionsSection = document.getElementById('selectedActionsSection') as HTMLDivElement | null;
+  const selectedUrlInput       = document.getElementById('selectedUrlInput') as HTMLInputElement | null;
+  const copySelectedBtn        = document.getElementById('copySelectedBtn') as HTMLButtonElement | null;
+  const openNewTabBtn          = document.getElementById('openNewTabBtn') as HTMLButtonElement | null;
+  const downloadBtn            = document.getElementById('downloadBtn') as HTMLButtonElement | null;
+  const headerFavicon          = document.getElementById('headerFavicon') as HTMLImageElement | null;
+  const headerFallback         = document.getElementById('headerFallback') as HTMLElement | null;
 
-  let currentVariants = [];
+  let currentVariants: FaviconCandidate[] = [];
   let selectedUrl = '';
   let currentHost = '';
 
   /* ── Helper: Normalize URL ───────────────────────────────── */
 
-  function normalizeUrl(raw) {
+  function normalizeUrl(raw: string | null | undefined): URL | null {
     let trimmed = (raw || '').trim();
     if (!trimmed) return null;
     if (!/^https?:\/\//i.test(trimmed)) {
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Core: Extract Favicons ──────────────────────────────── */
 
-  function extractFavicons(rawUrl, originalFaviconUrl = '') {
+  function extractFavicons(rawUrl: string, originalFaviconUrl: string = ''): void {
     if (errorMsg) {
       errorMsg.style.display = 'none';
       errorMsg.textContent = '';
@@ -65,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = `Favicon — ${currentHost}`;
 
     // Candidates
-    const candidates = [];
+    const candidates: FaviconCandidate[] = [];
 
     // 1. Original (if provided)
     if (originalFaviconUrl && !originalFaviconUrl.startsWith('chrome://')) {
@@ -90,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Deduplicate
-    const uniqueVariants = [];
-    const seen = new Set();
+    const uniqueVariants: FaviconCandidate[] = [];
+    const seen = new Set<string>();
     candidates.forEach((c) => {
       if (!seen.has(c.url)) {
         seen.add(c.url);
@@ -106,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Render Grid ─────────────────────────────────────────── */
 
-  function renderVariants(variants) {
+  function renderVariants(variants: FaviconCandidate[]): void {
     if (!favGrid) return;
     favGrid.innerHTML = '';
     selectedUrl = '';
@@ -162,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Selection ───────────────────────────────────────────── */
 
-  function selectVariant(url, itemEl) {
+  function selectVariant(url: string, itemEl: HTMLElement | null): void {
     selectedUrl = url;
     if (selectedUrlInput) selectedUrlInput.value = url;
     if (selectedActionsSection) selectedActionsSection.style.display = 'block';
@@ -176,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function updateHeaderLogo(host, fallbackUrl) {
+  function updateHeaderLogo(host: string, fallbackUrl: string): void {
     if (!host || !headerFavicon) return;
 
     // Highest quality candidate (256px)
@@ -200,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Download Helper ─────────────────────────────────────── */
 
-  async function downloadCurrentFavicon() {
+  async function downloadCurrentFavicon(): Promise<void> {
     if (!selectedUrl || !downloadBtn) return;
 
     downloadBtn.disabled = true;
@@ -223,14 +228,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       downloadBtn.classList.add('success');
       setTimeout(() => {
-        downloadBtn.classList.remove('success');
+        downloadBtn?.classList.remove('success');
       }, 1500);
     } catch (_) {
       // Fallback
       window.open(selectedUrl, '_blank');
     } finally {
       setTimeout(() => {
-        downloadBtn.disabled = false;
+        if (downloadBtn) downloadBtn.disabled = false;
       }, 500);
     }
   }
@@ -242,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       extractFavicons(urlInput.value);
     });
 
-    urlInput.addEventListener('keydown', (e) => {
+    urlInput.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         extractFavicons(urlInput.value);
       }
@@ -276,8 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>`;
         setTimeout(() => {
-          copySelectedBtn.classList.remove('success');
-          copySelectedBtn.innerHTML = originalCopyIcon;
+          copySelectedBtn?.classList.remove('success');
+          if (copySelectedBtn) copySelectedBtn.innerHTML = originalCopyIcon;
         }, 2000);
       } catch (_) { }
     });
@@ -306,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (tabUrl) {
     if (urlInput) urlInput.value = tabUrl;
     extractFavicons(tabUrl, favUrl);
-  } else if (chrome.tabs && chrome.tabs.query) {
+  } else if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.query) {
     // Automatically detect active tab when opened inside sidepanel
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTab = tabs?.[0];
