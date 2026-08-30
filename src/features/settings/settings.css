@@ -212,19 +212,46 @@ body {
   align-items: center;
 }
 
-.stat-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.stat-btn-group {
+  display: inline-flex;
+  align-items: stretch;
+  border: none;
+  background: rgba(128, 128, 128, 0.12);
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  font-family: inherit;
+  font-size: 13px;
+  height: 28px;
 }
 
-.stat-badge {
-  background-color: rgba(39, 114, 237, 0.15);
-  color: var(--accent);
-  padding: 4px 12px;
-  border-radius: 20px;
+.stat-btn-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
   font-weight: 700;
-  font-size: 14px;
+  color: var(--accent);
+  background: rgba(39, 114, 237, 0.12);
+}
+
+.stat-btn-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.stat-btn-group:hover .stat-btn-label {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+.stat-btn-group:active .stat-btn-label {
+  background: rgba(128, 128, 128, 0.3);
 }
 
 .action-buttons-row {
