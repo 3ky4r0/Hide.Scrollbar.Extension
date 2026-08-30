@@ -9,12 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const addCurrentVertical = document.getElementById('addCurrentVertical');
   const whitelistedNotice = document.getElementById('whitelistedNotice');
   const restrictedNotice = document.getElementById('restrictedNotice');
-  const toggleWhitelist = document.getElementById('toggleWhitelist');
+  const openSettingsBtn = document.getElementById('openSettingsBtn') || document.getElementById('toggleWhitelist');
   const domainDisplay = document.getElementById('domainDisplay');
-  const exportBtn = document.getElementById('exportBtn');
-  const importBtn = document.getElementById('importBtn');
-  const importFile = document.getElementById('importFile');
-  const infoBtn = document.getElementById('infoBtn');
+  const pickColorBtn = document.getElementById('pickColorBtn');
+  const getFaviconBtn = document.getElementById('getFaviconBtn');
 
   let currentHostname = '';
   let isRestricted = false;
@@ -188,81 +186,82 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-  toggleWhitelist.addEventListener('click', async () => {
-    const opened = await openPanelForCurrentTab();
-    if (!opened) return;
-    window.close();
-  });
-
-  exportBtn.addEventListener('click', () => {
-    getSyncState()
-      .then((data) => {
-        const json = JSON.stringify(data, null, 2);
-        const blob = new Blob([json], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = BACKUP_FILENAME;
-        anchor.click();
-        URL.revokeObjectURL(url);
-      })
-      .catch((err) => {
-        console.error('[Popup] Failed to export backup', { error: err });
-      });
-  });
-
-  importBtn.addEventListener('click', () => {
-    importFile.click();
-  });
-
-  importFile.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      try {
-        const data = JSON.parse(loadEvent.target.result);
-        if (!data || !Array.isArray(data.whitelist)) {
-          alert(chrome.i18n.getMessage('invalidFileError') || 'Lỗi: Tệp tin không hợp lệ!');
-          return;
-        }
-
-        const nextState = {
-          whitelist: normalizeWhitelist(data.whitelist),
-        };
-
-        if (typeof data.scrollbarHidden === 'boolean') {
-          nextState.scrollbarHidden = data.scrollbarHidden;
-        }
-
-        getSyncValue({ whitelist: [] })
-          .then((current) => {
-            const merged = normalizeWhitelist([
-              ...current.whitelist,
-              ...nextState.whitelist,
-            ]);
-
-            return setSyncValue({ ...nextState, whitelist: merged }).then(() => {
-              loadState();
-            });
-          })
-          .catch((err) => {
-            console.error('[Popup] Failed to merge imported whitelist', { error: err });
-          });
-      } catch (err) {
-        console.error('[Popup] Invalid JSON during import', { fileName: file.name, error: err });
-        alert(chrome.i18n.getMessage('invalidFileError') || 'Lỗi: Tệp tin không hợp lệ!');
+  if (openSettingsBtn) {
+    openSettingsBtn.addEventListener('click', () => {
+      if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+      } else {
+        chrome.tabs.create({ url: chrome.runtime.getURL('src/features/settings/settings.html') });
       }
-    };
+    });
+  }
 
-    reader.readAsText(file);
-    importFile.value = '';
-  });
+  if (pickColorBtn) {
+    pickColorBtn.addEventListener('click', async () => {
+      if (isRestricted) return;
+      const tab = await getActiveTab();
+      if (!tab || !tab.id) return;
+      window.close();
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: async () => {
+            if (!('EyeDropper' in window)) {
+              alert('EyeDropper is not supported on this page.');
+              return;
+            }
+            try {
+              const dropper = new window.EyeDropper();
+              const result = await dropper.open();
+              const hex = (result.sRGBHex || '').toUpperCase();
+              try {
+                await navigator.clipboard.writeText(hex);
+              } catch (_) {
+                const ta = document.createElement('textarea');
+                ta.value = hex;
+                ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+              }
+              alert(`${hex}\nHex code copied to clipboard!`);
+            } catch (err) {
+              if (err && err.name === 'AbortError') return;
+              alert('Could not pick a color. Please try again.');
+            }
+          },
+        });
+      } catch (_) {}
+    });
+  }
 
-  infoBtn.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('src/features/info/info.html') });
-  });
+  if (getFaviconBtn) {
+    getFaviconBtn.addEventListener('click', async () => {
+      const tab = await getActiveTab();
+      const favUrl = tab?.favIconUrl || '';
+      const tabUrl = tab?.url || '';
+
+      if (chrome.sidePanel && chrome.sidePanel.open && tab?.id) {
+        try {
+          await chrome.sidePanel.setOptions({
+            tabId: tab.id,
+            path: 'src/features/favicon/favicon.html',
+            enabled: true,
+          });
+          await chrome.sidePanel.open({ tabId: tab.id });
+          window.close();
+          return;
+        } catch (_) {}
+      }
+
+      const viewerUrl = chrome.runtime.getURL('src/features/favicon/favicon.html')
+        + `?favUrl=${encodeURIComponent(favUrl)}&tabUrl=${encodeURIComponent(tabUrl)}`;
+      chrome.tabs.create({ url: viewerUrl });
+      window.close();
+    });
+  }
 
   chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace === 'local' && changes.hideCount) {

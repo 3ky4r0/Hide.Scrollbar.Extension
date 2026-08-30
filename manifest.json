@@ -27,6 +27,10 @@
   "side_panel": {
     "default_path": "src/features/sidepanel/sidepanel.html"
   },
+  "options_ui": {
+    "page": "src/features/settings/settings.html",
+    "open_in_tab": true
+  },
   "background": {
     "service_worker": "src/entries/background.js"
   },

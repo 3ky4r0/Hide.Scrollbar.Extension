@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrollHide — Dashboard</title>
+  <link rel="stylesheet" href="../../../assets/styles/tokens.css">
+  <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+  <!-- Top Navigation Header (uBlock Style) -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <img src="../../../assets/icons/icon48.png" alt="ScrollHide" class="nav-logo">
+    </div>
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="settings" role="tab" aria-selected="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+          </path>
+        </svg>
+        <span>Settings</span>
+      </button>
+      <button class="nav-tab" data-tab="whitelist" role="tab" aria-selected="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        <span>Whitelist</span>
+      </button>
+      <button class="nav-tab" data-tab="guide" role="tab" aria-selected="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Guide</span>
+      </button>
+    </nav>
+    <a href="https://github.com/3ky4r0/Hide.Scrollbar.Extension" target="_blank" rel="noopener noreferrer"
+      class="nav-github-btn" title="GitHub Repository" aria-label="GitHub Repository">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+        </path>
+      </svg>
+    </a>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+    <!-- TAB 1: SETTINGS -->
+    <section id="tab-settings" class="tab-pane active">
+      <div class="settings-group">
+        <h2 class="group-title">General Settings</h2>
+        <div class="settings-card">
+          <label class="setting-item">
+            <input type="checkbox" id="settingHideScrollbar">
+            <div class="setting-text">
+              <div class="setting-title">Enable Scrollbar Hiding</div>
+              <div class="setting-desc">Automatically hide scrollbars across all websites unless whitelisted.</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="group-title">Statistics</h2>
+        <div class="settings-card">
+          <div class="stat-row">
+            <div>
+              <div class="setting-title">Cleaned Scrollbars</div>
+              <div class="setting-desc">Total scrollbars removed by extension across all sessions.</div>
+            </div>
+            <div class="stat-right">
+              <span id="statCleanedCount" class="stat-badge">0</span>
+              <button id="btnResetCleaned" class="btn btn-secondary btn-sm" title="Reset counter">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="group-title">Backup and Restore</h2>
+        <div class="settings-card">
+          <div class="setting-desc" style="margin-bottom: 14px;">
+            Export or import your ScrollHide configuration and whitelist domains.
+          </div>
+          <div class="action-buttons-row">
+            <button id="btnExportSettings" class="btn btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Backup to file</span>
+            </button>
+            <button id="btnImportSettings" class="btn btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Restore from file...</span>
+            </button>
+            <input type="file" id="settingsFileInput" accept=".json" hidden>
+            <button id="btnResetDefaults" class="btn btn-danger-outline">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Reset to defaults</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: WHITELIST (My Filters / Code Editor style) -->
+    <section id="tab-whitelist" class="tab-pane">
+      <!-- Toolbar like uBlock screenshot -->
+      <div class="toolbar">
+        <button id="btnApplyWhitelist" class="btn btn-primary" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Apply changes</span>
+        </button>
+
+        <button id="btnRevertWhitelist" class="btn btn-secondary" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>Revert</span>
+        </button>
+
+        <button id="btnImportWhitelist" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Import and append...</span>
+        </button>
+        <input type="file" id="whitelistFileInput" accept=".txt,.json" hidden>
+
+        <button id="btnExportWhitelist" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Export...</span>
+        </button>
+
+        <span id="saveIndicator" class="save-indicator"></span>
+      </div>
+
+      <div class="whitelist-notes">
+        <p class="warning-text">Sites listed here will keep their original scrollbars (one domain per line). Lines starting with <code>!</code> or <code>#</code> are comments.</p>
+      </div>
+
+      <!-- Editor Container with Line Numbers Gutter -->
+      <div class="editor-container">
+        <div id="lineNumbers" class="line-numbers" aria-hidden="true">1</div>
+        <textarea id="whitelistEditor" class="editor-textarea" spellcheck="false" autocomplete="off" autocorrect="off"
+          autocapitalize="off" wrap="off" placeholder="! Enter domains here, one per line&#10;example.com&#10;youtube.com"></textarea>
+      </div>
+    </section>
+
+    <!-- TAB 3: GUIDE -->
+    <section id="tab-guide" class="tab-pane">
+      <div class="guide-content">
+
+        <!-- Section 1: Overview -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">1. Overview & Core Purpose</h2>
+          <p style="margin-bottom: 8px;"><strong>ScrollHide</strong> is an ultra-lightweight browser extension designed to eliminate ugly, intrusive scrollbars across websites, giving you a clean, distraction-free browsing experience.</p>
+          <ul class="guide-list">
+            <li><strong>Non-destructive Scrolling:</strong> Scrolling continues to work seamlessly via mouse wheel, trackpad gestures, keyboard arrow keys, <kbd>Space</kbd>, <kbd>Page Up</kbd> / <kbd>Page Down</kbd>, and touch inputs.</li>
+            <li><strong>Zero Resource Overhead:</strong> Uses pure CSS rules and reactive event hooks instead of CPU-heavy JavaScript scroll listeners.</li>
+            <li><strong>Privacy First:</strong> Operates entirely offline on your device with no data telemetry or tracking.</li>
+          </ul>
+        </div>
+
+        <!-- Section 2: Popup Controls -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">2. Extension Popup Controls</h2>
+          <ul class="guide-list">
+            <li><strong>Main Power Toggle (⏻):</strong> Click the large center button to turn scrollbar hiding <code>ON</code> or <code>OFF</code> globally across all tabs.</li>
+            <li><strong>Active Domain Indicator:</strong> Displays the hostname of the current web page.</li>
+            <li><strong>Quick Whitelist (+ / −):</strong> Click to add or remove the current website to/from your exceptions list with a single click.</li>
+            <li><strong>Statistics Panel:</strong>
+              <ul>
+                <li><strong>Status:</strong> Shows whether scrollbars are currently <em>Active</em> (hidden), <em>Disabled</em>, <em>Whitelisted</em>, or <em>Restricted</em> on this page.</li>
+                <li><strong>Exceptions:</strong> Total number of custom whitelisted domains.</li>
+                <li><strong>Cleaned:</strong> Counter tracking total scrollbars hidden during your browsing sessions.</li>
+              </ul>
+            </li>
+            <li><strong>Toolbar Buttons:</strong> Fast access to <em>Export</em>, <em>Import</em>, and the <em>Dashboard / Settings</em> page.</li>
+          </ul>
+        </div>
+
+        <!-- Section 3: Whitelist Rules & Editor -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">3. Whitelist & Exceptions Management</h2>
+          <p style="margin-bottom: 8px;">The <strong>Whitelist</strong> tab provides a full-featured code editor to manage websites where original scrollbars should be preserved:</p>
+          <ul class="guide-list">
+            <li><strong>Format:</strong> Enter one domain per line (e.g. <code>youtube.com</code> or <code>docs.google.com</code>). Protocols like <code>https://</code> or trailing slashes are automatically sanitized.</li>
+            <li><strong>Comments Support:</strong> Organize your list with comments by starting lines with <code>!</code> or <code>#</code> (e.g. <code>! Work Applications</code>). Comments are ignored when saving.</li>
+            <li><strong>Apply & Revert:</strong> The <span class="btn-sample">Apply changes</span> button activates whenever changes are made. Use <span class="btn-sample">Revert</span> to discard unsaved edits.</li>
+            <li><strong>Keyboard Shortcut:</strong> Press <kbd>Ctrl + S</kbd> (or <kbd>Cmd + S</kbd> on macOS) inside the editor to quickly save your changes.</li>
+            <li><strong>Import & Export:</strong> Easily export your whitelist as plain text <code>.txt</code> or import lists to append new domains.</li>
+          </ul>
+        </div>
+
+        <!-- Section 4: Context Menu Utilities -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">4. Built-in Power Utilities (Right-Click Menu)</h2>
+          <ul class="guide-list">
+            <li>
+              <strong>🎨 Pick Color (Eyedropper):</strong>
+              <p style="margin: 4px 0 8px;">Right-click on any webpage and select <em>Pick Color</em>. A precision magnifying eyedropper appears—click any pixel on your screen to extract its exact HEX code. The color code is automatically copied to your clipboard.</p>
+            </li>
+            <li>
+              <strong>🖼️ Get Favicon (Favicon Extractor):</strong>
+              <p style="margin: 4px 0 8px;">Right-click any website and choose <em>Get Favicon</em>. Opens the Favicon Extractor panel displaying all available resolutions (from 16px up to 256px HD icons). You can copy image URLs, open them in a new tab, or download PNG/ICO files with one click.</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Section 5: Status Badges -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">5. Toolbar Status Badges</h2>
+          <p style="margin-bottom: 8px;">Pin the extension icon to your browser toolbar to monitor status in real-time:</p>
+          <ul class="guide-list">
+            <li><span class="badge-sample badge-on">ON</span> <strong>Blue Badge:</strong> Scrollbar hiding is currently active on the tab you are viewing.</li>
+            <li><span class="badge-sample badge-off">OFF</span> <strong>Grey Badge:</strong> Extension is globally disabled OR the active domain is in your Whitelist.</li>
+            <li><strong>No Badge:</strong> Active on internal browser pages (such as <code>chrome://</code>, <code>edge://</code>, <code>about:</code>) where extensions are restricted by browser security policies.</li>
+          </ul>
+        </div>
+
+        <!-- Section 6: Troubleshooting & FAQs -->
+        <div class="guide-card">
+          <h2 class="guide-section-title">6. Frequently Asked Questions & Troubleshooting</h2>
+          <ul class="guide-list">
+            <li><strong>Q: Can I still scroll when scrollbars are hidden?</strong><br>
+              A: Yes, 100%! All scrolling methods (mouse wheel, touchpad gestures, arrow keys, touchscreens) continue to function exactly as normal.
+            </li>
+            <li><strong>Q: What should I do if scrollbars do not hide immediately on a tab?</strong><br>
+              A: Simply reload the tab (<kbd>F5</kbd> or <kbd>Ctrl + R</kbd>) so the latest styling takes effect immediately.
+            </li>
+            <li><strong>Q: Why does the popup say "Restricted page" on some URLs?</strong><br>
+              A: Modern browsers strictly prohibit extensions from injecting scripts into internal system pages (like <code>chrome://settings</code> or <code>about:blank</code>) for security.
+            </li>
+            <li><strong>Q: What if a web app has custom canvas scrollbars?</strong><br>
+              A: Websites rendering custom canvas-based scrollbars (like certain PDF viewer engines) cannot be altered via standard CSS rules.
+            </li>
+          </ul>
+        </div>
+
+        <div class="note-box">
+          <strong>Need Help or Have a Feature Request?</strong> Check the repository on <a href="https://github.com/3ky4r0/Hide.Scrollbar.Extension" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: 600;">GitHub</a> to report issues or suggest improvements.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../shared/constants.js"></script>
+  <script src="../../shared/storage.js"></script>
+  <script src="../whitelist/whitelist-service.js"></script>
+  <script src="settings.js"></script>
+</body>
+
+</html>
