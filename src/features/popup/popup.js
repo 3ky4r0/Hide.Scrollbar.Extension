@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.style.pointerEvents = 'none';
     restrictedNotice.style.display = 'flex';
     addCurrentBtn.disabled = true;
+    if (pickColorBtn) pickColorBtn.disabled = true;
+    if (getFaviconBtn) getFaviconBtn.disabled = true;
   };
 
   const updateAddButtonState = (inList) => {
@@ -109,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     addCurrentBtn.disabled = isRestricted;
+    if (pickColorBtn) pickColorBtn.disabled = isRestricted;
+    if (getFaviconBtn) getFaviconBtn.disabled = isRestricted;
   };
 
   const loadState = () => {
@@ -239,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (getFaviconBtn) {
     getFaviconBtn.addEventListener('click', async () => {
+      if (isRestricted) return;
       const tab = await getActiveTab();
       const favUrl = tab?.favIconUrl || '';
       const tabUrl = tab?.url || '';

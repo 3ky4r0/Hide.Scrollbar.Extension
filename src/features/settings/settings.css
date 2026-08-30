@@ -114,7 +114,7 @@ body {
   width: 100%;
   height: calc(100vh - 34px);
   margin: 0;
-  padding: 14px 16px;
+  padding: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -135,11 +135,13 @@ body {
 /* ── Settings Tab Components ──────────────────────────────── */
 
 #tab-settings,
-#tab-guide {
+#tab-guide,
+#tab-report {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 4px;
+  padding: 14px 16px;
+  box-sizing: border-box;
 }
 
 .settings-group {
@@ -292,7 +294,9 @@ body {
 #tab-whitelist {
   flex-direction: column;
   height: 100%;
+  padding: 14px 16px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .toolbar {

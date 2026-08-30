@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
 
-  const validTabs = ['settings', 'whitelist', 'guide'];
+  const validTabs = ['settings', 'whitelist', 'guide', 'report'];
   const initialTab = location.hash.replace('#', '');
   switchTab(validTabs.includes(initialTab) ? initialTab : 'settings');
 
@@ -295,6 +295,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       reader.readAsText(file);
       whitelistFileInput.value = '';
+    });
+  }
+
+  // Report Tab: Copy System Info
+  const btnCopyReportInfo = document.getElementById('btnCopyReportInfo');
+  const copyReportInfoText = document.getElementById('copyReportInfoText');
+  if (btnCopyReportInfo) {
+    btnCopyReportInfo.addEventListener('click', async () => {
+      const info = [
+        '### Environment Details',
+        `- **Extension:** ScrollHide`,
+        `- **User Agent:** ${navigator.userAgent}`,
+        `- **Platform:** ${navigator.platform || 'Unknown'}`,
+        `- **Screen Resolution:** ${window.screen.width}x${window.screen.height}`,
+      ].join('\n');
+
+      try {
+        await navigator.clipboard.writeText(info);
+        if (copyReportInfoText) {
+          const original = copyReportInfoText.textContent;
+          copyReportInfoText.textContent = 'Copied!';
+          setTimeout(() => {
+            copyReportInfoText.textContent = original;
+          }, 2000);
+        }
+      } catch (_) {}
     });
   }
 
