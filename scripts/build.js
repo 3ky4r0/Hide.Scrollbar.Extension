@@ -1,11 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 const { execSync } = require('child_process');
 const esbuild = require('esbuild');
 
 const isWatch = process.argv.includes('--watch');
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.resolve(rootDir, 'dist');
+const RELOAD_PORT = 8999;
 
 console.log('🚀 Building extension to dist/ ...');
 
@@ -58,6 +60,7 @@ function copyAllStatic() {
   }
 
   function copySrcStatic(dir) {
+    if (!fs.existsSync(dir)) return;
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
@@ -80,7 +83,93 @@ function copyAllStatic() {
 
 copyAllStatic();
 
-// 4. Bundling with esbuild (IIFE format for MV3 Chrome Extension compatibility)
+// 4. In-memory Auto Reload Server (Development Mode Only)
+let reloadClients = [];
+
+function startReloadServer() {
+  const server = http.createServer((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
+
+    if (req.url === '/wait-reload') {
+      reloadClients.push(res);
+      req.on('close', () => {
+        reloadClients = reloadClients.filter((c) => c !== res);
+      });
+    } else {
+      res.writeHead(404);
+      res.end('Not found');
+    }
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`⚡ Reusing auto-reload server on port ${RELOAD_PORT}`);
+    } else {
+      console.error('Reload server error:', err);
+    }
+  });
+
+  server.listen(RELOAD_PORT, '127.0.0.1', () => {
+    console.log(`⚡ Auto-reload server ready on http://127.0.0.1:${RELOAD_PORT}`);
+  });
+}
+
+function notifyReload() {
+  if (reloadClients.length > 0) {
+    console.log(`🔄 Reloading ${reloadClients.length} Chrome extension instance(s)...`);
+    reloadClients.forEach((client) => {
+      try {
+        client.writeHead(200, { 'Content-Type': 'text/plain' });
+        client.end('reload');
+      } catch (_) {}
+    });
+    reloadClients = [];
+  }
+}
+
+function appendDevReloader() {
+  const bgPath = path.join(distDir, 'src', 'entries', 'background.js');
+  if (fs.existsSync(bgPath)) {
+    const devScript = `
+/* --- DEV AUTO RELOADER --- */
+(() => {
+  const checkReload = () => {
+    fetch('http://127.0.0.1:${RELOAD_PORT}/wait-reload')
+      .then(() => {
+        console.log('[DevReload] Rebuilding completed, reloading extension...');
+        // Reload all extension tabs (settings, popup, sidepanel)
+        if (chrome.tabs && chrome.tabs.query) {
+          chrome.tabs.query({}, (tabs) => {
+            const extPrefix = 'chrome-extension://' + chrome.runtime.id;
+            tabs.forEach((tab) => {
+              if (tab.url && tab.url.startsWith(extPrefix) && tab.id) {
+                chrome.tabs.reload(tab.id).catch(() => {});
+              }
+            });
+          });
+        }
+        chrome.runtime.reload();
+      })
+      .catch(() => {
+        setTimeout(checkReload, 1500);
+      });
+  };
+  checkReload();
+})();
+`;
+    fs.appendFileSync(bgPath, devScript);
+  }
+}
+
+// 5. Bundling with esbuild (IIFE format for MV3 Chrome Extension compatibility)
 const entryPoints = {
   'src/entries/background': path.join(rootDir, 'src/entries/background.ts'),
   'src/entries/content': path.join(rootDir, 'src/entries/content.ts'),
@@ -107,12 +196,47 @@ const buildOptions = {
 
 async function build() {
   if (isWatch) {
-    console.log('👀 Starting watch mode...');
+    console.log('👀 Starting watch mode (watching ALL .ts, .html, .css, assets)...');
+    startReloadServer();
+
     const ctx = await esbuild.context(buildOptions);
-    await ctx.watch();
-    console.log('⚡ Watching for changes...');
+    await ctx.rebuild();
+    copyAllStatic();
+    appendDevReloader();
+
+    // Full directory watcher for HTML, CSS, assets, manifest, and TS files
+    let debounceTimer = null;
+    const triggerRebuild = (eventType, filename) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(async () => {
+        try {
+          console.log(`📝 File changed: ${filename || 'file'} -> Rebuilding...`);
+          await ctx.rebuild();
+          copyAllStatic();
+          appendDevReloader();
+          notifyReload();
+          console.log('⚡ Done! Extension reloaded in Chrome.');
+        } catch (err) {
+          console.error('❌ Rebuild error:', err.message);
+        }
+      }, 60);
+    };
+
+    // Watch src, assets, _locales, and root files
+    ['src', 'assets', '_locales'].forEach((dir) => {
+      const fullDir = path.join(rootDir, dir);
+      if (fs.existsSync(fullDir)) {
+        fs.watch(fullDir, { recursive: true }, triggerRebuild);
+      }
+    });
+
+    if (fs.existsSync(path.join(rootDir, 'manifest.json'))) {
+      fs.watch(path.join(rootDir, 'manifest.json'), triggerRebuild);
+    }
+
+    console.log('⚡ Ready! Sửa bất kỳ file .ts, .css, .html nào, Chrome sẽ tự động reload ngay lập tức.');
   } else {
-    console.log('📦 Compiling with esbuild (IIFE - zero export syntax error)...');
+    console.log('📦 Compiling with esbuild (Production build)...');
     await esbuild.build(buildOptions);
     console.log('✨ Build complete! Output directory: dist/\n');
   }

@@ -14,5 +14,4 @@ A browser extension to hide scrollbars for a cleaner interface, while keeping sc
 - **Offline Sync**: Settings are synced across browser instances.
 
 
-## Build
-The GitHub Action automatically packages the extension into a `.zip` file on every push to `main`/`master`, excluding non-essential files (`demo/`, `test/`, etc.).
+
