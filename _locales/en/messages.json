@@ -84,5 +84,11 @@
     },
     "colorCopied": {
         "message": "Copied!"
+    },
+    "pageRuler": {
+        "message": "Page Ruler"
+    },
+    "rulerCopied": {
+        "message": "Dimensions copied!"
     }
 }

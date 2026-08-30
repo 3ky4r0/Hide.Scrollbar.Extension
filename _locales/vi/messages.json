@@ -84,5 +84,11 @@
     },
     "colorCopied": {
         "message": "Đã sao chép!"
+    },
+    "pageRuler": {
+        "message": "Thước đo trang"
+    },
+    "rulerCopied": {
+        "message": "Đã sao chép kích thước!"
     }
 }

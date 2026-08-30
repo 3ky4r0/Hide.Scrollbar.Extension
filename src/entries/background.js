@@ -99,6 +99,7 @@ injectAllTabs().catch((err) => {
 
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
+const RULER_MENU_ID        = 'scroll-hide-page-ruler';
 
 const CONTEXT_MENU_PATTERNS = ['http://*/*', 'https://*/*', 'file://*/*'];
 
@@ -119,6 +120,12 @@ const setupContextMenus = () => {
       documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
     chrome.contextMenus.create({
+      id: RULER_MENU_ID,
+      title: 'Page Ruler',
+      contexts: ['all'],
+      documentUrlPatterns: CONTEXT_MENU_PATTERNS,
+    });
+    chrome.contextMenus.create({
       id: FAVICON_MENU_ID,
       title: 'Get Favicon',
       contexts: ['all'],
@@ -129,6 +136,7 @@ const setupContextMenus = () => {
 
 chrome.runtime.onInstalled.addListener(setupContextMenus);
 chrome.runtime.onStartup.addListener(setupContextMenus);
+setupContextMenus();
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;
@@ -174,6 +182,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   if (info.menuItemId === FAVICON_MENU_ID) {
     openFaviconViewer(tab);
+  }
+
+  if (info.menuItemId === RULER_MENU_ID) {
+    if (tab.id && chrome.scripting) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['src/features/ruler/ruler.js'],
+      }).catch(() => {});
+    }
   }
 });
 

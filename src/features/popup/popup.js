@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const domainDisplay = document.getElementById('domainDisplay');
   const pickColorBtn = document.getElementById('pickColorBtn');
   const getFaviconBtn = document.getElementById('getFaviconBtn');
+  const pageRulerBtn = document.getElementById('pageRulerBtn');
 
   let currentHostname = '';
   let isRestricted = false;
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addCurrentBtn.disabled = true;
     if (pickColorBtn) pickColorBtn.disabled = true;
     if (getFaviconBtn) getFaviconBtn.disabled = true;
+    if (pageRulerBtn) pageRulerBtn.disabled = true;
   };
 
   const updateAddButtonState = (inList) => {
@@ -113,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addCurrentBtn.disabled = isRestricted;
     if (pickColorBtn) pickColorBtn.disabled = isRestricted;
     if (getFaviconBtn) getFaviconBtn.disabled = isRestricted;
+    if (pageRulerBtn) pageRulerBtn.disabled = isRestricted;
   };
 
   const loadState = () => {
@@ -265,6 +268,21 @@ document.addEventListener('DOMContentLoaded', () => {
         + `?favUrl=${encodeURIComponent(favUrl)}&tabUrl=${encodeURIComponent(tabUrl)}`;
       chrome.tabs.create({ url: viewerUrl });
       window.close();
+    });
+  }
+
+  if (pageRulerBtn) {
+    pageRulerBtn.addEventListener('click', async () => {
+      if (isRestricted) return;
+      const tab = await getActiveTab();
+      if (!tab || !tab.id) return;
+      window.close();
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ['src/features/ruler/ruler.js'],
+        });
+      } catch (_) {}
     });
   }
 
