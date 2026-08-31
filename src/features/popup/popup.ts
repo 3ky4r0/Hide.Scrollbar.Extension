@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   background: rgba(28, 28, 30, 0.9);
                   backdrop-filter: blur(20px);
                   -webkit-backdrop-filter: blur(20px);
-                  border: 1px solid rgba(255, 255, 255, 0.12);
+                  border: none;
                   border-radius: 8px;
                   padding: 6px 12px;
                   display: flex;
@@ -290,15 +290,15 @@ document.addEventListener('DOMContentLoaded', () => {
                   font-weight: 500;
                   opacity: 0;
                   pointer-events: none;
-                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+                  box-shadow: none;
                   transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
                   z-index: 2147483647;
                 }
                 :host([data-theme="light"]) .toast {
                   background: rgba(255, 255, 255, 0.95);
-                  border: 1px solid rgba(0, 0, 0, 0.12);
+                  border: none;
                   color: #1c1c1e;
-                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                  box-shadow: none;
                 }
                 .toast.show {
                   opacity: 1;
@@ -309,12 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
                   height: 14px;
                   border-radius: 50%;
                   background: ${hex};
-                  border: 1.5px solid rgba(255, 255, 255, 0.8);
-                  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+                  border: none;
+                  box-shadow: none;
                   flex-shrink: 0;
                 }
                 :host([data-theme="light"]) .swatch {
-                  border: 1.5px solid rgba(0, 0, 0, 0.2);
+                  border: none;
                 }
                 .hex {
                   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
