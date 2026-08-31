@@ -173,22 +173,22 @@ import { RulerMode, SelectionRect } from '../../shared/types';
 
         <div class="stats-group">
           <div class="stat-item">
-            <span class="stat-lbl">W</span>
+            <span class="stat-lbl">W:</span>
             <span id="sW" class="stat-val">—</span>
           </div>
           <div class="stat-sep"></div>
           <div class="stat-item">
-            <span class="stat-lbl">H</span>
+            <span class="stat-lbl">H:</span>
             <span id="sH" class="stat-val">—</span>
           </div>
           <div class="stat-sep"></div>
           <div class="stat-item">
-            <span class="stat-lbl">X</span>
+            <span class="stat-lbl">X:</span>
             <span id="sX" class="stat-val">—</span>
           </div>
           <div class="stat-sep"></div>
           <div class="stat-item">
-            <span class="stat-lbl">Y</span>
+            <span class="stat-lbl">Y:</span>
             <span id="sY" class="stat-val">—</span>
           </div>
         </div>

@@ -286,54 +286,52 @@ document.addEventListener('DOMContentLoaded', () => {
                   bottom: 24px;
                   left: 50%;
                   transform: translateX(-50%) translateY(20px);
-                  background: rgba(28, 28, 30, 0.88);
+                  background: rgba(28, 28, 30, 0.9);
                   backdrop-filter: blur(20px);
                   -webkit-backdrop-filter: blur(20px);
                   border: 1px solid rgba(255, 255, 255, 0.12);
-                  border-radius: 10px;
-                  padding: 8px 16px;
+                  border-radius: 8px;
+                  padding: 6px 12px;
                   display: flex;
                   align-items: center;
-                  gap: 10px;
+                  gap: 8px;
                   color: #ffffff;
                   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                   font-size: 13px;
                   font-weight: 500;
                   opacity: 0;
                   pointer-events: none;
+                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
                   transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
                   z-index: 2147483647;
                 }
                 :host([data-theme="light"]) .toast {
-                  background: rgba(255, 255, 255, 0.92);
+                  background: rgba(255, 255, 255, 0.95);
                   border: 1px solid rgba(0, 0, 0, 0.12);
                   color: #1c1c1e;
+                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
                 }
                 .toast.show {
                   opacity: 1;
                   transform: translateX(-50%) translateY(0);
                 }
                 .swatch {
-                  width: 18px;
-                  height: 18px;
+                  width: 14px;
+                  height: 14px;
                   border-radius: 50%;
                   background: ${hex};
-                  border: 2px solid rgba(255, 255, 255, 0.7);
+                  border: 1.5px solid rgba(255, 255, 255, 0.8);
+                  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
                   flex-shrink: 0;
                 }
                 :host([data-theme="light"]) .swatch {
-                  border: 2px solid rgba(0, 0, 0, 0.2);
+                  border: 1.5px solid rgba(0, 0, 0, 0.2);
                 }
                 .hex {
                   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
                   font-weight: 700;
+                  font-size: 13px;
                   letter-spacing: 0.5px;
-                }
-                .check {
-                  color: #34c759;
-                  display: flex;
-                  align-items: center;
-                  margin-left: 2px;
                 }
               `;
 
@@ -342,12 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
               toast.innerHTML = `
                 <div class="swatch"></div>
                 <span class="hex">${hex}</span>
-                <span style="opacity: 0.65; font-size: 12px;">${copiedLabel || 'Copied!'}</span>
-                <span class="check">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </span>
               `;
 
               shadow.appendChild(style);

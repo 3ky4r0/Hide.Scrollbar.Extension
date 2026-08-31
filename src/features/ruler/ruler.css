@@ -83,16 +83,18 @@
 .highlight-box {
   position: absolute;
   display: none;
-  border: 2px solid #007aff;
-  background: rgba(0, 122, 255, 0.15);
+  border: 1px solid #007aff;
+  background: rgba(0, 122, 255, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
   pointer-events: none;
   z-index: 105;
   transition: border-color 0.15s;
 }
 
 .highlight-box.locked {
-  border-color: #34c759;
-  background: rgba(52, 199, 89, 0.15);
+  border: 1px solid #34c759;
+  background: rgba(52, 199, 89, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .highlight-badge {
@@ -149,8 +151,9 @@
 .selection-box {
   position: absolute;
   display: none;
-  border: 2px dashed #34c759;
-  background: rgba(52, 199, 89, 0.12);
+  border: 1px dashed #34c759;
+  background: rgba(52, 199, 89, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
   pointer-events: none;
   cursor: crosshair;
   z-index: 110;
@@ -195,12 +198,13 @@
 /* ── 8 resize handles ── */
 .handle {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   background: #ffffff;
-  border: 2px solid #34c759;
-  border-radius: 2px;
+  border: 1.5px solid #34c759;
+  border-radius: 1.5px;
   pointer-events: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .handle-nw {
@@ -254,22 +258,22 @@
 /* ── Floating HUD toolbar — matching PageDraw popup ── */
 .hud {
   position: fixed;
-  bottom: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 4px 8px;
   background: var(--bg-panel);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   z-index: 200;
   color: var(--text);
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: auto;
   user-select: none;
 }
@@ -278,36 +282,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 28px;
+  width: 14px;
+  height: 24px;
   cursor: grab;
   color: var(--text-muted);
-  padding: 0 2px;
+  padding: 0 1px;
 }
 
 .drag-handle:active {
   cursor: grabbing;
 }
 
+.drag-handle svg {
+  width: 8px;
+  height: 14px;
+}
+
 .divider {
   width: 1px;
-  height: 22px;
+  height: 16px;
   background: var(--border);
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .stats-group {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 4px;
+  gap: 4px;
+  padding: 0 2px;
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 12px;
+  gap: 3px;
+  font-size: 11px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -319,34 +328,39 @@
 .stat-val {
   color: var(--text);
   font-weight: 700;
-  min-width: 32px;
+  min-width: 26px;
 }
 
 .stat-sep {
   width: 1px;
-  height: 14px;
+  height: 12px;
   background: var(--border);
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .btn-group {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .tool-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border: none;
   background: var(--bg-btn);
   color: var(--text);
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, transform 0.1s;
+  transition: none;
+}
+
+.tool-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 .tool-btn:hover {
@@ -354,7 +368,7 @@
 }
 
 .tool-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 .tool-btn.active {

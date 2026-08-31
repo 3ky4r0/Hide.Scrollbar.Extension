@@ -43,7 +43,7 @@ export interface TabInfo {
   title?: string;
 }
 
-export type DrawToolMode = 'pen' | 'highlighter' | 'rect' | 'circle' | 'arrow' | 'line' | 'text' | 'eraser';
+export type DrawToolMode = 'pen' | 'highlighter' | 'rect' | 'circle' | 'arrow' | 'line' | 'eraser';
 
 export interface DrawPoint {
   x: number;

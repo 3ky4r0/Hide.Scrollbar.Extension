@@ -30,12 +30,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
   ];
 
   const SIZES = [2, 4, 8, 16];
-  const TEXT_FONT_SIZES: Record<number, number> = {
-    2: 18,
-    4: 24,
-    8: 36,
-    16: 48,
-  };
 
   class PageDraw {
     host!: HTMLDivElement;
@@ -43,16 +37,10 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     canvas!: HTMLCanvasElement;
     ctx!: CanvasRenderingContext2D;
     toolbar!: HTMLDivElement;
-    textInputOverlay!: HTMLDivElement | null;
-    textEditorTextarea!: HTMLTextAreaElement | null;
-    textDocX: number = 0;
-    textDocY: number = 0;
 
     currentTool: DrawToolMode = 'pen';
     currentColor: string = '#ff3b30';
     currentSize: number = 4;
-    currentTextFontSize: number = 24;
-    setTextFontSize?: (size: number) => void;
     isDrawing: boolean = false;
     startX: number = 0;
     startY: number = 0;
@@ -185,14 +173,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
             </svg>
           </button>
 
-          <button class="tool-btn" data-tool="text" title="Chèn chữ (T)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 7 4 4 20 4 20 7"/>
-              <line x1="9" y1="20" x2="15" y2="20"/>
-              <line x1="12" y1="4" x2="12" y2="20"/>
-            </svg>
-          </button>
-
           <button class="tool-btn" data-tool="eraser" title="Tẩy nét (E)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
@@ -304,11 +284,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         this.rafScrollId = requestAnimationFrame(() => {
           this.rafScrollId = null;
           this.redraw();
-          if (this.textInputOverlay) {
-            const scroll = this.getScroll();
-            this.textInputOverlay.style.left = `${this.textDocX - scroll.x}px`;
-            this.textInputOverlay.style.top = `${this.textDocY - scroll.y}px`;
-          }
         });
       };
 
@@ -393,7 +368,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     setTool(tool: DrawToolMode): void {
-      this.commitTextInput();
       this.currentTool = tool;
       this.toolbar.querySelectorAll('.tool-btn[data-tool]').forEach((btn) => {
         btn.classList.toggle('active', btn.getAttribute('data-tool') === tool);
@@ -402,8 +376,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.canvas.className = 'canvas-layer';
       if (tool === 'eraser') {
         this.canvas.classList.add('eraser-mode');
-      } else if (tool === 'text') {
-        this.canvas.classList.add('text-mode');
       }
     }
 
@@ -412,9 +384,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.toolbar.querySelectorAll('.color-swatch').forEach((s) => {
         s.classList.toggle('active', s.getAttribute('data-color') === color);
       });
-      if (this.textEditorTextarea) {
-        this.textEditorTextarea.style.color = color;
-      }
     }
 
     setSize(size: number): void {
@@ -422,25 +391,14 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.toolbar.querySelectorAll('.size-btn').forEach((b) => {
         b.classList.toggle('active', Number(b.getAttribute('data-size')) === size);
       });
-      if (this.setTextFontSize) {
-        this.setTextFontSize(TEXT_FONT_SIZES[size] || 24);
-      }
     }
 
     handlePointerDown(e: PointerEvent): void {
       if (e.button !== 0) return; // Only left click
-      if (this.textInputOverlay) {
-        this.commitTextInput();
-      }
 
       const scroll = this.getScroll();
       const docX = e.clientX + scroll.x;
       const docY = e.clientY + scroll.y;
-
-      if (this.currentTool === 'text') {
-        this.startTextInput(e.clientX, e.clientY);
-        return;
-      }
 
       this.isDrawing = true;
       this.startX = docX;
@@ -582,19 +540,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         if (stroke.points) {
           return !stroke.points.some((p) => Math.hypot(p.x - x, p.y - y) <= radius);
         }
-        if (stroke.tool === 'text' && stroke.text && stroke.x !== undefined && stroke.y !== undefined) {
-          const fontSize = stroke.size || 24;
-          const lineHeight = fontSize * 1.35;
-          const lines = stroke.text.split('\n');
-          const maxLineLen = Math.max(...lines.map((l) => l.length), 1);
-          const approxWidth = maxLineLen * fontSize * 0.65;
-          const totalHeight = lines.length * lineHeight;
-          const minX = stroke.x - radius;
-          const maxX = stroke.x + approxWidth + radius;
-          const minY = stroke.y - fontSize - radius;
-          const maxY = stroke.y + totalHeight + radius;
-          return !(x >= minX && x <= maxX && y >= minY && y <= maxY);
-        }
         if (stroke.x !== undefined && stroke.y !== undefined) {
           if (stroke.endX !== undefined && stroke.endY !== undefined) {
             const minX = Math.min(stroke.x, stroke.endX) - radius;
@@ -612,207 +557,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         this.redoList = [];
         this.updateHistoryButtons();
         this.redraw();
-      }
-    }
-
-    startTextInput(clientX: number, clientY: number): void {
-      this.commitTextInput();
-
-      const scroll = this.getScroll();
-      this.textDocX = clientX + scroll.x;
-      this.textDocY = clientY + scroll.y;
-
-      let currentFontSize = TEXT_FONT_SIZES[this.currentSize] || 24;
-      this.currentTextFontSize = currentFontSize;
-
-      const container = document.createElement('div');
-      container.className = 'text-editor-box';
-      container.style.left = `${clientX}px`;
-      container.style.top = `${clientY}px`;
-
-      const textarea = document.createElement('textarea');
-      textarea.className = 'inline-text-editor';
-      textarea.style.color = this.currentColor;
-      textarea.style.fontSize = `${currentFontSize}px`;
-      textarea.placeholder = 'Nhập văn bản...';
-      textarea.rows = 1;
-
-      // 6 resize handles with true anchor points (Figma / Canva style)
-      const handles = ['tl', 'tr', 'bl', 'br', 'e', 'w'].map((pos) => {
-        const handle = document.createElement('div');
-        handle.className = `corner-handle handle-${pos}`;
-        handle.dataset.pos = pos;
-        container.appendChild(handle);
-        return handle;
-      });
-
-      const hint = document.createElement('div');
-      hint.className = 'text-editor-hint';
-      hint.innerHTML = `
-        <div class="text-size-control">
-          <button type="button" class="font-size-btn btn-font-dec" title="Giảm cỡ chữ (Ctrl+-)">A−</button>
-          <span class="font-size-val">${currentFontSize}px</span>
-          <button type="button" class="font-size-btn btn-font-inc" title="Tăng cỡ chữ (Ctrl++)">A+</button>
-        </div>
-        <span class="hint-sep">•</span>
-        <span><span class="hint-key">↵</span> Xuống dòng</span>
-        <span class="hint-sep">•</span>
-        <span><span class="hint-key">Ctrl+↵</span> Hoàn tất</span>
-        <span class="hint-sep">•</span>
-        <span><span class="hint-key">Esc</span> Hủy</span>
-      `;
-
-      container.appendChild(textarea);
-      container.appendChild(hint);
-      this.shadow.appendChild(container);
-
-      this.textInputOverlay = container;
-      this.textEditorTextarea = textarea;
-
-      const fontSizeVal = hint.querySelector<HTMLElement>('.font-size-val');
-
-      const adjustSize = () => {
-        textarea.style.height = 'auto';
-        textarea.style.height = `${Math.max(currentFontSize * 1.35 + 12, textarea.scrollHeight)}px`;
-      };
-
-      const setFontSize = (newSize: number) => {
-        currentFontSize = Math.max(12, Math.min(96, Math.round(newSize)));
-        this.currentTextFontSize = currentFontSize;
-        textarea.style.fontSize = `${currentFontSize}px`;
-        if (fontSizeVal) fontSizeVal.textContent = `${currentFontSize}px`;
-        adjustSize();
-      };
-
-      this.setTextFontSize = setFontSize;
-
-      // Hint font size buttons
-      const btnDec = hint.querySelector<HTMLButtonElement>('.btn-font-dec');
-      const btnInc = hint.querySelector<HTMLButtonElement>('.btn-font-inc');
-      btnDec?.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setFontSize(currentFontSize - 4);
-      });
-      btnInc?.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setFontSize(currentFontSize + 4);
-      });
-
-      // Directional anchor-based resizing (opposite side stays strictly fixed)
-      handles.forEach((handle) => {
-        handle.addEventListener('pointerdown', (e: PointerEvent) => {
-          e.stopPropagation();
-          e.preventDefault();
-          const pos = handle.dataset.pos;
-          const rect = container.getBoundingClientRect();
-          const fixedLeft = rect.left;
-          const fixedRight = rect.right;
-
-          const onPointerMove = (moveEv: PointerEvent) => {
-            if (pos === 'e' || pos === 'br' || pos === 'tr') {
-              // Left side is firmly anchored, right side expands/contracts
-              const newWidth = Math.max(100, Math.min(window.innerWidth - fixedLeft - 20, moveEv.clientX - fixedLeft));
-              container.style.width = `${newWidth}px`;
-            } else if (pos === 'w' || pos === 'bl' || pos === 'tl') {
-              // Right side is firmly anchored, left side expands/contracts
-              const newWidth = Math.max(100, Math.min(fixedRight - 10, fixedRight - moveEv.clientX));
-              const newLeft = fixedRight - newWidth;
-              container.style.left = `${newLeft}px`;
-              container.style.width = `${newWidth}px`;
-            }
-            adjustSize();
-          };
-
-          const onPointerUp = () => {
-            window.removeEventListener('pointermove', onPointerMove);
-            window.removeEventListener('pointerup', onPointerUp);
-            textarea.focus();
-          };
-
-          window.addEventListener('pointermove', onPointerMove);
-          window.addEventListener('pointerup', onPointerUp);
-        });
-      });
-
-      requestAnimationFrame(() => {
-        adjustSize();
-        textarea.focus();
-      });
-
-      const stopEvent = (e: Event) => e.stopPropagation();
-
-      textarea.addEventListener('input', () => {
-        adjustSize();
-      });
-
-      textarea.addEventListener('keydown', (e: KeyboardEvent) => {
-        e.stopPropagation();
-        if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
-          e.preventDefault();
-          setFontSize(currentFontSize + 4);
-        } else if ((e.ctrlKey || e.metaKey) && e.key === '-') {
-          e.preventDefault();
-          setFontSize(currentFontSize - 4);
-        } else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-          e.preventDefault();
-          this.commitTextInput();
-        } else if (e.key === 'Escape') {
-          e.preventDefault();
-          e.stopPropagation();
-          this.cancelTextInput();
-        }
-      });
-      textarea.addEventListener('keyup', stopEvent);
-      textarea.addEventListener('keypress', stopEvent);
-
-      textarea.addEventListener('blur', () => {
-        setTimeout(() => {
-          if (this.textInputOverlay === container) {
-            this.commitTextInput();
-          }
-        }, 180);
-      });
-    }
-
-    commitTextInput(): void {
-      if (!this.textInputOverlay || !this.textEditorTextarea) return;
-      const text = this.textEditorTextarea.value.trim();
-      const fontSize = this.currentTextFontSize || TEXT_FONT_SIZES[this.currentSize] || 24;
-
-      const rect = this.textInputOverlay.getBoundingClientRect();
-      const scroll = this.getScroll();
-      const actualDocX = rect.left + scroll.x;
-      const actualDocY = rect.top + scroll.y;
-
-      if (text) {
-        this.history.push({
-          tool: 'text',
-          color: this.currentColor,
-          size: fontSize,
-          opacity: 1,
-          text,
-          x: actualDocX + 10,
-          y: actualDocY + fontSize + 6,
-        });
-        this.redoList = [];
-        this.updateHistoryButtons();
-      }
-
-      this.textInputOverlay.remove();
-      this.textInputOverlay = null;
-      this.textEditorTextarea = null;
-      this.setTextFontSize = undefined;
-      this.redraw();
-    }
-
-    cancelTextInput(): void {
-      if (this.textInputOverlay) {
-        this.textInputOverlay.remove();
-        this.textInputOverlay = null;
-        this.textEditorTextarea = null;
-        this.setTextFontSize = undefined;
       }
     }
 
@@ -850,11 +594,8 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
             this.ctx.beginPath();
             this.ctx.moveTo(pts[0].x, pts[0].y);
             for (let i = 1; i < pts.length; i++) {
-              const xc = (pts[i].x + pts[i - 1].x) / 2;
-              const yc = (pts[i].y + pts[i - 1].y) / 2;
-              this.ctx.quadraticCurveTo(pts[i - 1].x, pts[i - 1].y, xc, yc);
+              this.ctx.lineTo(pts[i].x, pts[i].y);
             }
-            this.ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
             this.ctx.stroke();
           }
         } else if (tool === 'line' && stroke.x !== undefined && stroke.y !== undefined && stroke.endX !== undefined && stroke.endY !== undefined) {
@@ -865,17 +606,16 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         } else if (tool === 'arrow' && stroke.x !== undefined && stroke.y !== undefined && stroke.endX !== undefined && stroke.endY !== undefined) {
           const dx = stroke.endX - stroke.x;
           const dy = stroke.endY - stroke.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist >= 1) {
+          const len = Math.hypot(dx, dy);
+
+          if (len > 5) {
             const angle = Math.atan2(dy, dx);
-            const headLen = Math.min(dist * 0.6, Math.max(14, size * 2.8 + 8));
-            const headAngle = Math.PI / 7; // ~25 degrees
+            const headLen = Math.max(12, size * 3.5);
+            const headAngle = Math.PI / 6;
 
-            // Shaft endpoint connects to the base of the arrowhead
-            const shaftEndX = stroke.endX - headLen * 0.8 * Math.cos(angle);
-            const shaftEndY = stroke.endY - headLen * 0.8 * Math.sin(angle);
+            const shaftEndX = stroke.endX - headLen * 0.7 * Math.cos(angle);
+            const shaftEndY = stroke.endY - headLen * 0.7 * Math.sin(angle);
 
-            // Draw shaft
             this.ctx.beginPath();
             this.ctx.moveTo(stroke.x, stroke.y);
             this.ctx.lineTo(shaftEndX, shaftEndY);
@@ -886,13 +626,10 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
             const p1y = stroke.endY - headLen * Math.sin(angle - headAngle);
             const p2x = stroke.endX - headLen * Math.cos(angle + headAngle);
             const p2y = stroke.endY - headLen * Math.sin(angle + headAngle);
-            const pBasex = stroke.endX - headLen * 0.75 * Math.cos(angle);
-            const pBasey = stroke.endY - headLen * 0.75 * Math.sin(angle);
 
             this.ctx.beginPath();
             this.ctx.moveTo(stroke.endX, stroke.endY);
             this.ctx.lineTo(p1x, p1y);
-            this.ctx.lineTo(pBasex, pBasey);
             this.ctx.lineTo(p2x, p2y);
             this.ctx.closePath();
             this.ctx.fill();
@@ -912,14 +649,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
           this.ctx.beginPath();
           this.ctx.ellipse(cx, cy, Math.max(1, rx), Math.max(1, ry), 0, 0, Math.PI * 2);
           this.ctx.stroke();
-        } else if (tool === 'text' && stroke.text && stroke.x !== undefined && stroke.y !== undefined) {
-          const fontSize = stroke.size || 24;
-          const lineHeight = fontSize * 1.35;
-          this.ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
-          const lines = stroke.text.split('\n');
-          lines.forEach((line, i) => {
-            this.ctx.fillText(line, stroke.x!, stroke.y! + (i * lineHeight));
-          });
         }
       } finally {
         this.ctx.restore();
@@ -927,7 +656,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     undo(): void {
-      this.commitTextInput();
       if (this.history.length === 0) return;
       const popped = this.history.pop();
       if (popped) {
@@ -938,7 +666,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     redo(): void {
-      this.commitTextInput();
       if (this.redoList.length === 0) return;
       const popped = this.redoList.pop();
       if (popped) {
@@ -949,7 +676,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     clearAll(): void {
-      this.commitTextInput();
       if (this.history.length === 0) return;
       this.history = [];
       this.redoList = [];
@@ -965,7 +691,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     saveImage(): void {
-      this.commitTextInput();
       if (this.history.length === 0) {
         return;
       }
@@ -981,11 +706,6 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     }
 
     handleKeyDown(e: KeyboardEvent): void {
-      // If typing in text input, ignore all global shortcuts
-      if (this.textInputOverlay) {
-        return;
-      }
-
       if (e.key === 'Escape') {
         this.destroy();
       } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
@@ -1006,13 +726,11 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         else if (key === 'a') this.setTool('arrow');
         else if (key === 'r') this.setTool('rect');
         else if (key === 'c') this.setTool('circle');
-        else if (key === 't') this.setTool('text');
         else if (key === 'e') this.setTool('eraser');
       }
     }
 
     destroy(): void {
-      this.commitTextInput();
       if (this.rafDrawId !== null) {
         cancelAnimationFrame(this.rafDrawId);
         this.rafDrawId = null;
