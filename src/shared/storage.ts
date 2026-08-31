@@ -5,23 +5,61 @@ const getDefaultSyncState = () => {
 
 const toPromise = <T>(executor: (done: (result: T) => void) => void): Promise<T> =>
   new Promise((resolve, reject) => {
-    executor((result: T) => {
-      if (chrome.runtime && chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
+    try {
+      if (typeof chrome === 'undefined' || !chrome.runtime || !chrome.runtime.id) {
+        resolve({} as T);
         return;
       }
-      resolve(result);
-    });
+      executor((result: T) => {
+        if (chrome.runtime && chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+          return;
+        }
+        resolve(result);
+      });
+    } catch (_) {
+      resolve({} as T);
+    }
   });
 
 export const getSyncState = (): Promise<Record<string, unknown>> =>
-  toPromise((done) => chrome.storage.sync.get(getDefaultSyncState(), done));
+  toPromise((done) => {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage?.sync) {
+        chrome.storage.sync.get(getDefaultSyncState(), done);
+      } else {
+        done(getDefaultSyncState());
+      }
+    } catch (_) {
+      done(getDefaultSyncState());
+    }
+  });
 
 export const getSyncValue = <T = Record<string, unknown>>(defaults: string | string[] | Record<string, unknown> | null): Promise<T> =>
-  toPromise((done) => chrome.storage.sync.get(defaults, done as (items: Record<string, unknown>) => void));
+  toPromise((done) => {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage?.sync) {
+        chrome.storage.sync.get(defaults, done as (items: Record<string, unknown>) => void);
+      } else {
+        done((defaults && typeof defaults === 'object' ? defaults : {}) as T);
+      }
+    } catch (_) {
+      done((defaults && typeof defaults === 'object' ? defaults : {}) as T);
+    }
+  });
 
 export const setSyncValue = (value: Record<string, unknown>): Promise<void> =>
-  toPromise((done) => chrome.storage.sync.set(value, done as () => void));
+  toPromise((done) => {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.id && chrome.storage?.sync) {
+        chrome.storage.sync.set(value, done as () => void);
+      } else {
+        done();
+      }
+    } catch (_) {
+      done();
+    }
+  });
 
 export const applyTheme = (theme?: string, target: HTMLElement = document.documentElement): void => {
   if (!target) return;

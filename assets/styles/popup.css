@@ -82,7 +82,7 @@ body {
 }
 
 .stats-label {
-  color: var(--muted);
+  color: var(--text);
   font-weight: 500;
 }
 

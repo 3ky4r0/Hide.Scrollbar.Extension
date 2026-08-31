@@ -68,6 +68,7 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     _onUp!: (e: PointerEvent) => void;
     _onKey!: (e: KeyboardEvent) => void;
     _onScroll!: () => void;
+    _onWheel!: (e: WheelEvent) => void;
     _onClick!: (e: MouseEvent) => void;
 
     constructor() {
@@ -248,12 +249,14 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       this._onUp    = this.onUp.bind(this);
       this._onKey   = this.onKey.bind(this);
       this._onScroll = this.onScroll.bind(this);
+      this._onWheel = this.onWheel.bind(this);
 
       window.addEventListener('pointermove', this._onMove, { passive: true, capture: true });
       window.addEventListener('pointerdown', this._onDown, { capture: true });
       window.addEventListener('pointerup',   this._onUp,   { capture: true });
       window.addEventListener('keydown',     this._onKey,  { capture: true });
-      window.addEventListener('scroll',      this._onScroll, { passive: true });
+      window.addEventListener('scroll',      this._onScroll, { passive: true, capture: true });
+      window.addEventListener('wheel',       this._onWheel,  { passive: true, capture: true });
 
       this.btnInspect?.addEventListener('click', e => { e.stopPropagation(); this.setMode('inspect'); });
       this.btnSelect?.addEventListener('click',  e => { e.stopPropagation(); this.setMode('selection'); });
@@ -379,6 +382,7 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     }
 
     onDown(e: PointerEvent): void {
+      if (e.button !== 0) return;
       const path = e.composedPath ? e.composedPath() : [];
       if (path.includes(this.host) && path.some(n => n === this.hud)) return;
 
@@ -433,6 +437,41 @@ import { RulerMode, SelectionRect } from '../../shared/types';
         else if (key === 's') this.setMode('selection');
         else if (key === 'c') this.copy();
       }
+    }
+
+    onWheel(e: WheelEvent): void {
+      const path = e.composedPath ? e.composedPath() : [];
+      if (path.includes(this.host) && path.some(n => n === this.hud)) return;
+
+      const elements = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+      for (const el of elements) {
+        if (el === this.host || (this.host && this.host.contains(el))) continue;
+        if (el === document.documentElement || el === document.body) continue;
+
+        try {
+          const style = window.getComputedStyle(el);
+          const oy = style.overflowY;
+          const ox = style.overflowX;
+          const canScrollY = (oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight;
+          const canScrollX = (ox === 'auto' || ox === 'scroll') && el.scrollWidth > el.clientWidth;
+
+          if (canScrollY || canScrollX) {
+            el.scrollBy({
+              left: e.deltaX,
+              top: e.deltaY,
+              behavior: 'instant' as ScrollBehavior,
+            });
+            return;
+          }
+        } catch (_) {}
+      }
+
+      // Default page scroll fallback
+      window.scrollBy({
+        left: e.deltaX,
+        top: e.deltaY,
+        behavior: 'instant' as ScrollBehavior,
+      });
     }
 
     onScroll(): void {
@@ -615,7 +654,8 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       window.removeEventListener('pointerup',   this._onUp,   { capture: true });
       window.removeEventListener('keydown',     this._onKey,  { capture: true });
       window.removeEventListener('click',       this._onClick, { capture: true });
-      window.removeEventListener('scroll',      this._onScroll);
+      window.removeEventListener('scroll',      this._onScroll, { capture: true } as any);
+      window.removeEventListener('wheel',       this._onWheel,  { capture: true } as any);
       this.host?.parentNode?.removeChild(this.host);
       (window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null }).__SCROLLHIDE_PAGE_RULER__ = null;
     }

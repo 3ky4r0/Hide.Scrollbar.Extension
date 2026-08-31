@@ -65,6 +65,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     _onKeyDown!: (e: KeyboardEvent) => void;
     _onResize!: () => void;
     _onScroll!: () => void;
+    _onWheel!: (e: WheelEvent) => void;
     _onToolbarDragStart!: (e: PointerEvent) => void;
     _onToolbarDragMove!: (e: PointerEvent) => void;
     _onToolbarDragEnd!: () => void;
@@ -287,6 +288,40 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         });
       };
 
+      this._onWheel = (e: WheelEvent) => {
+        const path = e.composedPath ? e.composedPath() : [];
+        if (path.includes(this.toolbar)) return;
+
+        const elements = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+        for (const el of elements) {
+          if (el === this.host || (this.host && this.host.contains(el))) continue;
+          if (el === document.documentElement || el === document.body) continue;
+
+          try {
+            const style = window.getComputedStyle(el);
+            const oy = style.overflowY;
+            const ox = style.overflowX;
+            const canScrollY = (oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight;
+            const canScrollX = (ox === 'auto' || ox === 'scroll') && el.scrollWidth > el.clientWidth;
+
+            if (canScrollY || canScrollX) {
+              el.scrollBy({
+                left: e.deltaX,
+                top: e.deltaY,
+                behavior: 'instant' as ScrollBehavior,
+              });
+              return;
+            }
+          } catch (_) {}
+        }
+
+        window.scrollBy({
+          left: e.deltaX,
+          top: e.deltaY,
+          behavior: 'instant' as ScrollBehavior,
+        });
+      };
+
       this.canvas.addEventListener('pointerdown', this._onPointerDown);
       window.addEventListener('pointermove', this._onPointerMove);
       window.addEventListener('pointerup', this._onPointerUp);
@@ -294,6 +329,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       window.addEventListener('resize', this._onResize);
       window.addEventListener('scroll', this._onScroll, { passive: true });
       document.addEventListener('scroll', this._onScroll, { passive: true, capture: true });
+      window.addEventListener('wheel', this._onWheel, { passive: true, capture: true });
 
       // Tool clicks
       this.toolbar.querySelectorAll<HTMLButtonElement>('.tool-btn[data-tool]').forEach((btn) => {
@@ -746,6 +782,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       window.removeEventListener('resize', this._onResize);
       window.removeEventListener('scroll', this._onScroll);
       document.removeEventListener('scroll', this._onScroll, true);
+      window.removeEventListener('wheel', this._onWheel, { capture: true } as any);
 
       if (this.host && this.host.parentNode) {
         this.host.parentNode.removeChild(this.host);

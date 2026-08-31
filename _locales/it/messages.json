@@ -289,5 +289,14 @@
     },
     "rulerClose": {
         "message": "Chiudi (Esc)"
+    },
+    "shortcutsGroup": {
+        "message": "Keyboard Shortcuts"
+    },
+    "shortcutsDesc": {
+        "message": "Quickly trigger ScrollHide features using configurable keyboard shortcuts."
+    },
+    "btnConfigureShortcuts": {
+        "message": "Configure shortcuts..."
     }
 }

@@ -59,5 +59,28 @@
         "<all_urls>"
       ]
     }
-  ]
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Alt+S"
+      }
+    },
+    "toggle-scrollbar": {
+      "description": "Toggle Hide/Show Scrollbar"
+    },
+    "toggle-ruler": {
+      "description": "Toggle Page Ruler"
+    },
+    "toggle-draw": {
+      "description": "Toggle Page Draw"
+    },
+    "pick-color": {
+      "description": "Pick Color from page"
+    },
+    "get-favicon": {
+      "description": "Get Favicon"
+    }
+  }
 }

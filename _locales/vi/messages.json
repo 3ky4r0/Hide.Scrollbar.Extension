@@ -289,5 +289,14 @@
     },
     "rulerClose": {
         "message": "Đóng (Esc)"
+    },
+    "shortcutsGroup": {
+        "message": "Phím tắt"
+    },
+    "shortcutsDesc": {
+        "message": "Kích hoạt nhanh các tính năng của ScrollHide bằng tổ hợp phím tắt có thể tùy chỉnh."
+    },
+    "btnConfigureShortcuts": {
+        "message": "Chỉnh sửa phím tắt..."
     }
 }

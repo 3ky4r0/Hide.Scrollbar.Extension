@@ -247,28 +247,17 @@ document.addEventListener('DOMContentLoaded', () => {
               win.__SCROLLHIDE_PAGE_DRAW__.destroy();
               win.__SCROLLHIDE_PAGE_DRAW__ = null;
             }
+            if (win.__SCROLLHIDE_PICK_OVERLAY__) {
+              win.__SCROLLHIDE_PICK_OVERLAY__.remove();
+              win.__SCROLLHIDE_PICK_OVERLAY__ = null;
+            }
+
             if (!('EyeDropper' in window)) {
               alert('EyeDropper is not supported on this page.');
               return;
             }
-            try {
-              const dropper = new (window as any).EyeDropper();
-              const result = await dropper.open();
-              const hex = (result.sRGBHex || '').toUpperCase();
-              try {
-                await navigator.clipboard.writeText(hex);
-              } catch (_) {
-                const ta = document.createElement('textarea');
-                ta.value = hex;
-                ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-                document.body.appendChild(ta);
-                ta.focus();
-                ta.select();
-                document.execCommand('copy');
-                ta.remove();
-              }
 
-              // Show glassmorphic toast notification
+            const showToast = (hex: string) => {
               const oldToast = document.getElementById('scrollhide-color-toast-root');
               if (oldToast) oldToast.remove();
 
@@ -354,8 +343,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 toast.classList.remove('show');
                 setTimeout(() => host.remove(), 300);
               }, 2200);
+            };
+
+            const copyAndHandle = async (hex: string) => {
+              try {
+                await navigator.clipboard.writeText(hex);
+              } catch (_) {
+                const ta = document.createElement('textarea');
+                ta.value = hex;
+                ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+              }
+              showToast(hex);
+            };
+
+            const triggerDropper = async () => {
+              try {
+                const dropper = new (window as any).EyeDropper();
+                const result = await dropper.open();
+                const hex = (result.sRGBHex || '').toUpperCase();
+                if (hex) {
+                  await copyAndHandle(hex);
+                }
+              } catch (err: any) {
+                if (err && err.name === 'AbortError') {
+                  return;
+                }
+                throw err;
+              }
+            };
+
+            try {
+              await triggerDropper();
             } catch (err: any) {
-              if (err && err.name === 'AbortError') return;
+              const overlay = document.createElement('div');
+              win.__SCROLLHIDE_PICK_OVERLAY__ = overlay;
+              overlay.style.cssText = 'all:initial;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2147483647;cursor:crosshair;background:transparent;user-select:none;pointer-events:auto;';
+
+              const cleanUp = () => {
+                window.removeEventListener('keydown', onKey, true);
+                overlay.remove();
+                win.__SCROLLHIDE_PICK_OVERLAY__ = null;
+              };
+
+              const onKey = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                  cleanUp();
+                }
+              };
+
+              overlay.addEventListener('pointerdown', async (e: PointerEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                cleanUp();
+                await triggerDropper().catch(() => {});
+              }, { once: true });
+
+              window.addEventListener('keydown', onKey, true);
+              document.documentElement.appendChild(overlay);
             }
           },
         });

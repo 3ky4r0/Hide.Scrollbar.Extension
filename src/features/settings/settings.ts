@@ -193,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const btnConfigureShortcuts = document.getElementById('btnConfigureShortcuts') as HTMLButtonElement | null;
+  if (btnConfigureShortcuts) {
+    btnConfigureShortcuts.addEventListener('click', () => {
+      if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
+        chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
+      }
+    });
+  }
+
   if (btnResetCleaned && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     btnResetCleaned.addEventListener('click', () => {
       chrome.storage.local.set({ hideCount: 0 }, () => {

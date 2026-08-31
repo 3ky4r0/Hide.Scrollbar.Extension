@@ -46,10 +46,36 @@ allDirs.forEach((lang) => {
 });
 console.log(`✅ All ${allDirs.length} locales passed verification with 100% key completeness!`);
 
-// 3. Verify HTML and Referenced Assets (check against dist/ for script files)
-console.log('\n--- 3. Testing HTML references and files ---');
 const distRoot = path.resolve(__dirname, '../dist');
 const srcRoot = path.resolve(__dirname, '..');
+
+// 2b. Check that all data-i18n and getMessage keys in code exist in en/messages.json
+const enKeySet = new Set(enKeys);
+function scanKeysInDir(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (!['node_modules', 'dist', '.git'].includes(entry.name)) {
+        scanKeysInDir(full);
+      }
+    } else if (entry.name.endsWith('.html') || entry.name.endsWith('.ts') || entry.name.endsWith('.js')) {
+      const src = fs.readFileSync(full, 'utf8');
+      const htmlMatches = src.matchAll(/data-i18n(?:-[a-z]+)?=["']([^"']+)["']/g);
+      for (const m of htmlMatches) {
+        assert(enKeySet.has(m[1]), `HTML key [${m[1]}] in ${path.relative(srcRoot, full)} exists in messages.json`);
+      }
+      const msgMatches = src.matchAll(/getMessage\(\s*["']([^"']+)["']/g);
+      for (const m of msgMatches) {
+        assert(enKeySet.has(m[1]), `Code getMessage [${m[1]}] in ${path.relative(srcRoot, full)} exists in messages.json`);
+      }
+    }
+  }
+}
+scanKeysInDir(path.resolve(__dirname, '../src'));
+
+// 3. Verify HTML and Referenced Assets (check against dist/ for script files)
+console.log('\n--- 3. Testing HTML references and files ---');
 
 function checkHtmlFile(relPath) {
   // HTML source file must exist
