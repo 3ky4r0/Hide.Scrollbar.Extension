@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "Nascondi barra di scorrimento",
-        "description": "Name of the extension"
+        "message": "Nascondi Barra di Scorrimento"
     },
     "extDesc": {
-        "message": "Nasconde le barre di scorrimento automaticamente. Supporta whitelist e toggle.",
-        "description": "Description of the extension"
+        "message": "Nasconde automaticamente le barre di scorrimento per un'interfaccia più pulita. Supporta whitelist e interruttore."
     },
     "restrictedNotice": {
         "message": "Pagina limitata"
     },
     "whitelistedNotice": {
-        "message": "Nell'elenco delle eccezioni"
+        "message": "Nell'elenco eccezioni"
     },
     "cantAddPage": {
         "message": "Pagina non valida"
@@ -46,6 +44,9 @@
     "openExceptions": {
         "message": "Apri eccezioni"
     },
+    "settings": {
+        "message": "Impostazioni"
+    },
     "info": {
         "message": "Informazioni"
     },
@@ -56,7 +57,7 @@
         "message": "Eccezioni"
     },
     "statsCleaned": {
-        "message": "Nascosti"
+        "message": "Nascoste"
     },
     "statusActive": {
         "message": "Attivo"
@@ -65,12 +66,228 @@
         "message": "Disattivato"
     },
     "statusWhitelisted": {
-        "message": "Lista bianca"
+        "message": "In whitelist"
     },
     "statusRestricted": {
         "message": "Limitato"
     },
     "invalidFileError": {
-        "message": "Errore: Formato file non valido!"
+        "message": "Errore: formato file non valido!"
+    },
+    "pickColor": {
+        "message": "Cattura Colore"
+    },
+    "getFavicon": {
+        "message": "Estrai Favicon"
+    },
+    "colorCopied": {
+        "message": "Copiato!"
+    },
+    "pageRuler": {
+        "message": "Righello Pagina"
+    },
+    "rulerCopied": {
+        "message": "Dimensioni copiate!"
+    },
+    "pageDraw": {
+        "message": "Disegna sulla Pagina"
+    },
+    "drawSaved": {
+        "message": "Disegno salvato!"
+    },
+    "appearanceGroup": {
+        "message": "Aspetto"
+    },
+    "themeTitle": {
+        "message": "Tema"
+    },
+    "themeDesc": {
+        "message": "Scegli il tema: Predefinito di sistema, Chiaro o Scuro"
+    },
+    "themeSystem": {
+        "message": "Predefinito di sistema"
+    },
+    "themeLight": {
+        "message": "Chiaro"
+    },
+    "themeDark": {
+        "message": "Scuro"
+    },
+    "tabSettings": {
+        "message": "Impostazioni"
+    },
+    "tabWhitelist": {
+        "message": "Whitelist"
+    },
+    "tabGuide": {
+        "message": "Guida"
+    },
+    "tabReport": {
+        "message": "Segnala"
+    },
+    "generalSettingsGroup": {
+        "message": "Impostazioni Generali"
+    },
+    "enableHideScrollbar": {
+        "message": "Attiva nascondi barra di scorrimento"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Nasconde automaticamente le barre di scorrimento su tutti i siti web tranne quelli in whitelist."
+    },
+    "statsGroup": {
+        "message": "Statistiche"
+    },
+    "statsCleanedTitle": {
+        "message": "Barre nascoste"
+    },
+    "statsCleanedDesc": {
+        "message": "Totale delle barre di scorrimento rimosse dall'estensione in tutte le sessioni."
+    },
+    "btnReset": {
+        "message": "Reimposta"
+    },
+    "backupGroup": {
+        "message": "Backup e Ripristino"
+    },
+    "backupDesc": {
+        "message": "Esporta o importa la configurazione di ScrollHide e i domini in whitelist."
+    },
+    "backupExport": {
+        "message": "Backup su file"
+    },
+    "backupImport": {
+        "message": "Ripristina da file..."
+    },
+    "backupReset": {
+        "message": "Ripristina impostazioni predefinite"
+    },
+    "btnApply": {
+        "message": "Applica modifiche"
+    },
+    "btnRevert": {
+        "message": "Ripristina"
+    },
+    "btnImportAppend": {
+        "message": "Importa e aggiungi..."
+    },
+    "btnExport": {
+        "message": "Esporta..."
+    },
+    "whitelistWarning": {
+        "message": "Le righe che iniziano con ! o # sono considerate commenti."
+    },
+    "guideTitle": {
+        "message": "Guida Rapida all'Uso"
+    },
+    "reportTitle": {
+        "message": "Segnala barre non nascoste o problemi"
+    },
+    "reportDesc": {
+        "message": "Hai trovato un sito con barre visibili o un bug? Invia una segnalazione per migliorare la compatibilità!"
+    },
+    "btnReportGitHub": {
+        "message": "Segnala su GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Copia info di sistema"
+    },
+    "reportHelpfulDetails": {
+        "message": "Dettagli utili da includere nella segnalazione"
+    },
+    "faviconTitle": {
+        "message": "Estrattore di Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "Estrai e scarica favicon ad alta risoluzione da qualsiasi sito web."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Incolla dagli appunti"
+    },
+    "faviconExtract": {
+        "message": "Estrai favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "Seleziona dimensione / formato"
+    },
+    "faviconSelectedUrl": {
+        "message": "URL selezionato"
+    },
+    "faviconCopyUrl": {
+        "message": "Copia URL"
+    },
+    "faviconOpenTab": {
+        "message": "Apri in una nuova scheda"
+    },
+    "faviconDownload": {
+        "message": "Scarica favicon"
+    },
+    "faviconNotFound": {
+        "message": "Nessun favicon valido trovato per questo sito web."
+    },
+    "faviconInvalidUrl": {
+        "message": "Inserisci un URL del sito web valido."
+    },
+    "copied": {
+        "message": "Copiato!"
+    },
+    "drawPen": {
+        "message": "Penna (P)"
+    },
+    "drawHighlighter": {
+        "message": "Evidenziatore (H)"
+    },
+    "drawRect": {
+        "message": "Rettangolo (R)"
+    },
+    "drawCircle": {
+        "message": "Cerchio (C)"
+    },
+    "drawArrow": {
+        "message": "Freccia (A)"
+    },
+    "drawLine": {
+        "message": "Linea (L)"
+    },
+    "drawText": {
+        "message": "Testo (T)"
+    },
+    "drawEraser": {
+        "message": "Gomma (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Spessore tratto"
+    },
+    "drawUndo": {
+        "message": "Annulla (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Ripeti (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Pulisci tela"
+    },
+    "drawSave": {
+        "message": "Salva immagine"
+    },
+    "drawClose": {
+        "message": "Chiudi (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Ispeziona elemento (I)"
+    },
+    "rulerSelect": {
+        "message": "Selezione riquadro (S)"
+    },
+    "rulerTarget": {
+        "message": "Target"
+    },
+    "rulerCopyDim": {
+        "message": "Copia dimensioni"
+    },
+    "rulerClose": {
+        "message": "Chiudi (Esc)"
     }
 }

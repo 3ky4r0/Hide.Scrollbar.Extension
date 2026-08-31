@@ -1,11 +1,9 @@
 {
     "extName": {
-        "message": "Ẩn Thanh Cuộn",
-        "description": "Name of the extension"
+        "message": "Ẩn Thanh Cuộn"
     },
     "extDesc": {
-        "message": "Tự động ẩn thanh cuộn để giao diện gọn gàng hơn. Hỗ trợ whitelist và bật/tắt.",
-        "description": "Description of the extension"
+        "message": "Tự động ẩn thanh cuộn để giao diện gọn gàng hơn. Hỗ trợ whitelist và bật/tắt."
     },
     "restrictedNotice": {
         "message": "Trang bị giới hạn"
@@ -114,5 +112,182 @@
     },
     "themeDark": {
         "message": "Tối"
+    },
+    "tabSettings": {
+        "message": "Cài đặt"
+    },
+    "tabWhitelist": {
+        "message": "Ngoại lệ"
+    },
+    "tabGuide": {
+        "message": "Hướng dẫn"
+    },
+    "tabReport": {
+        "message": "Báo cáo"
+    },
+    "generalSettingsGroup": {
+        "message": "Cài đặt chung"
+    },
+    "enableHideScrollbar": {
+        "message": "Bật ẩn thanh cuộn"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Tự động ẩn thanh cuộn trên mọi trang web trừ danh sách ngoại lệ."
+    },
+    "statsGroup": {
+        "message": "Thống kê"
+    },
+    "statsCleanedTitle": {
+        "message": "Thanh cuộn đã ẩn"
+    },
+    "statsCleanedDesc": {
+        "message": "Tổng số thanh cuộn extension đã ẩn qua các phiên làm việc."
+    },
+    "btnReset": {
+        "message": "Đặt lại"
+    },
+    "backupGroup": {
+        "message": "Sao lưu & Khôi phục"
+    },
+    "backupDesc": {
+        "message": "Xuất hoặc nhập cấu hình và danh sách trang ngoại lệ của bạn."
+    },
+    "backupExport": {
+        "message": "Sao lưu ra tệp"
+    },
+    "backupImport": {
+        "message": "Khôi phục từ tệp..."
+    },
+    "backupReset": {
+        "message": "Đặt lại mặc định"
+    },
+    "btnApply": {
+        "message": "Áp dụng thay đổi"
+    },
+    "btnRevert": {
+        "message": "Hoàn tác"
+    },
+    "btnImportAppend": {
+        "message": "Nhập và thêm tiếp..."
+    },
+    "btnExport": {
+        "message": "Xuất danh sách..."
+    },
+    "whitelistWarning": {
+        "message": "Các dòng bắt đầu bằng ! hoặc # được coi là ghi chú."
+    },
+    "guideTitle": {
+        "message": "Hướng dẫn sử dụng nhanh"
+    },
+    "reportTitle": {
+        "message": "Báo cáo thanh cuộn chưa ẩn hoặc lỗi"
+    },
+    "reportDesc": {
+        "message": "Tìm thấy trang web chưa ẩn thanh cuộn hoặc gặp lỗi? Hãy gửi báo cáo để chúng tôi hỗ trợ và hoàn thiện hơn!"
+    },
+    "btnReportGitHub": {
+        "message": "Báo cáo trên GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Sao chép thông tin hệ thống"
+    },
+    "reportHelpfulDetails": {
+        "message": "Thông tin hữu ích nên gửi kèm trong báo cáo"
+    },
+    "faviconTitle": {
+        "message": "Trích xuất Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "Trích xuất và tải về biểu tượng favicon độ phân giải cao từ mọi trang web."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Dán từ bộ nhớ tạm"
+    },
+    "faviconExtract": {
+        "message": "Trích xuất Favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "Chọn kích thước / định dạng"
+    },
+    "faviconSelectedUrl": {
+        "message": "Đường dẫn đã chọn"
+    },
+    "faviconCopyUrl": {
+        "message": "Sao chép liên kết"
+    },
+    "faviconOpenTab": {
+        "message": "Mở trong thẻ mới"
+    },
+    "faviconDownload": {
+        "message": "Tải xuống favicon"
+    },
+    "faviconNotFound": {
+        "message": "Không tìm thấy favicon hợp lệ cho trang web này."
+    },
+    "faviconInvalidUrl": {
+        "message": "Vui lòng nhập đường dẫn trang web hợp lệ."
+    },
+    "copied": {
+        "message": "Đã sao chép!"
+    },
+    "drawPen": {
+        "message": "Bút vẽ (P)"
+    },
+    "drawHighlighter": {
+        "message": "Bút dạ quang (H)"
+    },
+    "drawRect": {
+        "message": "Hình chữ nhật (R)"
+    },
+    "drawCircle": {
+        "message": "Hình tròn (C)"
+    },
+    "drawArrow": {
+        "message": "Mũi tên (A)"
+    },
+    "drawLine": {
+        "message": "Đường thẳng (L)"
+    },
+    "drawText": {
+        "message": "Văn bản (T)"
+    },
+    "drawEraser": {
+        "message": "Tẩy xóa (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Cỡ nét vẽ"
+    },
+    "drawUndo": {
+        "message": "Hoàn tác (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Làm lại (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Xóa nét vẽ"
+    },
+    "drawSave": {
+        "message": "Lưu ảnh vẽ"
+    },
+    "drawClose": {
+        "message": "Đóng (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Soi phần tử (I)"
+    },
+    "rulerSelect": {
+        "message": "Kéo vùng chọn (S)"
+    },
+    "rulerTarget": {
+        "message": "Mục tiêu"
+    },
+    "rulerCopyDim": {
+        "message": "Sao chép kích thước"
+    },
+    "rulerClose": {
+        "message": "Đóng (Esc)"
     }
 }

@@ -1,11 +1,9 @@
 {
     "extName": {
-        "message": "Schuifbalk Verbergen",
-        "description": "Name of the extension"
+        "message": "Schuifbalk Verbergen"
     },
     "extDesc": {
-        "message": "Verbergt automatisch scrollbar voor een schone interface. Ondersteunt whitelist.",
-        "description": "Description of the extension"
+        "message": "Verbergt automatisch scrollbar voor een schone interface. Ondersteunt whitelist."
     },
     "restrictedNotice": {
         "message": "Beperkte pagina"
@@ -46,6 +44,9 @@
     "openExceptions": {
         "message": "Uitzonderingen openen"
     },
+    "settings": {
+        "message": "Settings"
+    },
     "info": {
         "message": "Informatie"
     },
@@ -72,5 +73,221 @@
     },
     "invalidFileError": {
         "message": "Fout: Ongeldige bestandsindeling!"
+    },
+    "pickColor": {
+        "message": "Pick Color"
+    },
+    "getFavicon": {
+        "message": "Get Favicon"
+    },
+    "colorCopied": {
+        "message": "Copied!"
+    },
+    "pageRuler": {
+        "message": "Page Ruler"
+    },
+    "rulerCopied": {
+        "message": "Dimensions copied!"
+    },
+    "pageDraw": {
+        "message": "Draw on Page"
+    },
+    "drawSaved": {
+        "message": "Drawing saved!"
+    },
+    "appearanceGroup": {
+        "message": "Appearance"
+    },
+    "themeTitle": {
+        "message": "Theme"
+    },
+    "themeDesc": {
+        "message": "Choose appearance theme: System default, Light, or Dark"
+    },
+    "themeSystem": {
+        "message": "System default"
+    },
+    "themeLight": {
+        "message": "Light"
+    },
+    "themeDark": {
+        "message": "Dark"
+    },
+    "tabSettings": {
+        "message": "Settings"
+    },
+    "tabWhitelist": {
+        "message": "Whitelist"
+    },
+    "tabGuide": {
+        "message": "Guide"
+    },
+    "tabReport": {
+        "message": "Report"
+    },
+    "generalSettingsGroup": {
+        "message": "General Settings"
+    },
+    "enableHideScrollbar": {
+        "message": "Enable Scrollbar Hiding"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Automatically hide scrollbars across all websites unless whitelisted."
+    },
+    "statsGroup": {
+        "message": "Statistics"
+    },
+    "statsCleanedTitle": {
+        "message": "Cleaned Scrollbars"
+    },
+    "statsCleanedDesc": {
+        "message": "Total scrollbars removed by extension across all sessions."
+    },
+    "btnReset": {
+        "message": "Reset"
+    },
+    "backupGroup": {
+        "message": "Backup and Restore"
+    },
+    "backupDesc": {
+        "message": "Export or import your ScrollHide configuration and whitelist domains."
+    },
+    "backupExport": {
+        "message": "Backup to file"
+    },
+    "backupImport": {
+        "message": "Restore from file..."
+    },
+    "backupReset": {
+        "message": "Reset to defaults"
+    },
+    "btnApply": {
+        "message": "Apply changes"
+    },
+    "btnRevert": {
+        "message": "Revert"
+    },
+    "btnImportAppend": {
+        "message": "Import and append..."
+    },
+    "btnExport": {
+        "message": "Export..."
+    },
+    "whitelistWarning": {
+        "message": "Lines starting with ! or # are treated as comments."
+    },
+    "guideTitle": {
+        "message": "Quick Usage Guide"
+    },
+    "reportTitle": {
+        "message": "Report Unhidden Scrollbars & Issues"
+    },
+    "reportDesc": {
+        "message": "Found a website where scrollbars are still visible, or encountered a bug? Submit a report so we can add support and improve compatibility!"
+    },
+    "btnReportGitHub": {
+        "message": "Report on GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Copy System Info"
+    },
+    "reportHelpfulDetails": {
+        "message": "Helpful Details to Include in Your Report"
+    },
+    "faviconTitle": {
+        "message": "Favicon Extractor"
+    },
+    "faviconSubtitle": {
+        "message": "Extract and download high-resolution favicons from any website."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Paste from clipboard"
+    },
+    "faviconExtract": {
+        "message": "Extract favicons"
+    },
+    "faviconSelectFormat": {
+        "message": "Select size / format"
+    },
+    "faviconSelectedUrl": {
+        "message": "Selected URL"
+    },
+    "faviconCopyUrl": {
+        "message": "Copy URL"
+    },
+    "faviconOpenTab": {
+        "message": "Open in new tab"
+    },
+    "faviconDownload": {
+        "message": "Download favicon"
+    },
+    "faviconNotFound": {
+        "message": "No valid favicon found for this website."
+    },
+    "faviconInvalidUrl": {
+        "message": "Please enter a valid website URL."
+    },
+    "copied": {
+        "message": "Copied!"
+    },
+    "drawPen": {
+        "message": "Pen (P)"
+    },
+    "drawHighlighter": {
+        "message": "Highlighter (H)"
+    },
+    "drawRect": {
+        "message": "Rectangle (R)"
+    },
+    "drawCircle": {
+        "message": "Circle (C)"
+    },
+    "drawArrow": {
+        "message": "Arrow (A)"
+    },
+    "drawLine": {
+        "message": "Line (L)"
+    },
+    "drawText": {
+        "message": "Text (T)"
+    },
+    "drawEraser": {
+        "message": "Eraser (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Stroke size"
+    },
+    "drawUndo": {
+        "message": "Undo (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Redo (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Clear canvas"
+    },
+    "drawSave": {
+        "message": "Save image"
+    },
+    "drawClose": {
+        "message": "Close (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Element Inspector (I)"
+    },
+    "rulerSelect": {
+        "message": "Box Selection (S)"
+    },
+    "rulerTarget": {
+        "message": "Target"
+    },
+    "rulerCopyDim": {
+        "message": "Copy dimensions"
+    },
+    "rulerClose": {
+        "message": "Close (Esc)"
     }
 }

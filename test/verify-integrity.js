@@ -25,15 +25,26 @@ assert(fs.existsSync(path.resolve(__dirname, '..', manifest.action.default_popup
 
 // 2. Verify Locales
 console.log('\n--- 2. Testing Locales (_locales) ---');
-const en = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../_locales/en/messages.json'), 'utf8'));
-const vi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../_locales/vi/messages.json'), 'utf8'));
+const localesRoot = path.resolve(__dirname, '../_locales');
+const en = JSON.parse(fs.readFileSync(path.join(localesRoot, 'en/messages.json'), 'utf8'));
 const enKeys = Object.keys(en);
-const viKeys = Object.keys(vi);
-assert(enKeys.length === viKeys.length, `Locale key counts match (EN: ${enKeys.length}, VI: ${viKeys.length})`);
-const missingInVi = enKeys.filter(k => !vi[k]);
-assert(missingInVi.length === 0, `All EN keys present in VI (Missing: ${missingInVi.join(', ') || 'none'})`);
-const missingInEn = viKeys.filter(k => !en[k]);
-assert(missingInEn.length === 0, `All VI keys present in EN (Missing: ${missingInEn.join(', ') || 'none'})`);
+
+const allDirs = fs.readdirSync(localesRoot, { withFileTypes: true })
+  .filter(d => d.isDirectory())
+  .map(d => d.name);
+
+assert(allDirs.length >= 20, `Locales directory contains ${allDirs.length} languages (expected >= 20)`);
+
+allDirs.forEach((lang) => {
+  const langFile = path.join(localesRoot, lang, 'messages.json');
+  assert(fs.existsSync(langFile), `Locale file exists: _locales/${lang}/messages.json`);
+  const dict = JSON.parse(fs.readFileSync(langFile, 'utf8'));
+  const dictKeys = Object.keys(dict);
+  assert(dictKeys.length === enKeys.length, `Locale [${lang}] key count (${dictKeys.length}) matches EN (${enKeys.length})`);
+  const missing = enKeys.filter(k => !dict[k]);
+  assert(missing.length === 0, `All EN keys present in [${lang}] (Missing: ${missing.join(', ') || 'none'})`);
+});
+console.log(`✅ All ${allDirs.length} locales passed verification with 100% key completeness!`);
 
 // 3. Verify HTML and Referenced Assets (check against dist/ for script files)
 console.log('\n--- 3. Testing HTML references and files ---');

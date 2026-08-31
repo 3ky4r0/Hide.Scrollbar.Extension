@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "Ocultar barra de rolagem",
-        "description": "Name of the extension"
+        "message": "Ocultar Barra de Rolagem"
     },
     "extDesc": {
-        "message": "Oculta barras de rolagem automaticamente. Suporta lista branca e alternância.",
-        "description": "Description of the extension"
+        "message": "Oculta automaticamente as barras de rolagem para uma interface mais limpa. Suporta lista de exceções e alternância."
     },
     "restrictedNotice": {
         "message": "Página restrita"
     },
     "whitelistedNotice": {
-        "message": "Lista de exceções"
+        "message": "Na lista de exceções"
     },
     "cantAddPage": {
         "message": "Página inválida"
@@ -32,10 +30,10 @@
         "message": "Erro"
     },
     "addCurrentHost": {
-        "message": "Adicionar site à lista de permissões"
+        "message": "Adicionar site à lista permitida"
     },
     "removeCurrentHost": {
-        "message": "Remover site da lista de permissões"
+        "message": "Remover site da lista permitida"
     },
     "exportData": {
         "message": "Exportar dados"
@@ -45,6 +43,9 @@
     },
     "openExceptions": {
         "message": "Abrir exceções"
+    },
+    "settings": {
+        "message": "Configurações"
     },
     "info": {
         "message": "Informações"
@@ -56,7 +57,7 @@
         "message": "Exceções"
     },
     "statsCleaned": {
-        "message": "Ocultados"
+        "message": "Ocultadas"
     },
     "statusActive": {
         "message": "Ativo"
@@ -65,12 +66,228 @@
         "message": "Desativado"
     },
     "statusWhitelisted": {
-        "message": "Lista branca"
+        "message": "Na lista permitida"
     },
     "statusRestricted": {
         "message": "Restrito"
     },
     "invalidFileError": {
         "message": "Erro: Formato de arquivo inválido!"
+    },
+    "pickColor": {
+        "message": "Conta-gotas de Cor"
+    },
+    "getFavicon": {
+        "message": "Obter Favicon"
+    },
+    "colorCopied": {
+        "message": "Copiado!"
+    },
+    "pageRuler": {
+        "message": "Régua de Página"
+    },
+    "rulerCopied": {
+        "message": "Dimensões copiadas!"
+    },
+    "pageDraw": {
+        "message": "Desenhar na Página"
+    },
+    "drawSaved": {
+        "message": "Desenho salvo!"
+    },
+    "appearanceGroup": {
+        "message": "Aparência"
+    },
+    "themeTitle": {
+        "message": "Tema"
+    },
+    "themeDesc": {
+        "message": "Escolha o tema: Padrão do sistema, Claro ou Escuro"
+    },
+    "themeSystem": {
+        "message": "Padrão do sistema"
+    },
+    "themeLight": {
+        "message": "Claro"
+    },
+    "themeDark": {
+        "message": "Escuro"
+    },
+    "tabSettings": {
+        "message": "Configurações"
+    },
+    "tabWhitelist": {
+        "message": "Lista Permitida"
+    },
+    "tabGuide": {
+        "message": "Guia"
+    },
+    "tabReport": {
+        "message": "Relatar"
+    },
+    "generalSettingsGroup": {
+        "message": "Configurações Gerais"
+    },
+    "enableHideScrollbar": {
+        "message": "Ativar ocultação da barra de rolagem"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Oculta automaticamente as barras de rolagem em todos os sites, exceto na lista permitida."
+    },
+    "statsGroup": {
+        "message": "Estatísticas"
+    },
+    "statsCleanedTitle": {
+        "message": "Barras ocultadas"
+    },
+    "statsCleanedDesc": {
+        "message": "Total de barras de rolagem removidas pela extensão em todas as sessões."
+    },
+    "btnReset": {
+        "message": "Redefinir"
+    },
+    "backupGroup": {
+        "message": "Backup e Restauração"
+    },
+    "backupDesc": {
+        "message": "Exporte ou importe suas configurações do ScrollHide e domínios da lista permitida."
+    },
+    "backupExport": {
+        "message": "Fazer backup em arquivo"
+    },
+    "backupImport": {
+        "message": "Restaurar de arquivo..."
+    },
+    "backupReset": {
+        "message": "Restaurar padrões"
+    },
+    "btnApply": {
+        "message": "Aplicar alterações"
+    },
+    "btnRevert": {
+        "message": "Reverter"
+    },
+    "btnImportAppend": {
+        "message": "Importar e anexar..."
+    },
+    "btnExport": {
+        "message": "Exportar..."
+    },
+    "whitelistWarning": {
+        "message": "Linhas iniciadas com ! ou # são tratadas como comentários."
+    },
+    "guideTitle": {
+        "message": "Guia de Uso Rápido"
+    },
+    "reportTitle": {
+        "message": "Relatar barras não ocultas ou problemas"
+    },
+    "reportDesc": {
+        "message": "Encontrou um site com barras visíveis ou um erro? Envie um relatório para melhorarmos a compatibilidade!"
+    },
+    "btnReportGitHub": {
+        "message": "Relatar no GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Copiar dados do sistema"
+    },
+    "reportHelpfulDetails": {
+        "message": "Detalhes úteis para incluir no relatório"
+    },
+    "faviconTitle": {
+        "message": "Extrator de Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "Extraia e baixe favicons de alta resolução de qualquer site."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Colar da área de transferência"
+    },
+    "faviconExtract": {
+        "message": "Extrair favicons"
+    },
+    "faviconSelectFormat": {
+        "message": "Selecionar tamanho / formato"
+    },
+    "faviconSelectedUrl": {
+        "message": "URL selecionada"
+    },
+    "faviconCopyUrl": {
+        "message": "Copiar URL"
+    },
+    "faviconOpenTab": {
+        "message": "Abrir em nova aba"
+    },
+    "faviconDownload": {
+        "message": "Baixar favicon"
+    },
+    "faviconNotFound": {
+        "message": "Nenhum favicon válido encontrado para este site."
+    },
+    "faviconInvalidUrl": {
+        "message": "Por favor, insira uma URL de site válida."
+    },
+    "copied": {
+        "message": "Copiado!"
+    },
+    "drawPen": {
+        "message": "Caneta (P)"
+    },
+    "drawHighlighter": {
+        "message": "Marca-texto (H)"
+    },
+    "drawRect": {
+        "message": "Retângulo (R)"
+    },
+    "drawCircle": {
+        "message": "Círculo (C)"
+    },
+    "drawArrow": {
+        "message": "Seta (A)"
+    },
+    "drawLine": {
+        "message": "Linha (L)"
+    },
+    "drawText": {
+        "message": "Texto (T)"
+    },
+    "drawEraser": {
+        "message": "Borracha (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Espessura do traço"
+    },
+    "drawUndo": {
+        "message": "Desfazer (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Refazer (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Limpar tela"
+    },
+    "drawSave": {
+        "message": "Salvar imagem"
+    },
+    "drawClose": {
+        "message": "Fechar (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Inspecionar elemento (I)"
+    },
+    "rulerSelect": {
+        "message": "Seleção por retângulo (S)"
+    },
+    "rulerTarget": {
+        "message": "Alvo"
+    },
+    "rulerCopyDim": {
+        "message": "Copiar dimensões"
+    },
+    "rulerClose": {
+        "message": "Fechar (Esc)"
     }
 }

@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
+  const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
+  if (applyI18n) {
+    applyI18n();
+  }
+
   const SIZES = [16, 32, 48, 64, 96, 128, 180, 192, 256] as const;
 
   interface FaviconCandidate {

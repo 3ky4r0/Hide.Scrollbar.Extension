@@ -1,20 +1,18 @@
 {
     "extName": {
-        "message": "ซ่อนแถบเลื่อน",
-        "description": "Name of the extension"
+        "message": "ซ่อนแถบเลื่อน"
     },
     "extDesc": {
-        "message": "ซ่อนแถบเลื่อนอัตโนมัติ รองรับรายการยกเว้น",
-        "description": "Description of the extension"
+        "message": "ซ่อนแถบเลื่อนโดยอัตโนมัติเพื่ออินเทอร์เฟซที่สะอาดยิ่งขึ้น รองรับรายการที่อนุญาตและปุ่มเปิดปิด"
     },
     "restrictedNotice": {
         "message": "หน้าที่ถูกจำกัด"
     },
     "whitelistedNotice": {
-        "message": "อยู่ในข้อยกเว้น"
+        "message": "อยู่ในรายการยกเว้น"
     },
     "cantAddPage": {
-        "message": "หน้าเว็บไม่ถูกต้อง"
+        "message": "หน้าไม่ถูกต้อง"
     },
     "exceptionsTitle": {
         "message": "ข้อยกเว้น"
@@ -32,10 +30,10 @@
         "message": "ข้อผิดพลาด"
     },
     "addCurrentHost": {
-        "message": "เพิ่มเว็บไซต์ไปยังรายการอนุญาต"
+        "message": "เพิ่มไซต์ลงในรายการที่อนุญาต"
     },
     "removeCurrentHost": {
-        "message": "ลบเว็บไซต์ออกจากรายการอนุญาต"
+        "message": "ลบไซต์ออกจากรายการที่อนุญาต"
     },
     "exportData": {
         "message": "ส่งออกข้อมูล"
@@ -45,6 +43,9 @@
     },
     "openExceptions": {
         "message": "เปิดข้อยกเว้น"
+    },
+    "settings": {
+        "message": "การตั้งค่า"
     },
     "info": {
         "message": "ข้อมูล"
@@ -56,7 +57,7 @@
         "message": "ข้อยกเว้น"
     },
     "statsCleaned": {
-        "message": "ซ่อนแล้ว"
+        "message": "ล้างแล้ว"
     },
     "statusActive": {
         "message": "เปิดใช้งาน"
@@ -65,12 +66,228 @@
         "message": "ปิดใช้งาน"
     },
     "statusWhitelisted": {
-        "message": "ยกเว้น"
+        "message": "อยู่ในรายการที่อนุญาต"
     },
     "statusRestricted": {
-        "message": "จำกัด"
+        "message": "ถูกจำกัด"
     },
     "invalidFileError": {
         "message": "ข้อผิดพลาด: รูปแบบไฟล์ไม่ถูกต้อง!"
+    },
+    "pickColor": {
+        "message": "ดูดสี"
+    },
+    "getFavicon": {
+        "message": "รับ Favicon"
+    },
+    "colorCopied": {
+        "message": "คัดลอกแล้ว!"
+    },
+    "pageRuler": {
+        "message": "ไม้บรรทัดหน้าเว็บ"
+    },
+    "rulerCopied": {
+        "message": "คัดลอกขนาดแล้ว!"
+    },
+    "pageDraw": {
+        "message": "วาดบนหน้าเว็บ"
+    },
+    "drawSaved": {
+        "message": "บันทึกภาพวาดแล้ว!"
+    },
+    "appearanceGroup": {
+        "message": "รูปลักษณ์"
+    },
+    "themeTitle": {
+        "message": "ธีม"
+    },
+    "themeDesc": {
+        "message": "เลือกธีมรูปลักษณ์: ค่าเริ่มต้นของระบบ, โหมดสว่าง หรือโหมดมืด"
+    },
+    "themeSystem": {
+        "message": "ค่าเริ่มต้นของระบบ"
+    },
+    "themeLight": {
+        "message": "โหมดสว่าง"
+    },
+    "themeDark": {
+        "message": "โหมดมืด"
+    },
+    "tabSettings": {
+        "message": "การตั้งค่า"
+    },
+    "tabWhitelist": {
+        "message": "รายการที่อนุญาต"
+    },
+    "tabGuide": {
+        "message": "คู่มือ"
+    },
+    "tabReport": {
+        "message": "รายงานปัญหา"
+    },
+    "generalSettingsGroup": {
+        "message": "การตั้งค่าทั่วไป"
+    },
+    "enableHideScrollbar": {
+        "message": "เปิดใช้งานการซ่อนแถบเลื่อน"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "ซ่อนแถบเลื่อนบนทุกเว็บไซต์โดยอัตโนมัติ ยกเว้นในรายการที่อนุญาต"
+    },
+    "statsGroup": {
+        "message": "สถิติ"
+    },
+    "statsCleanedTitle": {
+        "message": "แถบเลื่อนที่ซ่อนแล้ว"
+    },
+    "statsCleanedDesc": {
+        "message": "จำนวนแถบเลื่อนทั้งหมดที่ส่วนขยายนี้ลบออกในทุกเซสชัน"
+    },
+    "btnReset": {
+        "message": "รีเซ็ต"
+    },
+    "backupGroup": {
+        "message": "การสำรองข้อมูลและการกู้คืน"
+    },
+    "backupDesc": {
+        "message": "ส่งออกหรือนำเข้าการกำหนดค่า ScrollHide และโดเมนรายการที่อนุญาตของคุณ"
+    },
+    "backupExport": {
+        "message": "สำรองข้อมูลไปยังไฟล์"
+    },
+    "backupImport": {
+        "message": "กู้คืนจากไฟล์..."
+    },
+    "backupReset": {
+        "message": "รีเซ็ตเป็นค่าเริ่มต้น"
+    },
+    "btnApply": {
+        "message": "นำการเปลี่ยนแปลงไปใช้"
+    },
+    "btnRevert": {
+        "message": "ย้อนกลับ"
+    },
+    "btnImportAppend": {
+        "message": "นำเข้าและต่อท้าย..."
+    },
+    "btnExport": {
+        "message": "ส่งออก..."
+    },
+    "whitelistWarning": {
+        "message": "บรรทัดที่ขึ้นต้นด้วย ! หรือ # จะถือเป็นความคิดเห็น"
+    },
+    "guideTitle": {
+        "message": "คู่มือการใช้งานฉบับย่อ"
+    },
+    "reportTitle": {
+        "message": "รายงานแถบเลื่อนที่ยังไม่ถูกซ่อนหรือปัญหา"
+    },
+    "reportDesc": {
+        "message": "พบเว็บไซต์ที่ยังแสดงแถบเลื่อนหรือพบบั๊ก? ส่งรายงานเพื่อให้เราปรับปรุงความเข้ากันได้!"
+    },
+    "btnReportGitHub": {
+        "message": "รายงานบน GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "คัดลอกข้อมูลระบบ"
+    },
+    "reportHelpfulDetails": {
+        "message": "รายละเอียดที่เป็นประโยชน์ในการรายงานของคุณ"
+    },
+    "faviconTitle": {
+        "message": "เครื่องมือแยก Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "แยกและดาวน์โหลดไอคอน Favicon ความละเอียดสูงจากทุกเว็บไซต์"
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "วางจากคลิปบอร์ด"
+    },
+    "faviconExtract": {
+        "message": "แยก Favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "เลือกขนาด / รูปแบบ"
+    },
+    "faviconSelectedUrl": {
+        "message": "URL ที่เลือก"
+    },
+    "faviconCopyUrl": {
+        "message": "คัดลอก URL"
+    },
+    "faviconOpenTab": {
+        "message": "เปิดในแท็บใหม่"
+    },
+    "faviconDownload": {
+        "message": "ดาวน์โหลด Favicon"
+    },
+    "faviconNotFound": {
+        "message": "ไม่พบ Favicon ที่ถูกต้องสำหรับเว็บไซต์นี้"
+    },
+    "faviconInvalidUrl": {
+        "message": "โปรดป้อน URL เว็บไซต์ที่ถูกต้อง"
+    },
+    "copied": {
+        "message": "คัดลอกแล้ว!"
+    },
+    "drawPen": {
+        "message": "ปากกา (P)"
+    },
+    "drawHighlighter": {
+        "message": "ปากกาเน้นข้อความ (H)"
+    },
+    "drawRect": {
+        "message": "สี่เหลี่ยมผืนผ้า (R)"
+    },
+    "drawCircle": {
+        "message": "วงกลม (C)"
+    },
+    "drawArrow": {
+        "message": "ลูกศร (A)"
+    },
+    "drawLine": {
+        "message": "เส้นตรง (L)"
+    },
+    "drawText": {
+        "message": "ข้อความ (T)"
+    },
+    "drawEraser": {
+        "message": "ยางลบ (E)"
+    },
+    "drawStrokeSize": {
+        "message": "ขนาดเส้น"
+    },
+    "drawUndo": {
+        "message": "เลิกทำ (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "ทำซ้ำ (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "ล้างผืนผ้าใบ"
+    },
+    "drawSave": {
+        "message": "บันทึกภาพ"
+    },
+    "drawClose": {
+        "message": "ปิด (Esc)"
+    },
+    "rulerInspect": {
+        "message": "ตรวจสอบองค์ประกอบ (I)"
+    },
+    "rulerSelect": {
+        "message": "เลือกพื้นที่ (S)"
+    },
+    "rulerTarget": {
+        "message": "เป้าหมาย"
+    },
+    "rulerCopyDim": {
+        "message": "คัดลอกขนาด"
+    },
+    "rulerClose": {
+        "message": "ปิด (Esc)"
     }
 }

@@ -1,29 +1,27 @@
 {
     "extName": {
-        "message": "隱藏捲軸",
-        "description": "Name of the extension"
+        "message": "隱藏捲軸"
     },
     "extDesc": {
-        "message": "自動隱藏捲軸，介面更整潔。支持白名單和開關切換。",
-        "description": "Description of the extension"
+        "message": "自動隱藏網頁捲軸以獲得更清爽的介面。支援白名單與快速切換。"
     },
     "restrictedNotice": {
-        "message": "受限頁面"
+        "message": "受限制的頁面"
     },
     "whitelistedNotice": {
-        "message": "在例外清單中"
+        "message": "位於例外清單中"
     },
     "cantAddPage": {
-        "message": "無效頁面"
+        "message": "無效的頁面"
     },
     "exceptionsTitle": {
-        "message": "例外"
+        "message": "例外清單"
     },
     "domainPlaceholder": {
         "message": "https://www.example.com/"
     },
     "saving": {
-        "message": "儲存中..."
+        "message": "正在儲存..."
     },
     "saved": {
         "message": "已儲存"
@@ -32,10 +30,10 @@
         "message": "錯誤"
     },
     "addCurrentHost": {
-        "message": "將網站加入白名單"
+        "message": "將此網站加入白名單"
     },
     "removeCurrentHost": {
-        "message": "將網站移出白名單"
+        "message": "從白名單中移除"
     },
     "exportData": {
         "message": "匯出資料"
@@ -44,33 +42,252 @@
         "message": "匯入資料"
     },
     "openExceptions": {
-        "message": "開啟例外"
+        "message": "開啟例外清單"
+    },
+    "settings": {
+        "message": "設定"
     },
     "info": {
-        "message": "資訊"
+        "message": "相關資訊"
     },
     "statsStatus": {
         "message": "狀態"
     },
     "statsExceptions": {
-        "message": "例外清單"
+        "message": "例外項"
     },
     "statsCleaned": {
-        "message": "已隱藏"
+        "message": "已清理"
     },
     "statusActive": {
-        "message": "啟用"
+        "message": "已啟用"
     },
     "statusDisabled": {
-        "message": "停用"
+        "message": "已停用"
     },
     "statusWhitelisted": {
-        "message": "白名單"
+        "message": "已加入白名單"
     },
     "statusRestricted": {
-        "message": "受限"
+        "message": "受限頁面"
     },
     "invalidFileError": {
         "message": "錯誤：檔案格式無效！"
+    },
+    "pickColor": {
+        "message": "螢幕取色"
+    },
+    "getFavicon": {
+        "message": "擷取圖示"
+    },
+    "colorCopied": {
+        "message": "已複製顏色！"
+    },
+    "pageRuler": {
+        "message": "網頁尺規"
+    },
+    "rulerCopied": {
+        "message": "尺寸已複製！"
+    },
+    "pageDraw": {
+        "message": "網頁塗鴉"
+    },
+    "drawSaved": {
+        "message": "塗鴉已儲存！"
+    },
+    "appearanceGroup": {
+        "message": "外觀"
+    },
+    "themeTitle": {
+        "message": "介面佈景"
+    },
+    "themeDesc": {
+        "message": "選擇外觀佈景：跟隨系統、淺色或深色"
+    },
+    "themeSystem": {
+        "message": "跟隨系統"
+    },
+    "themeLight": {
+        "message": "淺色"
+    },
+    "themeDark": {
+        "message": "深色"
+    },
+    "tabSettings": {
+        "message": "設定"
+    },
+    "tabWhitelist": {
+        "message": "白名單"
+    },
+    "tabGuide": {
+        "message": "使用指南"
+    },
+    "tabReport": {
+        "message": "回報問題"
+    },
+    "generalSettingsGroup": {
+        "message": "一般設定"
+    },
+    "enableHideScrollbar": {
+        "message": "啟用捲軸隱藏"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "自動隱藏所有網站的捲軸（除白名單網站外）。"
+    },
+    "statsGroup": {
+        "message": "統計數據"
+    },
+    "statsCleanedTitle": {
+        "message": "已清理捲軸"
+    },
+    "statsCleanedDesc": {
+        "message": "擴充功能在所有工作階段中清除的捲軸總數。"
+    },
+    "btnReset": {
+        "message": "重設"
+    },
+    "backupGroup": {
+        "message": "備份與還原"
+    },
+    "backupDesc": {
+        "message": "匯出或匯入您的 ScrollHide 設定與白名單網域。"
+    },
+    "backupExport": {
+        "message": "備份至檔案"
+    },
+    "backupImport": {
+        "message": "從檔案還原..."
+    },
+    "backupReset": {
+        "message": "重設為預設值"
+    },
+    "btnApply": {
+        "message": "套用變更"
+    },
+    "btnRevert": {
+        "message": "復原"
+    },
+    "btnImportAppend": {
+        "message": "匯入並附加..."
+    },
+    "btnExport": {
+        "message": "匯出清單..."
+    },
+    "whitelistWarning": {
+        "message": "以 ! 或 # 開頭的行將被視為註解。"
+    },
+    "guideTitle": {
+        "message": "快速使用指南"
+    },
+    "reportTitle": {
+        "message": "回報未隱藏的捲軸或問題"
+    },
+    "reportDesc": {
+        "message": "發現某個網站捲軸未被隱藏或遇到了 Bug？歡迎提交回報以便我們提供更好支援！"
+    },
+    "btnReportGitHub": {
+        "message": "在 GitHub 上回報"
+    },
+    "btnCopySystemInfo": {
+        "message": "複製系統資訊"
+    },
+    "reportHelpfulDetails": {
+        "message": "回報中建議包含的有用資訊"
+    },
+    "faviconTitle": {
+        "message": "Favicon 圖示擷取器"
+    },
+    "faviconSubtitle": {
+        "message": "從任何網站擷取並下載高畫質 Favicon 圖示。"
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "從剪貼簿貼上"
+    },
+    "faviconExtract": {
+        "message": "擷取 Favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "選擇尺寸與格式"
+    },
+    "faviconSelectedUrl": {
+        "message": "已選圖示網址"
+    },
+    "faviconCopyUrl": {
+        "message": "複製連結"
+    },
+    "faviconOpenTab": {
+        "message": "在新分頁開啟"
+    },
+    "faviconDownload": {
+        "message": "下載圖示"
+    },
+    "faviconNotFound": {
+        "message": "未找到此網站的有效 Favicon 圖示。"
+    },
+    "faviconInvalidUrl": {
+        "message": "請輸入有效的網站網址。"
+    },
+    "copied": {
+        "message": "已複製！"
+    },
+    "drawPen": {
+        "message": "畫筆 (P)"
+    },
+    "drawHighlighter": {
+        "message": "螢光筆 (H)"
+    },
+    "drawRect": {
+        "message": "矩形 (R)"
+    },
+    "drawCircle": {
+        "message": "圓形 (C)"
+    },
+    "drawArrow": {
+        "message": "箭頭 (A)"
+    },
+    "drawLine": {
+        "message": "直線 (L)"
+    },
+    "drawText": {
+        "message": "文字 (T)"
+    },
+    "drawEraser": {
+        "message": "橡皮擦 (E)"
+    },
+    "drawStrokeSize": {
+        "message": "筆觸粗細"
+    },
+    "drawUndo": {
+        "message": "復原 (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "重做 (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "清除畫布"
+    },
+    "drawSave": {
+        "message": "儲存圖片"
+    },
+    "drawClose": {
+        "message": "關閉 (Esc)"
+    },
+    "rulerInspect": {
+        "message": "元素檢查器 (I)"
+    },
+    "rulerSelect": {
+        "message": "框選測距 (S)"
+    },
+    "rulerTarget": {
+        "message": "目標"
+    },
+    "rulerCopyDim": {
+        "message": "複製尺寸"
+    },
+    "rulerClose": {
+        "message": "關閉 (Esc)"
     }
 }

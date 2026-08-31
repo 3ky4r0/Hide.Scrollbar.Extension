@@ -1,23 +1,21 @@
 {
     "extName": {
-        "message": "隐藏滚动条",
-        "description": "Name of the extension"
+        "message": "隐藏滚动条"
     },
     "extDesc": {
-        "message": "自动隐藏滚动条，界面更整洁。支持白名单和开关切换。",
-        "description": "Description of the extension"
+        "message": "自动隐藏网页滚动条以获得更清爽的界面。支持白名单和快捷开关。"
     },
     "restrictedNotice": {
-        "message": "受限页面"
+        "message": "受限制的页面"
     },
     "whitelistedNotice": {
-        "message": "例外列表"
+        "message": "位于例外名单中"
     },
     "cantAddPage": {
-        "message": "页面无效"
+        "message": "无效的页面"
     },
     "exceptionsTitle": {
-        "message": "例外列表"
+        "message": "例外名单"
     },
     "domainPlaceholder": {
         "message": "https://www.example.com/"
@@ -32,10 +30,10 @@
         "message": "错误"
     },
     "addCurrentHost": {
-        "message": "将网站加入白名单"
+        "message": "将此网站加入白名单"
     },
     "removeCurrentHost": {
-        "message": "将网站移出白名单"
+        "message": "从白名单中移除"
     },
     "exportData": {
         "message": "导出数据"
@@ -44,33 +42,252 @@
         "message": "导入数据"
     },
     "openExceptions": {
-        "message": "打开例外"
+        "message": "打开例外列表"
+    },
+    "settings": {
+        "message": "设置"
     },
     "info": {
-        "message": "信息"
+        "message": "关于信息"
     },
     "statsStatus": {
         "message": "状态"
     },
     "statsExceptions": {
-        "message": "例外列表"
+        "message": "例外项"
     },
     "statsCleaned": {
-        "message": "已隐藏"
+        "message": "已清理"
     },
     "statusActive": {
-        "message": "启用"
+        "message": "已启用"
     },
     "statusDisabled": {
-        "message": "禁用"
+        "message": "已禁用"
     },
     "statusWhitelisted": {
-        "message": "白名单"
+        "message": "已加入白名单"
     },
     "statusRestricted": {
-        "message": "受限"
+        "message": "受限页面"
     },
     "invalidFileError": {
         "message": "错误：文件格式无效！"
+    },
+    "pickColor": {
+        "message": "屏幕取色"
+    },
+    "getFavicon": {
+        "message": "提取图标"
+    },
+    "colorCopied": {
+        "message": "已复制颜色！"
+    },
+    "pageRuler": {
+        "message": "网页标尺"
+    },
+    "rulerCopied": {
+        "message": "尺寸已复制！"
+    },
+    "pageDraw": {
+        "message": "网页涂鸦"
+    },
+    "drawSaved": {
+        "message": "涂鸦已保存！"
+    },
+    "appearanceGroup": {
+        "message": "外观"
+    },
+    "themeTitle": {
+        "message": "界面主题"
+    },
+    "themeDesc": {
+        "message": "选择外观主题：跟随系统、浅色或深色"
+    },
+    "themeSystem": {
+        "message": "跟随系统"
+    },
+    "themeLight": {
+        "message": "浅色"
+    },
+    "themeDark": {
+        "message": "深色"
+    },
+    "tabSettings": {
+        "message": "设置"
+    },
+    "tabWhitelist": {
+        "message": "白名单"
+    },
+    "tabGuide": {
+        "message": "使用指南"
+    },
+    "tabReport": {
+        "message": "反馈报告"
+    },
+    "generalSettingsGroup": {
+        "message": "常规设置"
+    },
+    "enableHideScrollbar": {
+        "message": "启用滚动条隐藏"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "自动隐藏所有网站的滚动条（除白名单网站外）。"
+    },
+    "statsGroup": {
+        "message": "统计数据"
+    },
+    "statsCleanedTitle": {
+        "message": "已清理滚动条"
+    },
+    "statsCleanedDesc": {
+        "message": "扩展在所有会话中清除的滚动条总数。"
+    },
+    "btnReset": {
+        "message": "重置"
+    },
+    "backupGroup": {
+        "message": "备份与恢复"
+    },
+    "backupDesc": {
+        "message": "导出或导入您的 ScrollHide 配置与白名单域名。"
+    },
+    "backupExport": {
+        "message": "备份到文件"
+    },
+    "backupImport": {
+        "message": "从文件恢复..."
+    },
+    "backupReset": {
+        "message": "恢复默认设置"
+    },
+    "btnApply": {
+        "message": "应用更改"
+    },
+    "btnRevert": {
+        "message": "撤销"
+    },
+    "btnImportAppend": {
+        "message": "导入并追加..."
+    },
+    "btnExport": {
+        "message": "导出列表..."
+    },
+    "whitelistWarning": {
+        "message": "以 ! 或 # 开头的行将被视为注释。"
+    },
+    "guideTitle": {
+        "message": "快速使用指南"
+    },
+    "reportTitle": {
+        "message": "报告未隐藏的滚动条或问题"
+    },
+    "reportDesc": {
+        "message": "发现某个网站滚动条未被隐藏或遇到了 Bug？欢迎提交报告以便我们提供更好支持！"
+    },
+    "btnReportGitHub": {
+        "message": "在 GitHub 上反馈"
+    },
+    "btnCopySystemInfo": {
+        "message": "复制系统信息"
+    },
+    "reportHelpfulDetails": {
+        "message": "报告中建议包含的有用信息"
+    },
+    "faviconTitle": {
+        "message": "Favicon 图标提取器"
+    },
+    "faviconSubtitle": {
+        "message": "从任何网站提取并下载高清 Favicon 图标。"
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "从剪贴板粘贴"
+    },
+    "faviconExtract": {
+        "message": "提取 Favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "选择尺寸与格式"
+    },
+    "faviconSelectedUrl": {
+        "message": "已选图标地址"
+    },
+    "faviconCopyUrl": {
+        "message": "复制链接"
+    },
+    "faviconOpenTab": {
+        "message": "在新标签页打开"
+    },
+    "faviconDownload": {
+        "message": "下载图标"
+    },
+    "faviconNotFound": {
+        "message": "未找到此网站的有效 Favicon 图标。"
+    },
+    "faviconInvalidUrl": {
+        "message": "请输入有效的网站网址。"
+    },
+    "copied": {
+        "message": "已复制！"
+    },
+    "drawPen": {
+        "message": "画笔 (P)"
+    },
+    "drawHighlighter": {
+        "message": "荧光笔 (H)"
+    },
+    "drawRect": {
+        "message": "矩形 (R)"
+    },
+    "drawCircle": {
+        "message": "圆形 (C)"
+    },
+    "drawArrow": {
+        "message": "箭头 (A)"
+    },
+    "drawLine": {
+        "message": "直线 (L)"
+    },
+    "drawText": {
+        "message": "文本 (T)"
+    },
+    "drawEraser": {
+        "message": "橡皮擦 (E)"
+    },
+    "drawStrokeSize": {
+        "message": "线条粗细"
+    },
+    "drawUndo": {
+        "message": "撤销 (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "重做 (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "清除画布"
+    },
+    "drawSave": {
+        "message": "保存图片"
+    },
+    "drawClose": {
+        "message": "关闭 (Esc)"
+    },
+    "rulerInspect": {
+        "message": "元素检查器 (I)"
+    },
+    "rulerSelect": {
+        "message": "框选测距 (S)"
+    },
+    "rulerTarget": {
+        "message": "目标"
+    },
+    "rulerCopyDim": {
+        "message": "复制尺寸"
+    },
+    "rulerClose": {
+        "message": "关闭 (Esc)"
     }
 }

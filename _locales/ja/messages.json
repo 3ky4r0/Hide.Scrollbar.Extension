@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "スクロールバーを隠す",
-        "description": "Name of the extension"
+        "message": "スクロールバーを隠す"
     },
     "extDesc": {
-        "message": "スクロールバーを自動的に非表示にします。ホワイトリストと切り替えをサポート。",
-        "description": "Description of the extension"
+        "message": "すっきりしたインターフェースのためにスクロールバーを自動で非表示にします。ホワイトリストと切り替えに対応。"
     },
     "restrictedNotice": {
         "message": "制限されたページ"
     },
     "whitelistedNotice": {
-        "message": "例外リスト"
+        "message": "例外リスト内"
     },
     "cantAddPage": {
         "message": "無効なページ"
@@ -32,28 +30,31 @@
         "message": "エラー"
     },
     "addCurrentHost": {
-        "message": "サイトをホワイトリストに追加"
+        "message": "ホワイトリストに追加"
     },
     "removeCurrentHost": {
-        "message": "サイトをホワイトリストから削除"
+        "message": "ホワイトリストから削除"
     },
     "exportData": {
-        "message": "データをエクスポート"
+        "message": "データのエクスポート"
     },
     "importData": {
-        "message": "データをインポート"
+        "message": "データのインポート"
     },
     "openExceptions": {
-        "message": "例外を開く"
+        "message": "例外リストを開く"
+    },
+    "settings": {
+        "message": "設定"
     },
     "info": {
         "message": "情報"
     },
     "statsStatus": {
-        "message": "ステータス"
+        "message": "状態"
     },
     "statsExceptions": {
-        "message": "例外リスト"
+        "message": "例外数"
     },
     "statsCleaned": {
         "message": "非表示数"
@@ -65,12 +66,228 @@
         "message": "無効"
     },
     "statusWhitelisted": {
-        "message": "除外"
+        "message": "ホワイトリスト登録済み"
     },
     "statusRestricted": {
         "message": "制限あり"
     },
     "invalidFileError": {
         "message": "エラー：無効なファイル形式です！"
+    },
+    "pickColor": {
+        "message": "カラーピッカー"
+    },
+    "getFavicon": {
+        "message": "ファビコン取得"
+    },
+    "colorCopied": {
+        "message": "カラーコードをコピーしました！"
+    },
+    "pageRuler": {
+        "message": "ページルーラー"
+    },
+    "rulerCopied": {
+        "message": "サイズをコピーしました！"
+    },
+    "pageDraw": {
+        "message": "ページ描画"
+    },
+    "drawSaved": {
+        "message": "描画を保存しました！"
+    },
+    "appearanceGroup": {
+        "message": "外観"
+    },
+    "themeTitle": {
+        "message": "テーマ"
+    },
+    "themeDesc": {
+        "message": "テーマを選択：システムデフォルト、ライト、またはダーク"
+    },
+    "themeSystem": {
+        "message": "システムデフォルト"
+    },
+    "themeLight": {
+        "message": "ライト"
+    },
+    "themeDark": {
+        "message": "ダーク"
+    },
+    "tabSettings": {
+        "message": "設定"
+    },
+    "tabWhitelist": {
+        "message": "ホワイトリスト"
+    },
+    "tabGuide": {
+        "message": "ガイド"
+    },
+    "tabReport": {
+        "message": "問題の報告"
+    },
+    "generalSettingsGroup": {
+        "message": "一般設定"
+    },
+    "enableHideScrollbar": {
+        "message": "スクロールバーの非表示を有効にする"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "ホワイトリスト以外のすべてのウェブサイトでスクロールバーを自動的に非表示にします。"
+    },
+    "statsGroup": {
+        "message": "統計情報"
+    },
+    "statsCleanedTitle": {
+        "message": "非表示にしたスクロールバー"
+    },
+    "statsCleanedDesc": {
+        "message": "すべてのセッションで拡張機能によって削除されたスクロールバーの総数。"
+    },
+    "btnReset": {
+        "message": "リセット"
+    },
+    "backupGroup": {
+        "message": "バックアップと復元"
+    },
+    "backupDesc": {
+        "message": "ScrollHideの設定とホワイトリストドメインをエクスポートまたはインポートします。"
+    },
+    "backupExport": {
+        "message": "ファイルにバックアップ"
+    },
+    "backupImport": {
+        "message": "ファイルから復元..."
+    },
+    "backupReset": {
+        "message": "初期設定に戻す"
+    },
+    "btnApply": {
+        "message": "変更を適用"
+    },
+    "btnRevert": {
+        "message": "元に戻す"
+    },
+    "btnImportAppend": {
+        "message": "インポートして追加..."
+    },
+    "btnExport": {
+        "message": "エクスポート..."
+    },
+    "whitelistWarning": {
+        "message": "! または # で始まる行はコメントとして扱われます。"
+    },
+    "guideTitle": {
+        "message": "クイック利用ガイド"
+    },
+    "reportTitle": {
+        "message": "未対応のスクロールバーや不具合を報告"
+    },
+    "reportDesc": {
+        "message": "スクロールバーが表示されたままのサイトやバグを発見しましたか？互換性向上のためレポートをお寄せください！"
+    },
+    "btnReportGitHub": {
+        "message": "GitHubで報告"
+    },
+    "btnCopySystemInfo": {
+        "message": "システム情報をコピー"
+    },
+    "reportHelpfulDetails": {
+        "message": "報告に含めると役立つ情報"
+    },
+    "faviconTitle": {
+        "message": "ファビコン抽出ツール"
+    },
+    "faviconSubtitle": {
+        "message": "任意のウェブサイトから高解像度のファビコンを抽出してダウンロードします。"
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "クリップボードから貼り付け"
+    },
+    "faviconExtract": {
+        "message": "ファビコンを抽出"
+    },
+    "faviconSelectFormat": {
+        "message": "サイズ / 形式を選択"
+    },
+    "faviconSelectedUrl": {
+        "message": "選択されたURL"
+    },
+    "faviconCopyUrl": {
+        "message": "URLをコピー"
+    },
+    "faviconOpenTab": {
+        "message": "新しいタブで開く"
+    },
+    "faviconDownload": {
+        "message": "ファビコンをダウンロード"
+    },
+    "faviconNotFound": {
+        "message": "このウェブサイトの有効なファビコンが見つかりませんでした。"
+    },
+    "faviconInvalidUrl": {
+        "message": "有効なウェブサイトのURLを入力してください。"
+    },
+    "copied": {
+        "message": "コピーしました！"
+    },
+    "drawPen": {
+        "message": "ペン (P)"
+    },
+    "drawHighlighter": {
+        "message": "蛍光ペン (H)"
+    },
+    "drawRect": {
+        "message": "長方形 (R)"
+    },
+    "drawCircle": {
+        "message": "円 (C)"
+    },
+    "drawArrow": {
+        "message": "矢印 (A)"
+    },
+    "drawLine": {
+        "message": "直線 (L)"
+    },
+    "drawText": {
+        "message": "テキスト (T)"
+    },
+    "drawEraser": {
+        "message": "消しゴム (E)"
+    },
+    "drawStrokeSize": {
+        "message": "線の太さ"
+    },
+    "drawUndo": {
+        "message": "元に戻す (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "やり直し (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "キャンバスをクリア"
+    },
+    "drawSave": {
+        "message": "画像を保存"
+    },
+    "drawClose": {
+        "message": "閉じる (Esc)"
+    },
+    "rulerInspect": {
+        "message": "要素インスペクター (I)"
+    },
+    "rulerSelect": {
+        "message": "ボックス選択 (S)"
+    },
+    "rulerTarget": {
+        "message": "ターゲット"
+    },
+    "rulerCopyDim": {
+        "message": "サイズをコピー"
+    },
+    "rulerClose": {
+        "message": "閉じる (Esc)"
     }
 }

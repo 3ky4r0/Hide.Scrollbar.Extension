@@ -1,11 +1,9 @@
 {
     "extName": {
-        "message": "Sembunyikan Bilah Gulir",
-        "description": "Name of the extension"
+        "message": "Sembunyikan Bilah Gulir"
     },
     "extDesc": {
-        "message": "Sembunyikan bilah gulir secara otomatis. Mendukung whitelist dan pengalihan.",
-        "description": "Description of the extension"
+        "message": "Sembunyikan bilah gulir secara otomatis untuk antarmuka yang lebih bersih. Mendukung daftar putih dan tombol aktifkan."
     },
     "restrictedNotice": {
         "message": "Halaman dibatasi"
@@ -26,7 +24,7 @@
         "message": "Menyimpan..."
     },
     "saved": {
-        "message": "Disimpan"
+        "message": "Tersimpan"
     },
     "error": {
         "message": "Kesalahan"
@@ -46,6 +44,9 @@
     "openExceptions": {
         "message": "Buka pengecualian"
     },
+    "settings": {
+        "message": "Pengaturan"
+    },
     "info": {
         "message": "Informasi"
     },
@@ -56,7 +57,7 @@
         "message": "Pengecualian"
     },
     "statsCleaned": {
-        "message": "Disembunyikan"
+        "message": "Dibersihkan"
     },
     "statusActive": {
         "message": "Aktif"
@@ -65,12 +66,228 @@
         "message": "Nonaktif"
     },
     "statusWhitelisted": {
-        "message": "Whitelist"
+        "message": "Dalam daftar putih"
     },
     "statusRestricted": {
         "message": "Dibatasi"
     },
     "invalidFileError": {
-        "message": "Kesalahan: Format file tidak valid!"
+        "message": "Kesalahan: Format berkas tidak valid!"
+    },
+    "pickColor": {
+        "message": "Pengambil Warna"
+    },
+    "getFavicon": {
+        "message": "Ambil Favicon"
+    },
+    "colorCopied": {
+        "message": "Tersalin!"
+    },
+    "pageRuler": {
+        "message": "Penggaris Halaman"
+    },
+    "rulerCopied": {
+        "message": "Dimensi tersalin!"
+    },
+    "pageDraw": {
+        "message": "Menggambar di Halaman"
+    },
+    "drawSaved": {
+        "message": "Gambar tersimpan!"
+    },
+    "appearanceGroup": {
+        "message": "Tampilan"
+    },
+    "themeTitle": {
+        "message": "Tema"
+    },
+    "themeDesc": {
+        "message": "Pilih tema tampilan: Default sistem, Terang, atau Gelap"
+    },
+    "themeSystem": {
+        "message": "Default sistem"
+    },
+    "themeLight": {
+        "message": "Terang"
+    },
+    "themeDark": {
+        "message": "Gelap"
+    },
+    "tabSettings": {
+        "message": "Pengaturan"
+    },
+    "tabWhitelist": {
+        "message": "Daftar Putih"
+    },
+    "tabGuide": {
+        "message": "Panduan"
+    },
+    "tabReport": {
+        "message": "Laporan"
+    },
+    "generalSettingsGroup": {
+        "message": "Pengaturan Umum"
+    },
+    "enableHideScrollbar": {
+        "message": "Aktifkan Sembunyikan Bilah Gulir"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Sembunyikan bilah gulir secara otomatis di semua situs web kecuali yang ada di daftar putih."
+    },
+    "statsGroup": {
+        "message": "Statistik"
+    },
+    "statsCleanedTitle": {
+        "message": "Bilah Gulir yang Dibersihkan"
+    },
+    "statsCleanedDesc": {
+        "message": "Total bilah gulir yang dihapus oleh ekstensi di semua sesi."
+    },
+    "btnReset": {
+        "message": "Atur Ulang"
+    },
+    "backupGroup": {
+        "message": "Cadangan dan Pulihkan"
+    },
+    "backupDesc": {
+        "message": "Ekspor atau impor konfigurasi ScrollHide dan domain daftar putih Anda."
+    },
+    "backupExport": {
+        "message": "Cadangkan ke berkas"
+    },
+    "backupImport": {
+        "message": "Pulihkan dari berkas..."
+    },
+    "backupReset": {
+        "message": "Atur ulang ke default"
+    },
+    "btnApply": {
+        "message": "Terapkan perubahan"
+    },
+    "btnRevert": {
+        "message": "Kembalikan"
+    },
+    "btnImportAppend": {
+        "message": "Impor dan tambahkan..."
+    },
+    "btnExport": {
+        "message": "Ekspor..."
+    },
+    "whitelistWarning": {
+        "message": "Baris yang diawali dengan ! atau # dianggap sebagai komentar."
+    },
+    "guideTitle": {
+        "message": "Panduan Penggunaan Cepat"
+    },
+    "reportTitle": {
+        "message": "Laporkan Bilah Gulir yang Belum Tersembunyi atau Masalah"
+    },
+    "reportDesc": {
+        "message": "Menemukan situs web yang bilah gulirnya masih terlihat atau mengalami bug? Kirimkan laporan untuk membantu kami meningkatkan kompatibilitas!"
+    },
+    "btnReportGitHub": {
+        "message": "Laporkan di GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Salin Info Sistem"
+    },
+    "reportHelpfulDetails": {
+        "message": "Detail Berguna untuk Disertakan dalam Laporan Anda"
+    },
+    "faviconTitle": {
+        "message": "Pengekstrak Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "Ekstrak dan unduh ikon favicon resolusi tinggi dari situs web mana pun."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Tempel dari papan klip"
+    },
+    "faviconExtract": {
+        "message": "Ekstrak favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "Pilih ukuran / format"
+    },
+    "faviconSelectedUrl": {
+        "message": "URL yang Dipilih"
+    },
+    "faviconCopyUrl": {
+        "message": "Salin URL"
+    },
+    "faviconOpenTab": {
+        "message": "Buka di tab baru"
+    },
+    "faviconDownload": {
+        "message": "Unduh favicon"
+    },
+    "faviconNotFound": {
+        "message": "Tidak ditemukan favicon yang valid untuk situs web ini."
+    },
+    "faviconInvalidUrl": {
+        "message": "Silakan masukkan URL situs web yang valid."
+    },
+    "copied": {
+        "message": "Tersalin!"
+    },
+    "drawPen": {
+        "message": "Pena (P)"
+    },
+    "drawHighlighter": {
+        "message": "Stabilo (H)"
+    },
+    "drawRect": {
+        "message": "Persegi Panjang (R)"
+    },
+    "drawCircle": {
+        "message": "Lingkaran (C)"
+    },
+    "drawArrow": {
+        "message": "Panah (A)"
+    },
+    "drawLine": {
+        "message": "Garis (L)"
+    },
+    "drawText": {
+        "message": "Teks (T)"
+    },
+    "drawEraser": {
+        "message": "Penghapus (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Ukuran goresan"
+    },
+    "drawUndo": {
+        "message": "Urungkan (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Ulangi (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Bersihkan kanvas"
+    },
+    "drawSave": {
+        "message": "Simpan gambar"
+    },
+    "drawClose": {
+        "message": "Tutup (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Inspektur Elemen (I)"
+    },
+    "rulerSelect": {
+        "message": "Pemilihan Kotak (S)"
+    },
+    "rulerTarget": {
+        "message": "Target"
+    },
+    "rulerCopyDim": {
+        "message": "Salin dimensi"
+    },
+    "rulerClose": {
+        "message": "Tutup (Esc)"
     }
 }

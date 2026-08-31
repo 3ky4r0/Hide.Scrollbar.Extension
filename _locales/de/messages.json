@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "Bildlaufleiste ausblenden",
-        "description": "Name of the extension"
+        "message": "Scrollleiste ausblenden"
     },
     "extDesc": {
-        "message": "Blendet Scrollbalken automatisch aus. Unterstützt Whitelist und Umschalten.",
-        "description": "Description of the extension"
+        "message": "Blendet Scrollleisten für eine sauberere Benutzeroberfläche automatisch aus. Unterstützt Whitelist und Umschaltung."
     },
     "restrictedNotice": {
-        "message": "Eingeschränkt"
+        "message": "Eingeschränkte Seite"
     },
     "whitelistedNotice": {
-        "message": "Ausnahmeliste"
+        "message": "In der Ausnahmeliste"
     },
     "cantAddPage": {
         "message": "Ungültige Seite"
@@ -32,10 +30,10 @@
         "message": "Fehler"
     },
     "addCurrentHost": {
-        "message": "Website zur Ausnahmeliste hinzufügen"
+        "message": "Seite zur Whitelist hinzufügen"
     },
     "removeCurrentHost": {
-        "message": "Website aus der Ausnahmeliste entfernen"
+        "message": "Seite von Whitelist entfernen"
     },
     "exportData": {
         "message": "Daten exportieren"
@@ -45,6 +43,9 @@
     },
     "openExceptions": {
         "message": "Ausnahmen öffnen"
+    },
+    "settings": {
+        "message": "Einstellungen"
     },
     "info": {
         "message": "Informationen"
@@ -65,12 +66,228 @@
         "message": "Deaktiviert"
     },
     "statusWhitelisted": {
-        "message": "Whitelist"
+        "message": "Auf der Whitelist"
     },
     "statusRestricted": {
         "message": "Eingeschränkt"
     },
     "invalidFileError": {
         "message": "Fehler: Ungültiges Dateiformat!"
+    },
+    "pickColor": {
+        "message": "Farbwähler"
+    },
+    "getFavicon": {
+        "message": "Favicon abrufen"
+    },
+    "colorCopied": {
+        "message": "Kopiert!"
+    },
+    "pageRuler": {
+        "message": "Seitenlineal"
+    },
+    "rulerCopied": {
+        "message": "Abmessungen kopiert!"
+    },
+    "pageDraw": {
+        "message": "Auf Seite zeichnen"
+    },
+    "drawSaved": {
+        "message": "Zeichnung gespeichert!"
+    },
+    "appearanceGroup": {
+        "message": "Erscheinungsbild"
+    },
+    "themeTitle": {
+        "message": "Design"
+    },
+    "themeDesc": {
+        "message": "Design auswählen: Systemstandard, Hell oder Dunkel"
+    },
+    "themeSystem": {
+        "message": "Systemstandard"
+    },
+    "themeLight": {
+        "message": "Hell"
+    },
+    "themeDark": {
+        "message": "Dunkel"
+    },
+    "tabSettings": {
+        "message": "Einstellungen"
+    },
+    "tabWhitelist": {
+        "message": "Whitelist"
+    },
+    "tabGuide": {
+        "message": "Anleitung"
+    },
+    "tabReport": {
+        "message": "Problem melden"
+    },
+    "generalSettingsGroup": {
+        "message": "Allgemeine Einstellungen"
+    },
+    "enableHideScrollbar": {
+        "message": "Scrollleisten-Ausblendung aktivieren"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Scrollleisten auf allen Websites automatisch ausblenden, außer auf Whitelist-Seiten."
+    },
+    "statsGroup": {
+        "message": "Statistiken"
+    },
+    "statsCleanedTitle": {
+        "message": "Ausgeblendete Scrollleisten"
+    },
+    "statsCleanedDesc": {
+        "message": "Gesamtzahl der durch die Erweiterung entfernten Scrollleisten."
+    },
+    "btnReset": {
+        "message": "Zurücksetzen"
+    },
+    "backupGroup": {
+        "message": "Sicherung und Wiederherstellung"
+    },
+    "backupDesc": {
+        "message": "Exportieren oder importieren Sie Ihre ScrollHide-Konfiguration und Whitelist-Domains."
+    },
+    "backupExport": {
+        "message": "In Datei sichern"
+    },
+    "backupImport": {
+        "message": "Aus Datei wiederherstellen..."
+    },
+    "backupReset": {
+        "message": "Auf Standardwerte zurücksetzen"
+    },
+    "btnApply": {
+        "message": "Änderungen anwenden"
+    },
+    "btnRevert": {
+        "message": "Rückgängig"
+    },
+    "btnImportAppend": {
+        "message": "Importieren und anhängen..."
+    },
+    "btnExport": {
+        "message": "Exportieren..."
+    },
+    "whitelistWarning": {
+        "message": "Zeilen, die mit ! oder # beginnen, werden als Kommentare behandelt."
+    },
+    "guideTitle": {
+        "message": "Kurzanleitung"
+    },
+    "reportTitle": {
+        "message": "Sichtbare Scrollleisten oder Fehler melden"
+    },
+    "reportDesc": {
+        "message": "Haben Sie eine Website mit sichtbaren Scrollleisten oder einen Fehler gefunden? Senden Sie einen Bericht für bessere Kompatibilität!"
+    },
+    "btnReportGitHub": {
+        "message": "Auf GitHub melden"
+    },
+    "btnCopySystemInfo": {
+        "message": "Systeminfo kopieren"
+    },
+    "reportHelpfulDetails": {
+        "message": "Hilfreiche Details für Ihren Bericht"
+    },
+    "faviconTitle": {
+        "message": "Favicon-Extraktor"
+    },
+    "faviconSubtitle": {
+        "message": "Extrahieren und laden Sie hochauflösende Favicons von jeder Website herunter."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Aus Zwischenablage einfügen"
+    },
+    "faviconExtract": {
+        "message": "Favicons extrahieren"
+    },
+    "faviconSelectFormat": {
+        "message": "Größe / Format wählen"
+    },
+    "faviconSelectedUrl": {
+        "message": "Ausgewählte URL"
+    },
+    "faviconCopyUrl": {
+        "message": "URL kopieren"
+    },
+    "faviconOpenTab": {
+        "message": "In neuem Tab öffnen"
+    },
+    "faviconDownload": {
+        "message": "Favicon herunterladen"
+    },
+    "faviconNotFound": {
+        "message": "Kein gültiges Favicon für diese Website gefunden."
+    },
+    "faviconInvalidUrl": {
+        "message": "Bitte geben Sie eine gültige Website-URL ein."
+    },
+    "copied": {
+        "message": "Kopiert!"
+    },
+    "drawPen": {
+        "message": "Stift (P)"
+    },
+    "drawHighlighter": {
+        "message": "Textmarker (H)"
+    },
+    "drawRect": {
+        "message": "Rechteck (R)"
+    },
+    "drawCircle": {
+        "message": "Kreis (C)"
+    },
+    "drawArrow": {
+        "message": "Pfeil (A)"
+    },
+    "drawLine": {
+        "message": "Linie (L)"
+    },
+    "drawText": {
+        "message": "Text (T)"
+    },
+    "drawEraser": {
+        "message": "Radierer (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Strichstärke"
+    },
+    "drawUndo": {
+        "message": "Rückgängig (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Wiederholen (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Leinwand leeren"
+    },
+    "drawSave": {
+        "message": "Bild speichern"
+    },
+    "drawClose": {
+        "message": "Schließen (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Element-Inspektor (I)"
+    },
+    "rulerSelect": {
+        "message": "Rechteckauswahl (S)"
+    },
+    "rulerTarget": {
+        "message": "Ziel"
+    },
+    "rulerCopyDim": {
+        "message": "Abmessungen kopieren"
+    },
+    "rulerClose": {
+        "message": "Schließen (Esc)"
     }
 }

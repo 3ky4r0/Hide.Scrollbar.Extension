@@ -24,7 +24,7 @@
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
           </path>
         </svg>
-        <span>Settings</span>
+        <span data-i18n="tabSettings">Settings</span>
       </button>
       <button class="nav-tab" data-tab="whitelist" role="tab" aria-selected="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -36,7 +36,7 @@
           <line x1="3" y1="12" x2="3.01" y2="12"></line>
           <line x1="3" y1="18" x2="3.01" y2="18"></line>
         </svg>
-        <span>Whitelist</span>
+        <span data-i18n="tabWhitelist">Whitelist</span>
       </button>
       <button class="nav-tab" data-tab="guide" role="tab" aria-selected="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -45,7 +45,7 @@
           <line x1="12" y1="16" x2="12" y2="12"></line>
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
         </svg>
-        <span>Guide</span>
+        <span data-i18n="tabGuide">Guide</span>
       </button>
       <button class="nav-tab" data-tab="report" role="tab" aria-selected="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -53,7 +53,7 @@
           <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
           <line x1="4" y1="22" x2="4" y2="15"></line>
         </svg>
-        <span>Report</span>
+        <span data-i18n="tabReport">Report</span>
       </button>
     </nav>
     <a href="https://github.com/3ky4r0/Hide.Scrollbar.Extension" target="_blank" rel="noopener noreferrer"
@@ -72,13 +72,13 @@
     <!-- TAB 1: SETTINGS -->
     <section id="tab-settings" class="tab-pane active">
       <div class="settings-group">
-        <h2 class="group-title">General Settings</h2>
+        <h2 class="group-title" data-i18n="generalSettingsGroup">General Settings</h2>
         <div class="settings-card">
           <label class="setting-item">
             <input type="checkbox" id="settingHideScrollbar">
             <div class="setting-text">
-              <div class="setting-title">Enable Scrollbar Hiding</div>
-              <div class="setting-desc">Automatically hide scrollbars across all websites unless whitelisted.</div>
+              <div class="setting-title" data-i18n="enableHideScrollbar">Enable Scrollbar Hiding</div>
+              <div class="setting-desc" data-i18n="enableHideScrollbarDesc">Automatically hide scrollbars across all websites unless whitelisted.</div>
             </div>
           </label>
         </div>
@@ -102,25 +102,25 @@
       </div>
 
       <div class="settings-group">
-        <h2 class="group-title">Statistics</h2>
+        <h2 class="group-title" data-i18n="statsGroup">Statistics</h2>
         <div class="settings-card">
           <div class="stat-row">
             <div>
-              <div class="setting-title">Cleaned Scrollbars</div>
-              <div class="setting-desc">Total scrollbars removed by extension across all sessions.</div>
+              <div class="setting-title" data-i18n="statsCleanedTitle">Cleaned Scrollbars</div>
+              <div class="setting-desc" data-i18n="statsCleanedDesc">Total scrollbars removed by extension across all sessions.</div>
             </div>
             <button id="btnResetCleaned" class="stat-btn-group" title="Click to reset counter" aria-label="Reset cleaned scrollbars counter">
               <span id="statCleanedCount" class="stat-btn-count">0</span>
-              <span class="stat-btn-label">Reset</span>
+              <span class="stat-btn-label" data-i18n="btnReset">Reset</span>
             </button>
           </div>
         </div>
       </div>
 
       <div class="settings-group">
-        <h2 class="group-title">Backup and Restore</h2>
+        <h2 class="group-title" data-i18n="backupGroup">Backup and Restore</h2>
         <div class="settings-card">
-          <div class="setting-desc" style="margin-bottom: 14px;">
+          <div class="setting-desc" data-i18n="backupDesc" style="margin-bottom: 14px;">
             Export or import your ScrollHide configuration and whitelist domains.
           </div>
           <div class="action-buttons-row">
@@ -131,7 +131,7 @@
                 <polyline points="17 8 12 3 7 8"></polyline>
                 <line x1="12" y1="3" x2="12" y2="15"></line>
               </svg>
-              <span>Backup to file</span>
+              <span data-i18n="backupExport">Backup to file</span>
             </button>
             <button id="btnImportSettings" class="btn btn-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -140,7 +140,7 @@
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <span>Restore from file...</span>
+              <span data-i18n="backupImport">Restore from file...</span>
             </button>
             <input type="file" id="settingsFileInput" accept=".json" hidden>
             <button id="btnResetDefaults" class="btn btn-danger-outline">
@@ -149,7 +149,7 @@
                 <polyline points="1 4 1 10 7 10"></polyline>
                 <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
               </svg>
-              <span>Reset to defaults</span>
+              <span data-i18n="backupReset">Reset to defaults</span>
             </button>
           </div>
         </div>
@@ -165,7 +165,7 @@
             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
-          <span>Apply changes</span>
+          <span data-i18n="btnApply">Apply changes</span>
         </button>
 
         <button id="btnRevertWhitelist" class="btn btn-secondary" disabled>
@@ -174,7 +174,7 @@
             <polyline points="1 4 1 10 7 10"></polyline>
             <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
           </svg>
-          <span>Revert</span>
+          <span data-i18n="btnRevert">Revert</span>
         </button>
 
         <button id="btnImportWhitelist" class="btn btn-secondary">
@@ -184,7 +184,7 @@
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span>Import and append...</span>
+          <span data-i18n="btnImportAppend">Import and append...</span>
         </button>
         <input type="file" id="whitelistFileInput" accept=".txt,.json" hidden>
 
@@ -195,14 +195,14 @@
             <polyline points="17 8 12 3 7 8"></polyline>
             <line x1="12" y1="3" x2="12" y2="15"></line>
           </svg>
-          <span>Export...</span>
+          <span data-i18n="btnExport">Export...</span>
         </button>
 
         <span id="saveIndicator" class="save-indicator"></span>
       </div>
 
       <div class="whitelist-notes">
-        <p class="warning-text">Sites listed here will keep their original scrollbars (one domain per line). Lines starting with <code>!</code> or <code>#</code> are comments.</p>
+        <p class="warning-text" data-i18n="whitelistWarning">Sites listed here will keep their original scrollbars (one domain per line). Lines starting with <code>!</code> or <code>#</code> are comments.</p>
       </div>
 
       <!-- Editor Container with Line Numbers Gutter -->
@@ -298,8 +298,8 @@
     <!-- TAB 4: REPORT -->
     <section id="tab-report" class="tab-pane">
       <div class="settings-group">
-        <h2 class="group-title">Report Unhidden Scrollbars & Issues</h2>
-        <div class="setting-desc" style="margin-bottom: 14px;">
+        <h2 class="group-title" data-i18n="reportTitle">Report Unhidden Scrollbars & Issues</h2>
+        <div class="setting-desc" data-i18n="reportDesc" style="margin-bottom: 14px;">
           Found a website where scrollbars are still visible, or encountered a bug? Submit a report so we can add support and improve compatibility!
         </div>
         <div class="action-buttons-row">
@@ -309,20 +309,20 @@
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
-            <span>Report on GitHub</span>
+            <span data-i18n="btnReportGitHub">Report on GitHub</span>
           </a>
           <button id="btnCopyReportInfo" class="btn btn-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
             </svg>
-            <span id="copyReportInfoText">Copy System Info</span>
+            <span id="copyReportInfoText" data-i18n="btnCopySystemInfo">Copy System Info</span>
           </button>
         </div>
       </div>
 
       <div class="settings-group">
-        <h2 class="group-title">Helpful Details to Include in Your Report</h2>
+        <h2 class="group-title" data-i18n="reportHelpfulDetails">Helpful Details to Include in Your Report</h2>
         <ul class="guide-list" style="margin-top: 8px;">
           <li><strong>Website URL:</strong> The full web address of the page where scrollbars are not hidden.</li>
           <li><strong>Scrollbar Location:</strong> Is it the main page scrollbar or inside an element (sidebar, code block, popup, iframe)?</li>
@@ -333,6 +333,7 @@
     </section>
   </main>
 
+  <script src="../../shared/i18n.js"></script>
   <script src="../../shared/constants.js"></script>
   <script src="../../shared/storage.js"></script>
   <script src="../whitelist/whitelist-service.js"></script>

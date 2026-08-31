@@ -164,11 +164,14 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         chrome.storage.sync.get({ theme: 'system' }, (res) => resolve(res));
       });
       const currentTheme = syncData?.theme || 'system';
+      const copiedText = (typeof chrome !== 'undefined' && chrome.i18n && chrome.i18n.getMessage)
+        ? (chrome.i18n.getMessage('copied') || chrome.i18n.getMessage('colorCopied') || 'Copied!')
+        : 'Copied!';
 
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        args: [currentTheme],
-        func: async (themePref: string) => {
+        args: [currentTheme, copiedText],
+        func: async (themePref: string, copiedLabel: string) => {
           if (!('EyeDropper' in window)) {
             alert('EyeDropper is not supported on this page.');
             return;
@@ -264,7 +267,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
             toast.innerHTML = `
               <div class="swatch"></div>
               <span class="hex">${hex}</span>
-              <span style="opacity: 0.65; font-size: 12px;">Đã sao chép</span>
+              <span style="opacity: 0.65; font-size: 12px;">${copiedLabel || 'Copied!'}</span>
               <span class="check">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>

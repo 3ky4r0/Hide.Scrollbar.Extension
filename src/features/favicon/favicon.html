@@ -23,9 +23,8 @@
       </div>
     </div>
     <div>
-      <h1 style="margin-bottom: 4px;">Favicon Extractor</h1>
-      <p style="margin: 0; font-size: 14px; color: var(--muted);">Extract and download high-resolution favicons from any
-        website.</p>
+      <h1 style="margin-bottom: 4px;" data-i18n="faviconTitle">Favicon Extractor</h1>
+      <p style="margin: 0; font-size: 14px; color: var(--muted);" data-i18n="faviconSubtitle">Extract and download high-resolution favicons from any website.</p>
     </div>
   </header>
 
@@ -39,17 +38,17 @@
           <line x1="2" y1="12" x2="22" y2="12"></line>
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
         </svg>
-        <input type="text" id="urlInput" class="text-input" placeholder="https://example.com/" autocomplete="off"
+        <input type="text" id="urlInput" class="text-input" placeholder="https://example.com/" data-i18n="faviconPlaceholder" autocomplete="off"
           spellcheck="false">
       </div>
-      <button id="pasteBtn" class="btn btn-icon" title="Paste from clipboard" aria-label="Paste">
+      <button id="pasteBtn" class="btn btn-icon" title="Paste from clipboard" data-i18n-title="faviconPaste" aria-label="Paste" data-i18n-aria-label="faviconPaste">
         <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
           <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
         </svg>
       </button>
-      <button id="extractBtn" class="btn btn-icon btn-accent" title="Extract favicon" aria-label="Extract">
+      <button id="extractBtn" class="btn btn-icon btn-accent" title="Extract favicon" data-i18n-title="faviconExtract" aria-label="Extract" data-i18n-aria-label="faviconExtract">
         <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -73,7 +72,7 @@
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
-        Select size / format
+        <span data-i18n="faviconSelectFormat">Select size / format</span>
       </h2>
 
       <div class="fav-grid" id="favGrid">
@@ -88,18 +87,18 @@
             <polyline points="9 11 12 14 22 4"></polyline>
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
           </svg>
-          Selected URL
+          <span data-i18n="faviconSelectedUrl">Selected URL</span>
         </h2>
         <div class="format-row">
           <input type="text" id="selectedUrlInput" class="text-input" readonly>
-          <button id="copySelectedBtn" class="btn btn-icon" title="Copy URL" aria-label="Copy URL">
+          <button id="copySelectedBtn" class="btn btn-icon" title="Copy URL" data-i18n-title="faviconCopyUrl" aria-label="Copy URL" data-i18n-aria-label="faviconCopyUrl">
             <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
-          <button id="openNewTabBtn" class="btn btn-icon" title="Open in new tab" aria-label="Open in new tab">
+          <button id="openNewTabBtn" class="btn btn-icon" title="Open in new tab" data-i18n-title="faviconOpenTab" aria-label="Open in new tab" data-i18n-aria-label="faviconOpenTab">
             <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -107,8 +106,8 @@
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
           </button>
-          <button id="downloadBtn" class="btn btn-icon btn-accent" title="Download favicon"
-            aria-label="Download favicon">
+          <button id="downloadBtn" class="btn btn-icon btn-accent" title="Download favicon" data-i18n-title="faviconDownload"
+            aria-label="Download favicon" data-i18n-aria-label="faviconDownload">
             <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -121,11 +120,12 @@
     </div>
 
     <!-- Empty / Fallback State -->
-    <div id="noFaviconNotice" class="note-box" style="display: none; text-align: center;">
+    <div id="noFaviconNotice" class="note-box" style="display: none; text-align: center;" data-i18n="faviconNotFound">
       No valid favicon found for this website.
     </div>
   </main>
 
+  <script src="../../shared/i18n.js"></script>
   <script src="favicon.js"></script>
 </body>
 

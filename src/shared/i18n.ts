@@ -33,7 +33,15 @@ export const applyI18n = (): void => {
   });
 };
 
-export const ScrollHideI18n = { applyI18n };
+export const getMessage = (key: string, defaultVal: string = ''): string => {
+  if (typeof chrome !== 'undefined' && chrome.i18n && chrome.i18n.getMessage) {
+    const msg = chrome.i18n.getMessage(key);
+    return msg || defaultVal;
+  }
+  return defaultVal;
+};
+
+export const ScrollHideI18n = { applyI18n, getMessage };
 
 // Global assignment for HTML script tags
 (globalThis as unknown as { ScrollHideI18n: typeof ScrollHideI18n }).ScrollHideI18n = ScrollHideI18n;

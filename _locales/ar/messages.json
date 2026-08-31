@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "إخفاء شريط التمرير",
-        "description": "Name of the extension"
+        "message": "إخفاء شريط التمرير"
     },
     "extDesc": {
-        "message": "إخفاء أشرطة التمرير. يدعم القائمة البيضاء.",
-        "description": "Description of the extension"
+        "message": "إخفاء أشرطة التمرير تلقائيًا للحصول على واجهة أكثر نظافة. يدعم القائمة البيضاء والتبديل."
     },
     "restrictedNotice": {
         "message": "صفحة مقيدة"
     },
     "whitelistedNotice": {
-        "message": "قائمة الاستثناءات"
+        "message": "في قائمة الاستثناءات"
     },
     "cantAddPage": {
         "message": "صفحة غير صالحة"
@@ -23,7 +21,7 @@
         "message": "https://www.example.com/"
     },
     "saving": {
-        "message": "جاري الحفظ..."
+        "message": "جارٍ الحفظ..."
     },
     "saved": {
         "message": "تم الحفظ"
@@ -46,6 +44,9 @@
     "openExceptions": {
         "message": "فتح الاستثناءات"
     },
+    "settings": {
+        "message": "الإعدادات"
+    },
     "info": {
         "message": "معلومات"
     },
@@ -56,10 +57,10 @@
         "message": "الاستثناءات"
     },
     "statsCleaned": {
-        "message": "تم إخفاؤها"
+        "message": "تم تنظيفها"
     },
     "statusActive": {
-        "message": "نشط"
+        "message": "مفعل"
     },
     "statusDisabled": {
         "message": "معطل"
@@ -72,5 +73,221 @@
     },
     "invalidFileError": {
         "message": "خطأ: تنسيق الملف غير صالح!"
+    },
+    "pickColor": {
+        "message": "أداة اختيار اللون"
+    },
+    "getFavicon": {
+        "message": "استخراج الأيقونة"
+    },
+    "colorCopied": {
+        "message": "تم النسخ!"
+    },
+    "pageRuler": {
+        "message": "مسطرة الصفحة"
+    },
+    "rulerCopied": {
+        "message": "تم نسخ الأبعاد!"
+    },
+    "pageDraw": {
+        "message": "الرسم على الصفحة"
+    },
+    "drawSaved": {
+        "message": "تم حفظ الرسم!"
+    },
+    "appearanceGroup": {
+        "message": "المظهر"
+    },
+    "themeTitle": {
+        "message": "السمة"
+    },
+    "themeDesc": {
+        "message": "اختر سمة المظهر: الافتراضي للنظام، فاتح أو داكن"
+    },
+    "themeSystem": {
+        "message": "الافتراضي للنظام"
+    },
+    "themeLight": {
+        "message": "فاتح"
+    },
+    "themeDark": {
+        "message": "داكن"
+    },
+    "tabSettings": {
+        "message": "الإعدادات"
+    },
+    "tabWhitelist": {
+        "message": "القائمة البيضاء"
+    },
+    "tabGuide": {
+        "message": "الدليل"
+    },
+    "tabReport": {
+        "message": "إبلاغ"
+    },
+    "generalSettingsGroup": {
+        "message": "الإعدادات العامة"
+    },
+    "enableHideScrollbar": {
+        "message": "تمكين إخفاء شريط التمرير"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "إخفاء أشرطة التمرير تلقائيًا عبر جميع مواقع الويب ما لم تكن في القائمة البيضاء."
+    },
+    "statsGroup": {
+        "message": "الإحصائيات"
+    },
+    "statsCleanedTitle": {
+        "message": "أشرطة التمرير المنظفة"
+    },
+    "statsCleanedDesc": {
+        "message": "إجمالي أشرطة التمرير التي تمت إزالتها بواسطة الإضافة عبر جميع الجلسات."
+    },
+    "btnReset": {
+        "message": "إعادة ضبط"
+    },
+    "backupGroup": {
+        "message": "النسخ الاحتياطي والاستعادة"
+    },
+    "backupDesc": {
+        "message": "تصدير أو استيراد إعدادات ScrollHide ونطاقات القائمة البيضاء الخاصة بك."
+    },
+    "backupExport": {
+        "message": "نسخ احتياطي إلى ملف"
+    },
+    "backupImport": {
+        "message": "استعادة من ملف..."
+    },
+    "backupReset": {
+        "message": "إعادة التعيين إلى الإعدادات الافتراضية"
+    },
+    "btnApply": {
+        "message": "تطبيق التغييرات"
+    },
+    "btnRevert": {
+        "message": "تراجع"
+    },
+    "btnImportAppend": {
+        "message": "استيراد وإلحاق..."
+    },
+    "btnExport": {
+        "message": "تصدير..."
+    },
+    "whitelistWarning": {
+        "message": "تعتبر الأسطر التي تبدأ بـ ! أو # تعليقات."
+    },
+    "guideTitle": {
+        "message": "دليل الاستخدام السريع"
+    },
+    "reportTitle": {
+        "message": "الإبلاغ عن أشرطة تمرير غير مخفية أو مشاكل"
+    },
+    "reportDesc": {
+        "message": "هل عثرت على موقع ويب لا تزال أشرطة التمرير فيه مرئية أو واجهت خطأ؟ أرسل تقريرًا لمساعدتنا في تحسين التوافق!"
+    },
+    "btnReportGitHub": {
+        "message": "إبلاغ على GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "نسخ معلومات النظام"
+    },
+    "reportHelpfulDetails": {
+        "message": "تفاصيل مفيدة لتضمينها في تقريرك"
+    },
+    "faviconTitle": {
+        "message": "مستخرج الأيقونات Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "استخرج وحمل أيقونات Favicon عالية الدقة من أي موقع ويب."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "لصق من الحافظة"
+    },
+    "faviconExtract": {
+        "message": "استخراج الأيقونات"
+    },
+    "faviconSelectFormat": {
+        "message": "اختر الحجم / التنسيق"
+    },
+    "faviconSelectedUrl": {
+        "message": "الرابط المحدد"
+    },
+    "faviconCopyUrl": {
+        "message": "نسخ الرابط"
+    },
+    "faviconOpenTab": {
+        "message": "فتح في علامة تبويب جديدة"
+    },
+    "faviconDownload": {
+        "message": "تنزيل الأيقونة"
+    },
+    "faviconNotFound": {
+        "message": "لم يتم العثور على أيقونة صالحة لهذا الموقع."
+    },
+    "faviconInvalidUrl": {
+        "message": "يرجى إدخال عنوان URL صالح للموقع."
+    },
+    "copied": {
+        "message": "تم النسخ!"
+    },
+    "drawPen": {
+        "message": "قلم (P)"
+    },
+    "drawHighlighter": {
+        "message": "قلم تمييز (H)"
+    },
+    "drawRect": {
+        "message": "مستطيل (R)"
+    },
+    "drawCircle": {
+        "message": "دائرة (C)"
+    },
+    "drawArrow": {
+        "message": "سهم (A)"
+    },
+    "drawLine": {
+        "message": "خط (L)"
+    },
+    "drawText": {
+        "message": "نص (T)"
+    },
+    "drawEraser": {
+        "message": "ممحاة (E)"
+    },
+    "drawStrokeSize": {
+        "message": "سمك الخط"
+    },
+    "drawUndo": {
+        "message": "تراجع (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "إعادة (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "مسح اللوحة"
+    },
+    "drawSave": {
+        "message": "حفظ الصورة"
+    },
+    "drawClose": {
+        "message": "إغلاق (Esc)"
+    },
+    "rulerInspect": {
+        "message": "فاحص العناصر (I)"
+    },
+    "rulerSelect": {
+        "message": "تحديد بالصندوق (S)"
+    },
+    "rulerTarget": {
+        "message": "الهدف"
+    },
+    "rulerCopyDim": {
+        "message": "نسخ الأبعاد"
+    },
+    "rulerClose": {
+        "message": "إغلاق (Esc)"
     }
 }

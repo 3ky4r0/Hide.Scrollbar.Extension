@@ -1,20 +1,18 @@
 {
     "extName": {
-        "message": "스크롤바 숨기기",
-        "description": "Name of the extension"
+        "message": "스크롤바 숨기기"
     },
     "extDesc": {
-        "message": "스크롤바를 자동으로 숨깁니다. 화이트리스트 및 토글 지원.",
-        "description": "Description of the extension"
+        "message": "더 깔끔한 인터페이스를 위해 스크롤바를 자동으로 숨깁니다. 예외 목록 및 켜기/끄기를 지원합니다."
     },
     "restrictedNotice": {
         "message": "제한된 페이지"
     },
     "whitelistedNotice": {
-        "message": "예외 목록"
+        "message": "예외 목록에 있음"
     },
     "cantAddPage": {
-        "message": "잘못된 페이지"
+        "message": "유효하지 않은 페이지"
     },
     "exceptionsTitle": {
         "message": "예외 목록"
@@ -32,10 +30,10 @@
         "message": "오류"
     },
     "addCurrentHost": {
-        "message": "사이트를 허용 목록에 추가"
+        "message": "화이트리스트에 추가"
     },
     "removeCurrentHost": {
-        "message": "사이트를 허용 목록에서 제거"
+        "message": "화이트리스트에서 제거"
     },
     "exportData": {
         "message": "데이터 내보내기"
@@ -44,7 +42,10 @@
         "message": "데이터 가져오기"
     },
     "openExceptions": {
-        "message": "예외 열기"
+        "message": "예외 목록 열기"
+    },
+    "settings": {
+        "message": "설정"
     },
     "info": {
         "message": "정보"
@@ -53,24 +54,240 @@
         "message": "상태"
     },
     "statsExceptions": {
-        "message": "예외"
+        "message": "예외 수"
     },
     "statsCleaned": {
-        "message": "숨김됨"
+        "message": "정리됨"
     },
     "statusActive": {
-        "message": "활성화"
+        "message": "활성"
     },
     "statusDisabled": {
-        "message": "비활성화"
+        "message": "비활성"
     },
     "statusWhitelisted": {
-        "message": "화이트리스트"
+        "message": "화이트리스트 등록됨"
     },
     "statusRestricted": {
         "message": "제한됨"
     },
     "invalidFileError": {
         "message": "오류: 잘못된 파일 형식입니다!"
+    },
+    "pickColor": {
+        "message": "색상 추출"
+    },
+    "getFavicon": {
+        "message": "파비콘 가져오기"
+    },
+    "colorCopied": {
+        "message": "색상이 복사되었습니다!"
+    },
+    "pageRuler": {
+        "message": "페이지 눈금자"
+    },
+    "rulerCopied": {
+        "message": "크기가 복사되었습니다!"
+    },
+    "pageDraw": {
+        "message": "페이지 그리기"
+    },
+    "drawSaved": {
+        "message": "그림이 저장되었습니다!"
+    },
+    "appearanceGroup": {
+        "message": "화면 테마"
+    },
+    "themeTitle": {
+        "message": "테마"
+    },
+    "themeDesc": {
+        "message": "외관 테마 선택: 시스템 기본값, 라이트 모드 또는 다크 모드"
+    },
+    "themeSystem": {
+        "message": "시스템 기본값"
+    },
+    "themeLight": {
+        "message": "라이트 모드"
+    },
+    "themeDark": {
+        "message": "다크 모드"
+    },
+    "tabSettings": {
+        "message": "설정"
+    },
+    "tabWhitelist": {
+        "message": "화이트리스트"
+    },
+    "tabGuide": {
+        "message": "사용 가이드"
+    },
+    "tabReport": {
+        "message": "문제 보고"
+    },
+    "generalSettingsGroup": {
+        "message": "일반 설정"
+    },
+    "enableHideScrollbar": {
+        "message": "스크롤바 숨기기 활성화"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "화이트리스트에 등록되지 않은 모든 웹사이트에서 스크롤바를 자동으로 숨깁니다."
+    },
+    "statsGroup": {
+        "message": "통계"
+    },
+    "statsCleanedTitle": {
+        "message": "숨긴 스크롤바"
+    },
+    "statsCleanedDesc": {
+        "message": "모든 세션에서 확장 프로그램이 제거한 스크롤바의 총 개수입니다."
+    },
+    "btnReset": {
+        "message": "초기화"
+    },
+    "backupGroup": {
+        "message": "백업 및 복원"
+    },
+    "backupDesc": {
+        "message": "ScrollHide 설정과 화이트리스트 도메인을 내보내거나 가져옵니다."
+    },
+    "backupExport": {
+        "message": "파일로 백업"
+    },
+    "backupImport": {
+        "message": "파일에서 복원..."
+    },
+    "backupReset": {
+        "message": "기본값으로 초기화"
+    },
+    "btnApply": {
+        "message": "변경사항 적용"
+    },
+    "btnRevert": {
+        "message": "되돌리기"
+    },
+    "btnImportAppend": {
+        "message": "가져와서 추가..."
+    },
+    "btnExport": {
+        "message": "내보내기..."
+    },
+    "whitelistWarning": {
+        "message": "! 또는 # 으로 시작하는 줄은 주석으로 처리됩니다."
+    },
+    "guideTitle": {
+        "message": "빠른 사용 가이드"
+    },
+    "reportTitle": {
+        "message": "숨겨지지 않은 스크롤바 및 오류 보고"
+    },
+    "reportDesc": {
+        "message": "스크롤바가 남아있는 웹사이트나 버그를 발견하셨나요? 호환성 개선을 위해 보고서를 보내주세요!"
+    },
+    "btnReportGitHub": {
+        "message": "GitHub에서 보고하기"
+    },
+    "btnCopySystemInfo": {
+        "message": "시스템 정보 복사"
+    },
+    "reportHelpfulDetails": {
+        "message": "보고서에 포함하면 유용한 정보"
+    },
+    "faviconTitle": {
+        "message": "파비콘 추출기"
+    },
+    "faviconSubtitle": {
+        "message": "모든 웹사이트에서 고해상도 파비콘 아이콘을 추출하고 다운로드합니다."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "클립보드에서 붙여넣기"
+    },
+    "faviconExtract": {
+        "message": "파비콘 추출"
+    },
+    "faviconSelectFormat": {
+        "message": "크기 / 형식 선택"
+    },
+    "faviconSelectedUrl": {
+        "message": "선택된 URL"
+    },
+    "faviconCopyUrl": {
+        "message": "URL 복사"
+    },
+    "faviconOpenTab": {
+        "message": "새 탭에서 열기"
+    },
+    "faviconDownload": {
+        "message": "파비콘 다운로드"
+    },
+    "faviconNotFound": {
+        "message": "이 웹사이트에서 유효한 파비콘을 찾을 수 없습니다."
+    },
+    "faviconInvalidUrl": {
+        "message": "올바른 웹사이트 URL을 입력해주세요."
+    },
+    "copied": {
+        "message": "복사됨!"
+    },
+    "drawPen": {
+        "message": "펜 (P)"
+    },
+    "drawHighlighter": {
+        "message": "형광펜 (H)"
+    },
+    "drawRect": {
+        "message": "직사각형 (R)"
+    },
+    "drawCircle": {
+        "message": "원 (C)"
+    },
+    "drawArrow": {
+        "message": "화살표 (A)"
+    },
+    "drawLine": {
+        "message": "직선 (L)"
+    },
+    "drawText": {
+        "message": "텍스트 (T)"
+    },
+    "drawEraser": {
+        "message": "지우개 (E)"
+    },
+    "drawStrokeSize": {
+        "message": "선 굵기"
+    },
+    "drawUndo": {
+        "message": "실행 취소 (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "다시 실행 (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "캔버스 지우기"
+    },
+    "drawSave": {
+        "message": "이미지 저장"
+    },
+    "drawClose": {
+        "message": "닫기 (Esc)"
+    },
+    "rulerInspect": {
+        "message": "요소 검사기 (I)"
+    },
+    "rulerSelect": {
+        "message": "영역 선택 (S)"
+    },
+    "rulerTarget": {
+        "message": "타겟"
+    },
+    "rulerCopyDim": {
+        "message": "크기 복사"
+    },
+    "rulerClose": {
+        "message": "닫기 (Esc)"
     }
 }

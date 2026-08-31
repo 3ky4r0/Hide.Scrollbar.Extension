@@ -1,20 +1,18 @@
 {
     "extName": {
-        "message": "Скрыть полосу прокрутки",
-        "description": "Name of the extension"
+        "message": "Скрыть полосу прокрутки"
     },
     "extDesc": {
-        "message": "Скрывает полосы прокрутки. Поддержка списка.",
-        "description": "Description of the extension"
+        "message": "Автоматически скрывает полосы прокрутки для более чистого интерфейса. Поддерживает белый список и переключатель."
     },
     "restrictedNotice": {
-        "message": "Ограничено"
+        "message": "Ограниченная страница"
     },
     "whitelistedNotice": {
-        "message": "В исключениях"
+        "message": "В списке исключений"
     },
     "cantAddPage": {
-        "message": "Ошибка страницы"
+        "message": "Недопустимая страница"
     },
     "exceptionsTitle": {
         "message": "Исключения"
@@ -38,13 +36,16 @@
         "message": "Удалить сайт из белого списка"
     },
     "exportData": {
-        "message": "Экспортировать данные"
+        "message": "Экспорт данных"
     },
     "importData": {
-        "message": "Импортировать данные"
+        "message": "Импорт данных"
     },
     "openExceptions": {
         "message": "Открыть исключения"
+    },
+    "settings": {
+        "message": "Настройки"
     },
     "info": {
         "message": "Информация"
@@ -53,7 +54,7 @@
         "message": "Статус"
     },
     "statsExceptions": {
-        "message": "Исключения"
+        "message": "Исключений"
     },
     "statsCleaned": {
         "message": "Скрыто"
@@ -65,12 +66,228 @@
         "message": "Отключен"
     },
     "statusWhitelisted": {
-        "message": "Исключен"
+        "message": "В белом списке"
     },
     "statusRestricted": {
-        "message": "Ограничен"
+        "message": "Ограничено"
     },
     "invalidFileError": {
         "message": "Ошибка: неверный формат файла!"
+    },
+    "pickColor": {
+        "message": "Пипетка цвета"
+    },
+    "getFavicon": {
+        "message": "Получить Favicon"
+    },
+    "colorCopied": {
+        "message": "Скопировано!"
+    },
+    "pageRuler": {
+        "message": "Линейка страницы"
+    },
+    "rulerCopied": {
+        "message": "Размеры скопированы!"
+    },
+    "pageDraw": {
+        "message": "Рисовать на странице"
+    },
+    "drawSaved": {
+        "message": "Рисунок сохранен!"
+    },
+    "appearanceGroup": {
+        "message": "Внешний вид"
+    },
+    "themeTitle": {
+        "message": "Тема оформления"
+    },
+    "themeDesc": {
+        "message": "Выберите тему: Системная, Светлая или Темная"
+    },
+    "themeSystem": {
+        "message": "Как в системе"
+    },
+    "themeLight": {
+        "message": "Светлая"
+    },
+    "themeDark": {
+        "message": "Темная"
+    },
+    "tabSettings": {
+        "message": "Настройки"
+    },
+    "tabWhitelist": {
+        "message": "Белый список"
+    },
+    "tabGuide": {
+        "message": "Руководство"
+    },
+    "tabReport": {
+        "message": "Отчет об ошибке"
+    },
+    "generalSettingsGroup": {
+        "message": "Основные настройки"
+    },
+    "enableHideScrollbar": {
+        "message": "Включить скрытие полосы прокрутки"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "Автоматически скрывать полосы прокрутки на всех сайтах, кроме белого списка."
+    },
+    "statsGroup": {
+        "message": "Статистика"
+    },
+    "statsCleanedTitle": {
+        "message": "Скрыто полос прокрутки"
+    },
+    "statsCleanedDesc": {
+        "message": "Всего полос прокрутки, скрытых расширением за все сессии."
+    },
+    "btnReset": {
+        "message": "Сбросить"
+    },
+    "backupGroup": {
+        "message": "Резервное копирование и восстановление"
+    },
+    "backupDesc": {
+        "message": "Экспорт или импорт конфигурации ScrollHide и доменов белого списка."
+    },
+    "backupExport": {
+        "message": "Создать резервную копию"
+    },
+    "backupImport": {
+        "message": "Восстановить из файла..."
+    },
+    "backupReset": {
+        "message": "Сбросить настройки по умолчанию"
+    },
+    "btnApply": {
+        "message": "Применить изменения"
+    },
+    "btnRevert": {
+        "message": "Отменить"
+    },
+    "btnImportAppend": {
+        "message": "Импортировать и добавить..."
+    },
+    "btnExport": {
+        "message": "Экспорт..."
+    },
+    "whitelistWarning": {
+        "message": "Строки, начинающиеся с ! или #, считаются комментариями."
+    },
+    "guideTitle": {
+        "message": "Краткое руководство"
+    },
+    "reportTitle": {
+        "message": "Сообщить о неспрятанных полосах или ошибке"
+    },
+    "reportDesc": {
+        "message": "Нашли сайт с видимыми полосами прокрутки или баг? Отправьте отчет для улучшения совместимости!"
+    },
+    "btnReportGitHub": {
+        "message": "Сообщить на GitHub"
+    },
+    "btnCopySystemInfo": {
+        "message": "Копировать данные о системе"
+    },
+    "reportHelpfulDetails": {
+        "message": "Полезные данные для отчета"
+    },
+    "faviconTitle": {
+        "message": "Экстрактор Favicon"
+    },
+    "faviconSubtitle": {
+        "message": "Извлекайте и скачивайте иконки Favicon высокого разрешения с любого сайта."
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "Вставить из буфера"
+    },
+    "faviconExtract": {
+        "message": "Извлечь Favicon"
+    },
+    "faviconSelectFormat": {
+        "message": "Выбрать размер / формат"
+    },
+    "faviconSelectedUrl": {
+        "message": "Выбранный URL"
+    },
+    "faviconCopyUrl": {
+        "message": "Копировать URL"
+    },
+    "faviconOpenTab": {
+        "message": "Открыть в новой вкладке"
+    },
+    "faviconDownload": {
+        "message": "Скачать Favicon"
+    },
+    "faviconNotFound": {
+        "message": "Действительный Favicon для этого сайта не найден."
+    },
+    "faviconInvalidUrl": {
+        "message": "Пожалуйста, введите правильный URL сайта."
+    },
+    "copied": {
+        "message": "Скопировано!"
+    },
+    "drawPen": {
+        "message": "Карандаш (P)"
+    },
+    "drawHighlighter": {
+        "message": "Маркер (H)"
+    },
+    "drawRect": {
+        "message": "Прямоугольник (R)"
+    },
+    "drawCircle": {
+        "message": "Круг (C)"
+    },
+    "drawArrow": {
+        "message": "Стрелка (A)"
+    },
+    "drawLine": {
+        "message": "Линия (L)"
+    },
+    "drawText": {
+        "message": "Текст (T)"
+    },
+    "drawEraser": {
+        "message": "Ластик (E)"
+    },
+    "drawStrokeSize": {
+        "message": "Толщина линии"
+    },
+    "drawUndo": {
+        "message": "Отменить (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "Повторить (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "Очистить холст"
+    },
+    "drawSave": {
+        "message": "Сохранить рисунок"
+    },
+    "drawClose": {
+        "message": "Закрыть (Esc)"
+    },
+    "rulerInspect": {
+        "message": "Инспектор элементов (I)"
+    },
+    "rulerSelect": {
+        "message": "Выбор области (S)"
+    },
+    "rulerTarget": {
+        "message": "Цель"
+    },
+    "rulerCopyDim": {
+        "message": "Копировать размеры"
+    },
+    "rulerClose": {
+        "message": "Закрыть (Esc)"
     }
 }

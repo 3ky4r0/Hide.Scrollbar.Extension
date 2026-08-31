@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
+  const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
   const { BACKUP_FILENAME, DEFAULT_SYNC_STATE } = (globalThis as any).ScrollHideConstants || {};
   const { getSyncState, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
   const { normalizeWhitelist, sanitizeDomain } = (globalThis as any).ScrollHideWhitelist || {};
+
+  if (applyI18n) {
+    applyI18n();
+  }
 
   // Tabs
   const navTabs = document.querySelectorAll<HTMLElement>('.nav-tab[data-tab]');

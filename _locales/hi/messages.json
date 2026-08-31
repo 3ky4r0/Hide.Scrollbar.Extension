@@ -1,17 +1,15 @@
 {
     "extName": {
-        "message": "स्क्रॉलबार छिपाएं",
-        "description": "Name of the extension"
+        "message": "स्क्रॉलबार छुपाएं"
     },
     "extDesc": {
-        "message": "स्क्रॉल बार छुपाएं। श्वेतसूची का समर्थन।",
-        "description": "Description of the extension"
+        "message": "साफ इंटरफ़ेस के लिए स्क्रॉलबार को स्वचालित रूप से छुपाएं। व्हाइटलिस्ट और टॉगल का समर्थन करता है।"
     },
     "restrictedNotice": {
         "message": "प्रतिबंधित पृष्ठ"
     },
     "whitelistedNotice": {
-        "message": "अपवाद सूची"
+        "message": "अपवाद सूची में"
     },
     "cantAddPage": {
         "message": "अमान्य पृष्ठ"
@@ -23,7 +21,7 @@
         "message": "https://www.example.com/"
     },
     "saving": {
-        "message": "सहेजा जा रहा है..."
+        "message": "सहेज रहा है..."
     },
     "saved": {
         "message": "सहेजा गया"
@@ -32,10 +30,10 @@
         "message": "त्रुटि"
     },
     "addCurrentHost": {
-        "message": "साइट को श्वेतसूची में जोड़ें"
+        "message": "साइट को व्हाइटलिस्ट में जोड़ें"
     },
     "removeCurrentHost": {
-        "message": "साइट को श्वेतसूची से हटाएँ"
+        "message": "साइट को व्हाइटलिस्ट से हटाएं"
     },
     "exportData": {
         "message": "डेटा निर्यात करें"
@@ -45,6 +43,9 @@
     },
     "openExceptions": {
         "message": "अपवाद खोलें"
+    },
+    "settings": {
+        "message": "सेटिंग्स"
     },
     "info": {
         "message": "जानकारी"
@@ -56,21 +57,237 @@
         "message": "अपवाद"
     },
     "statsCleaned": {
-        "message": "साफ़ किया गया"
+        "message": "साफ किए गए"
     },
     "statusActive": {
         "message": "सक्रिय"
     },
     "statusDisabled": {
-        "message": "निष्क्रिय"
+        "message": "अक्षम"
     },
     "statusWhitelisted": {
-        "message": "श्वेतसूची"
+        "message": "व्हाइटलिस्टेड"
     },
     "statusRestricted": {
         "message": "प्रतिबंधित"
     },
     "invalidFileError": {
-        "message": "त्रुटि: अमान्य फ़ाइल स्वरूप!"
+        "message": "त्रुटि: अमान्य फ़ाइल प्रारूप!"
+    },
+    "pickColor": {
+        "message": "रंग चुनें"
+    },
+    "getFavicon": {
+        "message": "फेविकॉन प्राप्त करें"
+    },
+    "colorCopied": {
+        "message": "कॉपी किया गया!"
+    },
+    "pageRuler": {
+        "message": "पेज रूलर"
+    },
+    "rulerCopied": {
+        "message": "आयाम कॉपी किए गए!"
+    },
+    "pageDraw": {
+        "message": "पेज पर ड्रा करें"
+    },
+    "drawSaved": {
+        "message": "ड्राइंग सहेजी गई!"
+    },
+    "appearanceGroup": {
+        "message": "दिखावट"
+    },
+    "themeTitle": {
+        "message": "थीम"
+    },
+    "themeDesc": {
+        "message": "थीम चुनें: सिस्टम डिफ़ॉल्ट, लाइट या डार्क"
+    },
+    "themeSystem": {
+        "message": "सिस्टम डिफ़ॉल्ट"
+    },
+    "themeLight": {
+        "message": "लाइट"
+    },
+    "themeDark": {
+        "message": "डार्क"
+    },
+    "tabSettings": {
+        "message": "सेटिंग्स"
+    },
+    "tabWhitelist": {
+        "message": "व्हाइटलिस्ट"
+    },
+    "tabGuide": {
+        "message": "मार्गदर्शिका"
+    },
+    "tabReport": {
+        "message": "रिपोर्ट करें"
+    },
+    "generalSettingsGroup": {
+        "message": "सामान्य सेटिंग्स"
+    },
+    "enableHideScrollbar": {
+        "message": "स्क्रॉलबार छुपाना सक्षम करें"
+    },
+    "enableHideScrollbarDesc": {
+        "message": "व्हाइटलिस्टेड साइटों को छोड़कर सभी वेबसाइटों पर स्क्रॉलबार को स्वचालित रूप से छुपाएं।"
+    },
+    "statsGroup": {
+        "message": "आंकड़े"
+    },
+    "statsCleanedTitle": {
+        "message": "साफ किए गए स्क्रॉलबार"
+    },
+    "statsCleanedDesc": {
+        "message": "सभी सत्रों में एक्सटेंशन द्वारा हटाए गए कुल स्क्रॉलबार।"
+    },
+    "btnReset": {
+        "message": "रीसेट करें"
+    },
+    "backupGroup": {
+        "message": "बैकअप और पुनर्स्थापना"
+    },
+    "backupDesc": {
+        "message": "अपने ScrollHide कॉन्फ़िगरेशन और व्हाइटलिस्ट डोमेन को निर्यात या आयात करें।"
+    },
+    "backupExport": {
+        "message": "फ़ाइल में बैकअप लें"
+    },
+    "backupImport": {
+        "message": "फ़ाइल से पुनर्स्थापित करें..."
+    },
+    "backupReset": {
+        "message": "डिफ़ॉल्ट पर रीसेट करें"
+    },
+    "btnApply": {
+        "message": "परिवर्तन लागू करें"
+    },
+    "btnRevert": {
+        "message": "वापस लें"
+    },
+    "btnImportAppend": {
+        "message": "आयात करें और जोड़ें..."
+    },
+    "btnExport": {
+        "message": "निर्यात करें..."
+    },
+    "whitelistWarning": {
+        "message": "! या # से शुरू होने वाली पंक्तियों को टिप्पणियों के रूप में माना जाता है।"
+    },
+    "guideTitle": {
+        "message": "त्वरित उपयोग मार्गदर्शिका"
+    },
+    "reportTitle": {
+        "message": "दिखाई देने वाले स्क्रॉलबार या समस्या की रिपोर्ट करें"
+    },
+    "reportDesc": {
+        "message": "क्या आपको कोई ऐसी वेबसाइट मिली जहाँ स्क्रॉलबार अभी भी दिखाई दे रहे हैं? अनुकूलता सुधारने के लिए रिपोर्ट सबमिट करें!"
+    },
+    "btnReportGitHub": {
+        "message": "GitHub पर रिपोर्ट करें"
+    },
+    "btnCopySystemInfo": {
+        "message": "सिस्टम जानकारी कॉपी करें"
+    },
+    "reportHelpfulDetails": {
+        "message": "आपकी रिपोर्ट में शामिल करने के लिए उपयोगी विवरण"
+    },
+    "faviconTitle": {
+        "message": "फेविकॉन एक्सट्रैक्टर"
+    },
+    "faviconSubtitle": {
+        "message": "किसी भी वेबसाइट से उच्च-रिज़ॉल्यूशन फेविकॉन आइकन निकालें और डाउनलोड करें।"
+    },
+    "faviconPlaceholder": {
+        "message": "https://example.com/"
+    },
+    "faviconPaste": {
+        "message": "क्लिपबोर्ड से पेस्ट करें"
+    },
+    "faviconExtract": {
+        "message": "फेविकॉन निकालें"
+    },
+    "faviconSelectFormat": {
+        "message": "आकार / प्रारूप चुनें"
+    },
+    "faviconSelectedUrl": {
+        "message": "चयनित URL"
+    },
+    "faviconCopyUrl": {
+        "message": "URL कॉपी करें"
+    },
+    "faviconOpenTab": {
+        "message": "नए टैब में खोलें"
+    },
+    "faviconDownload": {
+        "message": "फेविकॉन डाउनलोड करें"
+    },
+    "faviconNotFound": {
+        "message": "इस वेबसाइट के लिए कोई मान्य फेविकॉन नहीं मिला।"
+    },
+    "faviconInvalidUrl": {
+        "message": "कृपया एक मान्य वेबसाइट URL दर्ज करें।"
+    },
+    "copied": {
+        "message": "कॉपी किया गया!"
+    },
+    "drawPen": {
+        "message": "पेन (P)"
+    },
+    "drawHighlighter": {
+        "message": "हाइलाइटर (H)"
+    },
+    "drawRect": {
+        "message": "आयत (R)"
+    },
+    "drawCircle": {
+        "message": "वृत्त (C)"
+    },
+    "drawArrow": {
+        "message": "तीर (A)"
+    },
+    "drawLine": {
+        "message": "रेखा (L)"
+    },
+    "drawText": {
+        "message": "पाठ (T)"
+    },
+    "drawEraser": {
+        "message": "इरेज़र (E)"
+    },
+    "drawStrokeSize": {
+        "message": "स्ट्रोक का आकार"
+    },
+    "drawUndo": {
+        "message": "पूर्ववत करें (Ctrl+Z)"
+    },
+    "drawRedo": {
+        "message": "फिर से करें (Ctrl+Y)"
+    },
+    "drawClear": {
+        "message": "कैनवास साफ करें"
+    },
+    "drawSave": {
+        "message": "छवि सहेजें"
+    },
+    "drawClose": {
+        "message": "बंद करें (Esc)"
+    },
+    "rulerInspect": {
+        "message": "तत्व निरीक्षक (I)"
+    },
+    "rulerSelect": {
+        "message": "बॉक्स चयन (S)"
+    },
+    "rulerTarget": {
+        "message": "लक्ष्य"
+    },
+    "rulerCopyDim": {
+        "message": "आयाम कॉपी करें"
+    },
+    "rulerClose": {
+        "message": "बंद करें (Esc)"
     }
 }
