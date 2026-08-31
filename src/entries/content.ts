@@ -1,51 +1,78 @@
 (function () {
   const { STYLE_ID } = (globalThis as any).ScrollHideConstants || { STYLE_ID: 'hide-scrollbar-style' };
   const { getSyncState } = (globalThis as any).ScrollHideStorage || {};
-  const { isWhitelisted } = (globalThis as any).ScrollHideWhitelist || {};
+  const { isWhitelisted, isRestrictedUrl } = (globalThis as any).ScrollHideWhitelist || {};
+
+  const CSS_TEXT = `
+    ::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+    * { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+    div[data-visualcompletion="ignore"][data-thumb="1"],
+    .os-scrollbar,
+    .simplebar-scrollbar,
+    .simplebar-track,
+    .ps__rail-x,
+    .ps__rail-y,
+    .mac-scrollbar {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  `;
 
   const applyStyle = (hide: boolean): void => {
     let style = document.getElementById(STYLE_ID);
-    if (hide && !style) {
-      style = document.createElement('style');
-      style.id = STYLE_ID;
-      style.textContent = `
-        ::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
-        * { scrollbar-width: none !important; -ms-overflow-style: none !important; }
-        div[data-visualcompletion="ignore"][data-thumb="1"],
-        .os-scrollbar,
-        .simplebar-scrollbar,
-        .simplebar-track,
-        .ps__rail-x,
-        .ps__rail-y,
-        .mac-scrollbar {
-          display: none !important;
-          visibility: hidden !important;
-          opacity: 0 !important;
-          width: 0 !important;
-          height: 0 !important;
+    if (hide) {
+      if (!style) {
+        style = document.createElement('style');
+        style.id = STYLE_ID;
+        style.textContent = CSS_TEXT;
+        const target = document.head || document.documentElement;
+        if (target) {
+          target.appendChild(style);
+        } else {
+          document.addEventListener('DOMContentLoaded', () => {
+            if (!document.getElementById(STYLE_ID)) {
+              (document.head || document.documentElement)?.appendChild(style!);
+            }
+          }, { once: true });
         }
-      `;
-      (document.head || document.documentElement).appendChild(style);
-    } else if (!hide && style) {
+      }
+    } else if (style) {
       style.remove();
     }
   };
+
+  // Instant zero-latency injection at document_start to eliminate Flash of Scrollbar
+  const isRestricted = isRestrictedUrl ? isRestrictedUrl(window.location.href) : false;
+  if (!isRestricted) {
+    applyStyle(true);
+  }
 
   const update = async (): Promise<void> => {
     if (!getSyncState) return;
     try {
       const state = await getSyncState();
       const isWhite = isWhitelisted ? isWhitelisted(window.location.hostname, state.whitelist) : false;
-      const shouldHide = state.scrollbarHidden && !isWhite;
+      const shouldHide = state.scrollbarHidden !== false && !isWhite && !isRestricted;
 
-      const styleBefore = document.getElementById(STYLE_ID);
       applyStyle(shouldHide);
-      const styleAfter = document.getElementById(STYLE_ID);
 
-      if (shouldHide && !styleBefore && styleAfter && window === window.top && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get({ hideCount: 0 }, (res) => {
-          chrome.storage.local.set({ hideCount: ((res.hideCount as number) || 0) + 1 });
-        });
+      // Defer analytics counter write to browser idle time so it never competes with initial page rendering
+      if (shouldHide && window === window.top && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        const incrementCounter = () => {
+          chrome.storage.local.get({ hideCount: 0 }, (res) => {
+            if (chrome.runtime.lastError) return;
+            chrome.storage.local.set({ hideCount: ((res.hideCount as number) || 0) + 1 });
+          });
+        };
+
+        if ('requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(incrementCounter, { timeout: 3000 });
+        } else {
+          setTimeout(incrementCounter, 1000);
+        }
       }
     } catch (err) {
       console.error('[Content] Failed to read sync state', { error: err });

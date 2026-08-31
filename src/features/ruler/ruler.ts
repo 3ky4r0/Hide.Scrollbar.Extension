@@ -35,11 +35,16 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     interactiveLayer!: HTMLDivElement;
     highlightBox!: HTMLDivElement;
     highlightBadge!: HTMLDivElement;
+    badgeTagSpan!: HTMLSpanElement;
+    badgeDimSpan!: HTMLSpanElement;
     lockDot!: HTMLSpanElement;
     selectionBox!: HTMLDivElement;
     selectionLabelW!: HTMLDivElement;
     selectionLabelH!: HTMLDivElement;
     hud!: HTMLDivElement;
+
+    rafMoveId: number | null = null;
+    rafScrollId: number | null = null;
 
     sW!: HTMLElement | null;
     sH!: HTMLElement | null;
@@ -126,7 +131,15 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       this.highlightBadge.className = 'highlight-badge';
       this.lockDot = document.createElement('span');
       this.lockDot.className = 'badge-lock';
+
+      this.badgeTagSpan = document.createElement('span');
+      this.badgeTagSpan.className = 'badge-tag';
+      this.badgeDimSpan = document.createElement('span');
+      this.badgeDimSpan.className = 'badge-dim';
+
       this.highlightBadge.appendChild(this.lockDot);
+      this.highlightBadge.appendChild(this.badgeTagSpan);
+      this.highlightBadge.appendChild(this.badgeDimSpan);
       this.highlightBox.appendChild(this.highlightBadge);
 
       // Selection box
@@ -337,22 +350,32 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     /* ── Events ── */
 
     onMove(e: PointerEvent): void {
-      if (this.mode === 'inspect') {
-        if (!this.locked) {
-          this.inspectAt(e.clientX, e.clientY);
-        }
-        return;
-      }
+      if (this.rafMoveId !== null) return;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+      const pageX = e.pageX;
+      const pageY = e.pageY;
 
-      if (this.isDragging) {
-        const x = Math.min(this.startX, e.pageX);
-        const y = Math.min(this.startY, e.pageY);
-        const w = Math.abs(e.pageX - this.startX);
-        const h = Math.abs(e.pageY - this.startY);
-        this.setSelection(x, y, w, h);
-      } else if (this.isResizing && this.resizeStart) {
-        this.doResize(e.pageX, e.pageY);
-      }
+      this.rafMoveId = requestAnimationFrame(() => {
+        this.rafMoveId = null;
+
+        if (this.mode === 'inspect') {
+          if (!this.locked) {
+            this.inspectAt(clientX, clientY);
+          }
+          return;
+        }
+
+        if (this.isDragging) {
+          const x = Math.min(this.startX, pageX);
+          const y = Math.min(this.startY, pageY);
+          const w = Math.abs(pageX - this.startX);
+          const h = Math.abs(pageY - this.startY);
+          this.setSelection(x, y, w, h);
+        } else if (this.isResizing && this.resizeStart) {
+          this.doResize(pageX, pageY);
+        }
+      });
     }
 
     onDown(e: PointerEvent): void {
@@ -413,24 +436,34 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     }
 
     onScroll(): void {
-      if (this.mode === 'inspect' && this.hoveredElement) {
-        const r = this.hoveredElement.getBoundingClientRect();
-        const sx = window.scrollX || 0, sy = window.scrollY || 0;
-        this.highlightBox.style.top  = `${r.top  + sy}px`;
-        this.highlightBox.style.left = `${r.left + sx}px`;
-      } else if (this.mode === 'selection' && this.selection) {
-        this.setSelection(this.selection.x, this.selection.y, this.selection.width, this.selection.height);
-      }
+      if (this.rafScrollId !== null) return;
+      this.rafScrollId = requestAnimationFrame(() => {
+        this.rafScrollId = null;
+        if (this.mode === 'inspect' && this.hoveredElement) {
+          const r = this.hoveredElement.getBoundingClientRect();
+          const sx = window.scrollX || 0, sy = window.scrollY || 0;
+          this.highlightBox.style.top  = `${r.top  + sy}px`;
+          this.highlightBox.style.left = `${r.left + sx}px`;
+        } else if (this.mode === 'selection' && this.selection) {
+          this.setSelection(this.selection.x, this.selection.y, this.selection.width, this.selection.height);
+        }
+      });
     }
 
     /* ── Inspect ── */
 
     inspectAt(cx: number, cy: number): void {
-      this.host.style.visibility = 'hidden';
-      const el = document.elementFromPoint(cx, cy);
-      this.host.style.visibility = '';
+      // Find the element without toggling visibility to prevent layout thrashing
+      const elements = document.elementsFromPoint ? document.elementsFromPoint(cx, cy) : [];
+      let el: Element | null = null;
+      for (const candidate of elements) {
+        if (candidate === this.host || (this.host && this.host.contains(candidate))) continue;
+        if (candidate === document.documentElement || candidate === document.body) continue;
+        el = candidate;
+        break;
+      }
 
-      if (!el || el === document.documentElement || el === document.body) return;
+      if (!el) return;
 
       this.hoveredElement = el;
       const r  = el.getBoundingClientRect();
@@ -452,12 +485,8 @@ import { RulerMode, SelectionRect } from '../../shared/types';
         ? el.className.split(' ').filter(Boolean).slice(0,2).map(c => `.${c}`).join('')
         : '';
 
-      const tagSpan = `<span class="badge-tag">${tag}${id}${cls}</span>`;
-      const dimSpan = `<span class="badge-dim">${w} × ${h}</span>`;
-      while (this.highlightBadge.children.length > 1) {
-        this.highlightBadge.removeChild(this.highlightBadge.lastChild!);
-      }
-      this.highlightBadge.insertAdjacentHTML('beforeend', tagSpan + dimSpan);
+      this.badgeTagSpan.textContent = `${tag}${id}${cls}`;
+      this.badgeDimSpan.textContent = `${w} × ${h}`;
 
       this.updateStats(w, h, Math.round(r.left), Math.round(r.top));
     }
@@ -573,6 +602,14 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     /* ── Cleanup ── */
 
     destroy(): void {
+      if (this.rafMoveId !== null) {
+        cancelAnimationFrame(this.rafMoveId);
+        this.rafMoveId = null;
+      }
+      if (this.rafScrollId !== null) {
+        cancelAnimationFrame(this.rafScrollId);
+        this.rafScrollId = null;
+      }
       window.removeEventListener('pointermove', this._onMove, { capture: true });
       window.removeEventListener('pointerdown', this._onDown, { capture: true });
       window.removeEventListener('pointerup',   this._onUp,   { capture: true });

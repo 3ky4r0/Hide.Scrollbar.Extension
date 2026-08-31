@@ -17,6 +17,20 @@ const { BADGE_ACTIVE_COLOR, BADGE_INACTIVE_COLOR } = (globalThis as any).ScrollH
 const { getSyncState } = (globalThis as any).ScrollHideStorage || {};
 const { isRestrictedUrl, isWhitelisted } = (globalThis as any).ScrollHideWhitelist || {};
 
+// In-memory cache for Service Worker lifespan to avoid repeated storage disk/IPC reads
+let cachedState: { scrollbarHidden: boolean; whitelist: string[] } | null = null;
+
+const getCachedSyncState = async (): Promise<{ scrollbarHidden: boolean; whitelist: string[] }> => {
+  if (cachedState) return cachedState;
+  if (!getSyncState) return { scrollbarHidden: true, whitelist: [] };
+  const state = await getSyncState();
+  cachedState = {
+    scrollbarHidden: state.scrollbarHidden !== false,
+    whitelist: Array.isArray(state.whitelist) ? state.whitelist : [],
+  };
+  return cachedState;
+};
+
 const updateBadge = async (tabId: number | undefined, scrollbarHidden: boolean, whitelist: string[]): Promise<void> => {
   if (tabId === undefined) return;
   let restricted = false;
@@ -50,23 +64,20 @@ const updateBadge = async (tabId: number | undefined, scrollbarHidden: boolean, 
 };
 
 const updateBadgeForTab = async (tabId: number | undefined): Promise<void> => {
-  if (tabId === undefined || !getSyncState) return;
-  const { scrollbarHidden, whitelist } = await getSyncState();
+  if (tabId === undefined) return;
+  const { scrollbarHidden, whitelist } = await getCachedSyncState();
   await updateBadge(tabId, scrollbarHidden, whitelist);
 };
 
 const updateAllBadges = async (): Promise<void> => {
-  if (!getSyncState) return;
-  const { scrollbarHidden, whitelist } = await getSyncState();
-
+  const { scrollbarHidden, whitelist } = await getCachedSyncState();
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => updateBadge(tab.id, scrollbarHidden, whitelist));
   });
 };
 
 const injectAllTabs = async (): Promise<void> => {
-  if (!getSyncState) return;
-  const { scrollbarHidden, whitelist } = await getSyncState();
+  const { scrollbarHidden, whitelist } = await getCachedSyncState();
 
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
@@ -95,15 +106,11 @@ chrome.tabs.onUpdated.addListener((tabId, info) => {
   }
 });
 
-chrome.storage.onChanged.addListener((_, namespace) => {
-  if (namespace === 'sync') updateAllBadges();
-});
-
-chrome.runtime.onStartup.addListener(injectAllTabs);
-chrome.runtime.onInstalled.addListener(injectAllTabs);
-
-injectAllTabs().catch((err: unknown) => {
-  console.error('[Background] Startup injectAllTabs failed', { error: err });
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'sync') {
+    cachedState = null; // Invalidate cache
+    updateAllBadges();
+  }
 });
 
 /* ── Context Menu ────────────────────────────────────────── */
@@ -151,9 +158,11 @@ const setupContextMenus = (): void => {
   });
 };
 
-chrome.runtime.onInstalled.addListener(setupContextMenus);
-chrome.runtime.onStartup.addListener(setupContextMenus);
-setupContextMenus();
+// Only initialize context menus and tab injection once upon installation or update
+chrome.runtime.onInstalled.addListener(() => {
+  setupContextMenus();
+  injectAllTabs().catch(() => {});
+});
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;

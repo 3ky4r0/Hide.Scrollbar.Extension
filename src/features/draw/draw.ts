@@ -30,6 +30,12 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
   ];
 
   const SIZES = [2, 4, 8, 16];
+  const TEXT_FONT_SIZES: Record<number, number> = {
+    2: 18,
+    4: 24,
+    8: 36,
+    16: 48,
+  };
 
   class PageDraw {
     host!: HTMLDivElement;
@@ -37,13 +43,16 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     canvas!: HTMLCanvasElement;
     ctx!: CanvasRenderingContext2D;
     toolbar!: HTMLDivElement;
-    textInputOverlay!: HTMLTextAreaElement | null;
+    textInputOverlay!: HTMLDivElement | null;
+    textEditorTextarea!: HTMLTextAreaElement | null;
     textDocX: number = 0;
     textDocY: number = 0;
 
     currentTool: DrawToolMode = 'pen';
     currentColor: string = '#ff3b30';
     currentSize: number = 4;
+    currentTextFontSize: number = 24;
+    setTextFontSize?: (size: number) => void;
     isDrawing: boolean = false;
     startX: number = 0;
     startY: number = 0;
@@ -52,6 +61,9 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
     // History
     history: DrawStroke[] = [];
     redoList: DrawStroke[] = [];
+
+    rafDrawId: number | null = null;
+    rafScrollId: number | null = null;
 
     // Toolbar drag state
     isDraggingToolbar: boolean = false;
@@ -288,12 +300,16 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this._onKeyDown = (e: KeyboardEvent) => this.handleKeyDown(e);
       this._onResize = () => this.resizeCanvas();
       this._onScroll = () => {
-        this.redraw();
-        if (this.textInputOverlay) {
-          const scroll = this.getScroll();
-          this.textInputOverlay.style.left = `${this.textDocX - scroll.x}px`;
-          this.textInputOverlay.style.top = `${this.textDocY - scroll.y}px`;
-        }
+        if (this.rafScrollId !== null) return;
+        this.rafScrollId = requestAnimationFrame(() => {
+          this.rafScrollId = null;
+          this.redraw();
+          if (this.textInputOverlay) {
+            const scroll = this.getScroll();
+            this.textInputOverlay.style.left = `${this.textDocX - scroll.x}px`;
+            this.textInputOverlay.style.top = `${this.textDocY - scroll.y}px`;
+          }
+        });
       };
 
       this.canvas.addEventListener('pointerdown', this._onPointerDown);
@@ -396,6 +412,9 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.toolbar.querySelectorAll('.color-swatch').forEach((s) => {
         s.classList.toggle('active', s.getAttribute('data-color') === color);
       });
+      if (this.textEditorTextarea) {
+        this.textEditorTextarea.style.color = color;
+      }
     }
 
     setSize(size: number): void {
@@ -403,6 +422,9 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.toolbar.querySelectorAll('.size-btn').forEach((b) => {
         b.classList.toggle('active', Number(b.getAttribute('data-size')) === size);
       });
+      if (this.setTextFontSize) {
+        this.setTextFontSize(TEXT_FONT_SIZES[size] || 24);
+      }
     }
 
     handlePointerDown(e: PointerEvent): void {
@@ -427,6 +449,15 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
 
       if (this.currentTool === 'eraser') {
         this.eraseAt(docX, docY);
+      } else if (this.currentTool === 'pen') {
+        // Draw starting dot immediately
+        this.ctx.save();
+        this.ctx.translate(-scroll.x, -scroll.y);
+        this.ctx.fillStyle = this.currentColor;
+        this.ctx.beginPath();
+        this.ctx.arc(docX, docY, this.currentSize / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.restore();
       }
     }
 
@@ -442,41 +473,70 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         return;
       }
 
-      if (this.currentTool === 'pen' || this.currentTool === 'highlighter') {
+      if (this.currentTool === 'pen') {
+        const prev = this.currentPoints[this.currentPoints.length - 1];
         this.currentPoints.push({ x: docX, y: docY });
-        this.redraw();
-        this.ctx.save();
-        this.ctx.translate(-scroll.x, -scroll.y);
-        this.renderStroke({
-          tool: this.currentTool,
-          color: this.currentColor,
-          size: this.currentSize,
-          opacity: this.currentTool === 'highlighter' ? 0.35 : 1,
-          points: this.currentPoints,
-        });
-        this.ctx.restore();
+
+        // Incremental draw: O(1) rendering without touching history
+        if (prev) {
+          this.ctx.save();
+          this.ctx.translate(-scroll.x, -scroll.y);
+          this.ctx.strokeStyle = this.currentColor;
+          this.ctx.fillStyle = this.currentColor;
+          this.ctx.lineWidth = this.currentSize;
+          this.ctx.lineCap = 'round';
+          this.ctx.lineJoin = 'round';
+          this.ctx.beginPath();
+          this.ctx.moveTo(prev.x, prev.y);
+          this.ctx.lineTo(docX, docY);
+          this.ctx.stroke();
+          this.ctx.restore();
+        }
       } else {
-        // Shapes live preview
-        this.redraw();
-        this.ctx.save();
-        this.ctx.translate(-scroll.x, -scroll.y);
-        this.renderStroke({
-          tool: this.currentTool,
-          color: this.currentColor,
-          size: this.currentSize,
-          opacity: 1,
-          x: this.startX,
-          y: this.startY,
-          endX: docX,
-          endY: docY,
+        // Shapes and highlighter live preview throttled by RAF
+        this.currentPoints.push({ x: docX, y: docY });
+
+        if (this.rafDrawId !== null) return;
+        this.rafDrawId = requestAnimationFrame(() => {
+          this.rafDrawId = null;
+          if (!this.isDrawing) return;
+
+          this.redraw();
+          this.ctx.save();
+          this.ctx.translate(-scroll.x, -scroll.y);
+
+          if (this.currentTool === 'highlighter') {
+            this.renderStroke({
+              tool: 'highlighter',
+              color: this.currentColor,
+              size: this.currentSize,
+              opacity: 0.35,
+              points: this.currentPoints,
+            });
+          } else {
+            this.renderStroke({
+              tool: this.currentTool,
+              color: this.currentColor,
+              size: this.currentSize,
+              opacity: 1,
+              x: this.startX,
+              y: this.startY,
+              endX: docX,
+              endY: docY,
+            });
+          }
+          this.ctx.restore();
         });
-        this.ctx.restore();
       }
     }
 
     handlePointerUp(e: PointerEvent): void {
       if (!this.isDrawing) return;
       this.isDrawing = false;
+      if (this.rafDrawId !== null) {
+        cancelAnimationFrame(this.rafDrawId);
+        this.rafDrawId = null;
+      }
 
       const scroll = this.getScroll();
       const docX = e.clientX + scroll.x;
@@ -522,6 +582,19 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
         if (stroke.points) {
           return !stroke.points.some((p) => Math.hypot(p.x - x, p.y - y) <= radius);
         }
+        if (stroke.tool === 'text' && stroke.text && stroke.x !== undefined && stroke.y !== undefined) {
+          const fontSize = stroke.size || 24;
+          const lineHeight = fontSize * 1.35;
+          const lines = stroke.text.split('\n');
+          const maxLineLen = Math.max(...lines.map((l) => l.length), 1);
+          const approxWidth = maxLineLen * fontSize * 0.65;
+          const totalHeight = lines.length * lineHeight;
+          const minX = stroke.x - radius;
+          const maxX = stroke.x + approxWidth + radius;
+          const minY = stroke.y - fontSize - radius;
+          const maxY = stroke.y + totalHeight + radius;
+          return !(x >= minX && x <= maxX && y >= minY && y <= maxY);
+        }
         if (stroke.x !== undefined && stroke.y !== undefined) {
           if (stroke.endX !== undefined && stroke.endY !== undefined) {
             const minX = Math.min(stroke.x, stroke.endX) - radius;
@@ -549,24 +622,140 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.textDocX = clientX + scroll.x;
       this.textDocY = clientY + scroll.y;
 
+      let currentFontSize = TEXT_FONT_SIZES[this.currentSize] || 24;
+      this.currentTextFontSize = currentFontSize;
+
+      const container = document.createElement('div');
+      container.className = 'text-editor-box';
+      container.style.left = `${clientX}px`;
+      container.style.top = `${clientY}px`;
+
       const textarea = document.createElement('textarea');
       textarea.className = 'inline-text-editor';
-      textarea.style.position = 'fixed';
-      textarea.style.left = `${clientX}px`;
-      textarea.style.top = `${clientY}px`;
       textarea.style.color = this.currentColor;
-      textarea.style.fontSize = `${Math.max(16, this.currentSize * 4)}px`;
+      textarea.style.fontSize = `${currentFontSize}px`;
       textarea.placeholder = 'Nhập văn bản...';
+      textarea.rows = 1;
 
-      this.shadow.appendChild(textarea);
-      this.textInputOverlay = textarea;
-      textarea.focus();
+      // 6 resize handles with true anchor points (Figma / Canva style)
+      const handles = ['tl', 'tr', 'bl', 'br', 'e', 'w'].map((pos) => {
+        const handle = document.createElement('div');
+        handle.className = `corner-handle handle-${pos}`;
+        handle.dataset.pos = pos;
+        container.appendChild(handle);
+        return handle;
+      });
+
+      const hint = document.createElement('div');
+      hint.className = 'text-editor-hint';
+      hint.innerHTML = `
+        <div class="text-size-control">
+          <button type="button" class="font-size-btn btn-font-dec" title="Giảm cỡ chữ (Ctrl+-)">A−</button>
+          <span class="font-size-val">${currentFontSize}px</span>
+          <button type="button" class="font-size-btn btn-font-inc" title="Tăng cỡ chữ (Ctrl++)">A+</button>
+        </div>
+        <span class="hint-sep">•</span>
+        <span><span class="hint-key">↵</span> Xuống dòng</span>
+        <span class="hint-sep">•</span>
+        <span><span class="hint-key">Ctrl+↵</span> Hoàn tất</span>
+        <span class="hint-sep">•</span>
+        <span><span class="hint-key">Esc</span> Hủy</span>
+      `;
+
+      container.appendChild(textarea);
+      container.appendChild(hint);
+      this.shadow.appendChild(container);
+
+      this.textInputOverlay = container;
+      this.textEditorTextarea = textarea;
+
+      const fontSizeVal = hint.querySelector<HTMLElement>('.font-size-val');
+
+      const adjustSize = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${Math.max(currentFontSize * 1.35 + 12, textarea.scrollHeight)}px`;
+      };
+
+      const setFontSize = (newSize: number) => {
+        currentFontSize = Math.max(12, Math.min(96, Math.round(newSize)));
+        this.currentTextFontSize = currentFontSize;
+        textarea.style.fontSize = `${currentFontSize}px`;
+        if (fontSizeVal) fontSizeVal.textContent = `${currentFontSize}px`;
+        adjustSize();
+      };
+
+      this.setTextFontSize = setFontSize;
+
+      // Hint font size buttons
+      const btnDec = hint.querySelector<HTMLButtonElement>('.btn-font-dec');
+      const btnInc = hint.querySelector<HTMLButtonElement>('.btn-font-inc');
+      btnDec?.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setFontSize(currentFontSize - 4);
+      });
+      btnInc?.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setFontSize(currentFontSize + 4);
+      });
+
+      // Directional anchor-based resizing (opposite side stays strictly fixed)
+      handles.forEach((handle) => {
+        handle.addEventListener('pointerdown', (e: PointerEvent) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const pos = handle.dataset.pos;
+          const rect = container.getBoundingClientRect();
+          const fixedLeft = rect.left;
+          const fixedRight = rect.right;
+
+          const onPointerMove = (moveEv: PointerEvent) => {
+            if (pos === 'e' || pos === 'br' || pos === 'tr') {
+              // Left side is firmly anchored, right side expands/contracts
+              const newWidth = Math.max(100, Math.min(window.innerWidth - fixedLeft - 20, moveEv.clientX - fixedLeft));
+              container.style.width = `${newWidth}px`;
+            } else if (pos === 'w' || pos === 'bl' || pos === 'tl') {
+              // Right side is firmly anchored, left side expands/contracts
+              const newWidth = Math.max(100, Math.min(fixedRight - 10, fixedRight - moveEv.clientX));
+              const newLeft = fixedRight - newWidth;
+              container.style.left = `${newLeft}px`;
+              container.style.width = `${newWidth}px`;
+            }
+            adjustSize();
+          };
+
+          const onPointerUp = () => {
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp);
+            textarea.focus();
+          };
+
+          window.addEventListener('pointermove', onPointerMove);
+          window.addEventListener('pointerup', onPointerUp);
+        });
+      });
+
+      requestAnimationFrame(() => {
+        adjustSize();
+        textarea.focus();
+      });
 
       const stopEvent = (e: Event) => e.stopPropagation();
 
+      textarea.addEventListener('input', () => {
+        adjustSize();
+      });
+
       textarea.addEventListener('keydown', (e: KeyboardEvent) => {
         e.stopPropagation();
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+          e.preventDefault();
+          setFontSize(currentFontSize + 4);
+        } else if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+          e.preventDefault();
+          setFontSize(currentFontSize - 4);
+        } else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           e.preventDefault();
           this.commitTextInput();
         } else if (e.key === 'Escape') {
@@ -577,13 +766,25 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       });
       textarea.addEventListener('keyup', stopEvent);
       textarea.addEventListener('keypress', stopEvent);
-      textarea.addEventListener('input', stopEvent);
+
+      textarea.addEventListener('blur', () => {
+        setTimeout(() => {
+          if (this.textInputOverlay === container) {
+            this.commitTextInput();
+          }
+        }, 180);
+      });
     }
 
     commitTextInput(): void {
-      if (!this.textInputOverlay) return;
-      const text = this.textInputOverlay.value.trim();
-      const fontSize = Math.max(16, this.currentSize * 4);
+      if (!this.textInputOverlay || !this.textEditorTextarea) return;
+      const text = this.textEditorTextarea.value.trim();
+      const fontSize = this.currentTextFontSize || TEXT_FONT_SIZES[this.currentSize] || 24;
+
+      const rect = this.textInputOverlay.getBoundingClientRect();
+      const scroll = this.getScroll();
+      const actualDocX = rect.left + scroll.x;
+      const actualDocY = rect.top + scroll.y;
 
       if (text) {
         this.history.push({
@@ -592,8 +793,8 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
           size: fontSize,
           opacity: 1,
           text,
-          x: this.textDocX + 8,
-          y: this.textDocY + fontSize,
+          x: actualDocX + 10,
+          y: actualDocY + fontSize + 6,
         });
         this.redoList = [];
         this.updateHistoryButtons();
@@ -601,6 +802,8 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
 
       this.textInputOverlay.remove();
       this.textInputOverlay = null;
+      this.textEditorTextarea = null;
+      this.setTextFontSize = undefined;
       this.redraw();
     }
 
@@ -608,6 +811,8 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       if (this.textInputOverlay) {
         this.textInputOverlay.remove();
         this.textInputOverlay = null;
+        this.textEditorTextarea = null;
+        this.setTextFontSize = undefined;
       }
     }
 
@@ -708,8 +913,13 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
           this.ctx.ellipse(cx, cy, Math.max(1, rx), Math.max(1, ry), 0, 0, Math.PI * 2);
           this.ctx.stroke();
         } else if (tool === 'text' && stroke.text && stroke.x !== undefined && stroke.y !== undefined) {
-          this.ctx.font = `600 ${size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-          this.ctx.fillText(stroke.text, stroke.x, stroke.y);
+          const fontSize = stroke.size || 24;
+          const lineHeight = fontSize * 1.35;
+          this.ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
+          const lines = stroke.text.split('\n');
+          lines.forEach((line, i) => {
+            this.ctx.fillText(line, stroke.x!, stroke.y! + (i * lineHeight));
+          });
         }
       } finally {
         this.ctx.restore();
@@ -803,6 +1013,14 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
 
     destroy(): void {
       this.commitTextInput();
+      if (this.rafDrawId !== null) {
+        cancelAnimationFrame(this.rafDrawId);
+        this.rafDrawId = null;
+      }
+      if (this.rafScrollId !== null) {
+        cancelAnimationFrame(this.rafScrollId);
+        this.rafScrollId = null;
+      }
       this.canvas.removeEventListener('pointerdown', this._onPointerDown);
       window.removeEventListener('pointermove', this._onPointerMove);
       window.removeEventListener('pointerup', this._onPointerUp);
