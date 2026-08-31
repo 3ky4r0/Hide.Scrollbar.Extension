@@ -321,4 +321,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  /* ── Theme synchronization ── */
+  const applyFaviconTheme = (theme?: string) => {
+    if (theme === 'light' || theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', theme);
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  };
+
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+    chrome.storage.sync.get({ theme: 'system' }, (res) => {
+      applyFaviconTheme(res.theme);
+    });
+
+    if (chrome.storage.onChanged) {
+      chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace === 'sync' && changes.theme) {
+          applyFaviconTheme(changes.theme.newValue as string);
+        }
+      });
+    }
+  }
 });

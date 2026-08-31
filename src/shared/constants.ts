@@ -1,11 +1,13 @@
 export const STORAGE_KEYS = {
   scrollbarHidden: 'scrollbarHidden',
   whitelist: 'whitelist',
+  theme: 'theme',
 } as const;
 
 export const DEFAULT_SYNC_STATE = {
   [STORAGE_KEYS.scrollbarHidden]: true,
   [STORAGE_KEYS.whitelist]: [] as string[],
+  [STORAGE_KEYS.theme]: 'system' as 'system' | 'light' | 'dark',
 };
 
 export const ScrollHideConstants = {

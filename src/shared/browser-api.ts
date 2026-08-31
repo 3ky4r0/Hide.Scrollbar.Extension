@@ -14,7 +14,7 @@ export const openPanelForCurrentTab = async (): Promise<boolean> => {
     if (chrome.sidePanel.setOptions) {
       await chrome.sidePanel.setOptions({
         tabId: tab.id,
-        path: 'src/features/sidepanel/sidepanel.html',
+        path: 'src/features/favicon/favicon.html',
         enabled: true,
       }).catch(() => {});
     }

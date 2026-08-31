@@ -111,6 +111,7 @@ injectAllTabs().catch((err: unknown) => {
 const COLOR_PICKER_MENU_ID = 'scroll-hide-pick-color';
 const FAVICON_MENU_ID      = 'scroll-hide-get-favicon';
 const RULER_MENU_ID        = 'scroll-hide-page-ruler';
+const DRAW_MENU_ID         = 'scroll-hide-page-draw';
 
 const CONTEXT_MENU_PATTERNS = ['http://*/*', 'https://*/*', 'file://*/*'];
 
@@ -125,19 +126,25 @@ const setupContextMenus = (): void => {
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: COLOR_PICKER_MENU_ID,
-      title: 'Pick Color',
+      title: chrome.i18n.getMessage('pickColor') || 'Pick Color',
       contexts: ['all'],
       documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
     chrome.contextMenus.create({
       id: RULER_MENU_ID,
-      title: 'Page Ruler',
+      title: chrome.i18n.getMessage('pageRuler') || 'Page Ruler',
+      contexts: ['all'],
+      documentUrlPatterns: CONTEXT_MENU_PATTERNS,
+    });
+    chrome.contextMenus.create({
+      id: DRAW_MENU_ID,
+      title: chrome.i18n.getMessage('pageDraw') || 'Draw on Page',
       contexts: ['all'],
       documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
     chrome.contextMenus.create({
       id: FAVICON_MENU_ID,
-      title: 'Get Favicon',
+      title: chrome.i18n.getMessage('getFavicon') || 'Get Favicon',
       contexts: ['all'],
       documentUrlPatterns: CONTEXT_MENU_PATTERNS,
     });
@@ -153,9 +160,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   if (info.menuItemId === COLOR_PICKER_MENU_ID) {
     try {
+      const syncData = await new Promise<{ theme?: string }>((resolve) => {
+        chrome.storage.sync.get({ theme: 'system' }, (res) => resolve(res));
+      });
+      const currentTheme = syncData?.theme || 'system';
+
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: async () => {
+        args: [currentTheme],
+        func: async (themePref: string) => {
           if (!('EyeDropper' in window)) {
             alert('EyeDropper is not supported on this page.');
             return;
@@ -176,12 +189,105 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
               document.execCommand('copy');
               ta.remove();
             }
-            alert(`${hex}\nHex code copied to clipboard!`);
+
+            // Show glassmorphic toast notification
+            const oldToast = document.getElementById('scrollhide-color-toast-root');
+            if (oldToast) oldToast.remove();
+
+            const isLight = themePref === 'light' || (themePref === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+
+            const host = document.createElement('div');
+            host.id = 'scrollhide-color-toast-root';
+            host.setAttribute('data-theme', isLight ? 'light' : 'dark');
+            const shadow = host.attachShadow({ mode: 'open' });
+
+            const style = document.createElement('style');
+            style.textContent = `
+              .toast {
+                position: fixed;
+                bottom: 24px;
+                left: 50%;
+                transform: translateX(-50%) translateY(20px);
+                background: rgba(28, 28, 30, 0.88);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 10px;
+                padding: 8px 16px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: #ffffff;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                font-size: 13px;
+                font-weight: 500;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 2147483647;
+              }
+              :host([data-theme="light"]) .toast {
+                background: rgba(255, 255, 255, 0.92);
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                color: #1c1c1e;
+              }
+              .toast.show {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+              }
+              .swatch {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: ${hex};
+                border: 2px solid rgba(255, 255, 255, 0.7);
+                flex-shrink: 0;
+              }
+              :host([data-theme="light"]) .swatch {
+                border: 2px solid rgba(0, 0, 0, 0.2);
+              }
+              .hex {
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+              }
+              .check {
+                color: #34c759;
+                display: flex;
+                align-items: center;
+                margin-left: 2px;
+              }
+            `;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+              <div class="swatch"></div>
+              <span class="hex">${hex}</span>
+              <span style="opacity: 0.65; font-size: 12px;">Đã sao chép</span>
+              <span class="check">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+            `;
+
+            shadow.appendChild(style);
+            shadow.appendChild(toast);
+            document.documentElement.appendChild(host);
+
+            requestAnimationFrame(() => {
+              toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+              toast.classList.remove('show');
+              setTimeout(() => host.remove(), 300);
+            }, 2200);
           } catch (err: any) {
             if (err && err.name === 'AbortError') {
               return;
             }
-            alert('Could not pick a color. Please try again.');
           }
         },
       });
@@ -197,6 +303,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ['src/features/ruler/ruler.js'],
+      }).catch(() => {});
+    }
+  }
+
+  if (info.menuItemId === DRAW_MENU_ID) {
+    if (tab.id && chrome.scripting) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['src/features/draw/draw.js'],
       }).catch(() => {});
     }
   }

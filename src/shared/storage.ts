@@ -23,10 +23,20 @@ export const getSyncValue = <T = Record<string, unknown>>(defaults: string | str
 export const setSyncValue = (value: Record<string, unknown>): Promise<void> =>
   toPromise((done) => chrome.storage.sync.set(value, done as () => void));
 
+export const applyTheme = (theme?: string, target: HTMLElement = document.documentElement): void => {
+  if (!target) return;
+  if (theme === 'light' || theme === 'dark') {
+    target.setAttribute('data-theme', theme);
+  } else {
+    target.removeAttribute('data-theme');
+  }
+};
+
 export const ScrollHideStorage = {
   getSyncState,
   getSyncValue,
   setSyncValue,
+  applyTheme,
 };
 
 // Global assignment for HTML script tags

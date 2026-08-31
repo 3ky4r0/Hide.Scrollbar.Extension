@@ -206,6 +206,31 @@ body {
   margin-top: 2px;
 }
 
+.setting-item-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.setting-select {
+  background-color: var(--secondary-bg);
+  color: var(--text);
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+.setting-select:focus {
+  border-color: var(--accent);
+}
+
 .stat-row {
   display: flex;
   justify-content: space-between;
@@ -421,16 +446,38 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  .editor-container {
+  :root:not([data-theme="light"]) .editor-container {
     background: #000000;
   }
 
-  .editor-textarea {
+  :root:not([data-theme="light"]) .editor-textarea {
     color-scheme: dark;
     background: #000000;
     color: #ffffff;
     caret-color: #58a6ff;
   }
+}
+
+:root[data-theme="dark"] .editor-container {
+  background: #000000;
+}
+
+:root[data-theme="dark"] .editor-textarea {
+  color-scheme: dark;
+  background: #000000;
+  color: #ffffff;
+  caret-color: #58a6ff;
+}
+
+:root[data-theme="light"] .editor-container {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .editor-textarea {
+  color-scheme: light;
+  background: #ffffff;
+  color: #2f3446;
+  caret-color: var(--accent);
 }
 
 /* ── Guide Tab Components ─────────────────────────────────── */

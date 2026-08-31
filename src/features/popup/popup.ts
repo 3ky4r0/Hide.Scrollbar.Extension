@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
   const { openPanelForCurrentTab, getActiveTab } = (globalThis as any).ScrollHideBrowserApi || {};
-  const { getSyncState, getSyncValue, setSyncValue } = (globalThis as any).ScrollHideStorage || {};
+  const { getSyncState, getSyncValue, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
   const { isRestrictedUrl, isWhitelisted, normalizeWhitelist, sanitizeDomain } = (globalThis as any).ScrollHideWhitelist || {};
 
   const toggle = document.getElementById('toggleScroll') as HTMLButtonElement;
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pickColorBtn = document.getElementById('pickColorBtn') as HTMLButtonElement | null;
   const getFaviconBtn = document.getElementById('getFaviconBtn') as HTMLButtonElement | null;
   const pageRulerBtn = document.getElementById('pageRulerBtn') as HTMLButtonElement | null;
+  const pageDrawBtn = document.getElementById('pageDrawBtn') as HTMLButtonElement | null;
 
   let currentHostname = '';
   let isRestricted = false;
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pickColorBtn) pickColorBtn.disabled = true;
     if (getFaviconBtn) getFaviconBtn.disabled = true;
     if (pageRulerBtn) pageRulerBtn.disabled = true;
+    if (pageDrawBtn) pageDrawBtn.disabled = true;
   };
 
   const updateAddButtonState = (inList: boolean): void => {
@@ -126,8 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadState = (): void => {
     if (!getSyncState) return;
     getSyncState()
-      .then((data: { scrollbarHidden?: boolean; whitelist?: string[] }) => {
+      .then((data: { scrollbarHidden?: boolean; whitelist?: string[]; theme?: string }) => {
         if (toggle) toggle.classList.toggle('active', !isRestricted && Boolean(data.scrollbarHidden));
+        if (applyTheme) applyTheme(data.theme);
         updateNotice(data.whitelist);
       })
       .catch((err: unknown) => {
@@ -218,11 +221,28 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isRestricted || !getActiveTab) return;
       const tab = await getActiveTab();
       if (!tab || !tab.id) return;
+      let currentTheme = 'system';
+      if (getSyncValue) {
+        try {
+          const syncData = (await getSyncValue({ theme: 'system' })) as { theme?: string };
+          currentTheme = syncData?.theme || 'system';
+        } catch (_) {}
+      }
       window.close();
       try {
         await chrome.scripting.executeScript({
           target: { tabId: tab.id },
-          func: async () => {
+          args: [currentTheme],
+          func: async (themePref: string) => {
+            const win = window as any;
+            if (win.__SCROLLHIDE_PAGE_RULER__) {
+              win.__SCROLLHIDE_PAGE_RULER__.destroy();
+              win.__SCROLLHIDE_PAGE_RULER__ = null;
+            }
+            if (win.__SCROLLHIDE_PAGE_DRAW__) {
+              win.__SCROLLHIDE_PAGE_DRAW__.destroy();
+              win.__SCROLLHIDE_PAGE_DRAW__ = null;
+            }
             if (!('EyeDropper' in window)) {
               alert('EyeDropper is not supported on this page.');
               return;
@@ -243,10 +263,103 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.execCommand('copy');
                 ta.remove();
               }
-              alert(`${hex}\nHex code copied to clipboard!`);
+
+              // Show glassmorphic toast notification
+              const oldToast = document.getElementById('scrollhide-color-toast-root');
+              if (oldToast) oldToast.remove();
+
+              const isLight = themePref === 'light' || (themePref === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+
+              const host = document.createElement('div');
+              host.id = 'scrollhide-color-toast-root';
+              host.setAttribute('data-theme', isLight ? 'light' : 'dark');
+              const shadow = host.attachShadow({ mode: 'open' });
+
+              const style = document.createElement('style');
+              style.textContent = `
+                .toast {
+                  position: fixed;
+                  bottom: 24px;
+                  left: 50%;
+                  transform: translateX(-50%) translateY(20px);
+                  background: rgba(28, 28, 30, 0.88);
+                  backdrop-filter: blur(20px);
+                  -webkit-backdrop-filter: blur(20px);
+                  border: 1px solid rgba(255, 255, 255, 0.12);
+                  border-radius: 10px;
+                  padding: 8px 16px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  color: #ffffff;
+                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                  font-size: 13px;
+                  font-weight: 500;
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                  z-index: 2147483647;
+                }
+                :host([data-theme="light"]) .toast {
+                  background: rgba(255, 255, 255, 0.92);
+                  border: 1px solid rgba(0, 0, 0, 0.12);
+                  color: #1c1c1e;
+                }
+                .toast.show {
+                  opacity: 1;
+                  transform: translateX(-50%) translateY(0);
+                }
+                .swatch {
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 50%;
+                  background: ${hex};
+                  border: 2px solid rgba(255, 255, 255, 0.7);
+                  flex-shrink: 0;
+                }
+                :host([data-theme="light"]) .swatch {
+                  border: 2px solid rgba(0, 0, 0, 0.2);
+                }
+                .hex {
+                  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                  font-weight: 700;
+                  letter-spacing: 0.5px;
+                }
+                .check {
+                  color: #34c759;
+                  display: flex;
+                  align-items: center;
+                  margin-left: 2px;
+                }
+              `;
+
+              const toast = document.createElement('div');
+              toast.className = 'toast';
+              toast.innerHTML = `
+                <div class="swatch"></div>
+                <span class="hex">${hex}</span>
+                <span style="opacity: 0.65; font-size: 12px;">Đã sao chép</span>
+                <span class="check">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+              `;
+
+              shadow.appendChild(style);
+              shadow.appendChild(toast);
+              document.documentElement.appendChild(host);
+
+              requestAnimationFrame(() => {
+                toast.classList.add('show');
+              });
+
+              setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => host.remove(), 300);
+              }, 2200);
             } catch (err: any) {
               if (err && err.name === 'AbortError') return;
-              alert('Could not pick a color. Please try again.');
             }
           },
         });
@@ -296,6 +409,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (pageDrawBtn) {
+    pageDrawBtn.addEventListener('click', async () => {
+      if (isRestricted || !getActiveTab) return;
+      const tab = await getActiveTab();
+      if (!tab || !tab.id) return;
+      window.close();
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ['src/features/draw/draw.js'],
+        });
+      } catch (_) {}
+    });
+  }
+
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
     chrome.storage.onChanged.addListener((changes, namespace) => {
       if (namespace === 'local' && changes.hideCount) {
@@ -303,6 +431,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cleanedCnt) {
           cleanedCnt.textContent = ((changes.hideCount.newValue as number) || 0).toLocaleString();
         }
+      }
+      if (namespace === 'sync' && changes.theme) {
+        if (applyTheme) applyTheme(changes.theme.newValue as string);
       }
     });
   }

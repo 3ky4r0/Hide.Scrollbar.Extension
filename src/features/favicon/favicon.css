@@ -207,7 +207,6 @@ h2 {
 .fav-item.selected {
   border-color: var(--accent);
   background: var(--bg);
-  box-shadow: 0 3px 10px rgba(39, 114, 237, 0.15);
 }
 
 .fav-image {

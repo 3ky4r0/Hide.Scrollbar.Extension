@@ -1,0 +1,369 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+/* ── Color tokens — matching PageDraw design language ── */
+:host {
+  all: initial;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --bg-panel: rgba(28, 28, 30, 0.92);
+  --bg-btn: rgba(255, 255, 255, 0.08);
+  --bg-btn-hover: rgba(255, 255, 255, 0.16);
+  --bg-btn-active: #007aff;
+  --border: rgba(255, 255, 255, 0.15);
+  --text: #ffffff;
+  --text-muted: #8e8e93;
+  --shadow: none;
+  --badge-tag: #ff7b72;
+  --badge-dim: #7ee787;
+  --accent-ruler: #007aff;
+}
+
+@media (prefers-color-scheme: light) {
+  :host(:not([data-theme="dark"])) {
+    --bg-panel: rgba(255, 255, 255, 0.92);
+    --bg-btn: rgba(0, 0, 0, 0.05);
+    --bg-btn-hover: rgba(0, 0, 0, 0.1);
+    --bg-btn-active: #007aff;
+    --border: rgba(0, 0, 0, 0.12);
+    --text: #1c1c1e;
+    --text-muted: #6c6c70;
+    --shadow: none;
+    --badge-tag: #cf222e;
+    --badge-dim: #1a7f37;
+    --accent-ruler: #007aff;
+  }
+}
+
+:host([data-theme="light"]) {
+  --bg-panel: rgba(255, 255, 255, 0.92);
+  --bg-btn: rgba(0, 0, 0, 0.05);
+  --bg-btn-hover: rgba(0, 0, 0, 0.1);
+  --bg-btn-active: #007aff;
+  --border: rgba(0, 0, 0, 0.12);
+  --text: #1c1c1e;
+  --text-muted: #6c6c70;
+  --shadow: none;
+  --badge-tag: #cf222e;
+  --badge-dim: #1a7f37;
+  --accent-ruler: #007aff;
+}
+
+:host([data-theme="dark"]) {
+  --bg-panel: rgba(28, 28, 30, 0.92);
+  --bg-btn: rgba(255, 255, 255, 0.08);
+  --bg-btn-hover: rgba(255, 255, 255, 0.16);
+  --bg-btn-active: #007aff;
+  --border: rgba(255, 255, 255, 0.15);
+  --text: #ffffff;
+  --text-muted: #8e8e93;
+  --shadow: none;
+  --badge-tag: #ff7b72;
+  --badge-dim: #7ee787;
+  --accent-ruler: #007aff;
+}
+
+/* ── Interactive capture layer (selection mode only) ── */
+.interactive-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  cursor: crosshair;
+  z-index: 90;
+}
+
+.interactive-layer.active {
+  pointer-events: auto;
+}
+
+/* ── Element highlight box ── */
+.highlight-box {
+  position: absolute;
+  display: none;
+  border: 2px solid #007aff;
+  background: rgba(0, 122, 255, 0.15);
+  pointer-events: none;
+  z-index: 105;
+  transition: border-color 0.15s;
+}
+
+.highlight-box.locked {
+  border-color: #34c759;
+  background: rgba(52, 199, 89, 0.15);
+}
+
+.highlight-badge {
+  position: absolute;
+  top: -28px;
+  left: 0;
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 6px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* flip badge below when element is near top of viewport */
+.highlight-badge.below {
+  top: auto;
+  bottom: -28px;
+}
+
+.badge-lock {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34c759;
+  flex-shrink: 0;
+  display: none;
+}
+
+.highlight-box.locked .badge-lock {
+  display: block;
+}
+
+.badge-tag {
+  color: var(--badge-tag);
+  font-weight: 600;
+}
+
+.badge-dim {
+  color: var(--badge-dim);
+  font-weight: 700;
+}
+
+/* ── Selection box ── */
+.selection-box {
+  position: absolute;
+  display: none;
+  border: 2px dashed #34c759;
+  background: rgba(52, 199, 89, 0.12);
+  pointer-events: none;
+  cursor: crosshair;
+  z-index: 110;
+}
+
+.selection-label-w {
+  position: absolute;
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--badge-dim);
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.selection-label-h {
+  position: absolute;
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--badge-dim);
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── 8 resize handles ── */
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border: 2px solid #34c759;
+  border-radius: 2px;
+  pointer-events: auto;
+}
+
+.handle-nw {
+  top: -4px;
+  left: -4px;
+  cursor: nwse-resize;
+}
+
+.handle-n {
+  top: -4px;
+  left: calc(50% - 4px);
+  cursor: ns-resize;
+}
+
+.handle-ne {
+  top: -4px;
+  right: -4px;
+  cursor: nesw-resize;
+}
+
+.handle-e {
+  top: calc(50% - 4px);
+  right: -4px;
+  cursor: ew-resize;
+}
+
+.handle-se {
+  bottom: -4px;
+  right: -4px;
+  cursor: nwse-resize;
+}
+
+.handle-s {
+  bottom: -4px;
+  left: calc(50% - 4px);
+  cursor: ns-resize;
+}
+
+.handle-sw {
+  bottom: -4px;
+  left: -4px;
+  cursor: nesw-resize;
+}
+
+.handle-w {
+  top: calc(50% - 4px);
+  left: -4px;
+  cursor: ew-resize;
+}
+
+/* ── Floating HUD toolbar — matching PageDraw popup ── */
+.hud {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: none;
+  z-index: 200;
+  color: var(--text);
+  font-size: 13px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 28px;
+  cursor: grab;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  margin: 0 2px;
+}
+
+.stats-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.stat-lbl {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.stat-val {
+  color: var(--text);
+  font-weight: 700;
+  min-width: 32px;
+}
+
+.stat-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--border);
+  margin: 0 2px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg-btn);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.tool-btn:hover {
+  background: var(--bg-btn-hover);
+}
+
+.tool-btn:active {
+  transform: scale(0.95);
+}
+
+.tool-btn.active {
+  background: var(--bg-btn-active);
+  color: #ffffff;
+}
+
+.tool-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}

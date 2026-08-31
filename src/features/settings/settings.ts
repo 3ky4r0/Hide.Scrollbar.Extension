@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   const { BACKUP_FILENAME, DEFAULT_SYNC_STATE } = (globalThis as any).ScrollHideConstants || {};
-  const { getSyncState, setSyncValue } = (globalThis as any).ScrollHideStorage || {};
+  const { getSyncState, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
   const { normalizeWhitelist, sanitizeDomain } = (globalThis as any).ScrollHideWhitelist || {};
 
   // Tabs
@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Settings elements
   const settingHideScrollbar = document.getElementById('settingHideScrollbar') as HTMLInputElement | null;
+  const settingTheme = document.getElementById('settingTheme') as HTMLSelectElement | null;
   const statCleanedCount = document.getElementById('statCleanedCount') as HTMLElement | null;
   const btnResetCleaned = document.getElementById('btnResetCleaned') as HTMLButtonElement | null;
   const btnExportSettings = document.getElementById('btnExportSettings') as HTMLButtonElement | null;
@@ -134,10 +135,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadAllState(): void {
     if (getSyncState) {
-      getSyncState().then((state: { scrollbarHidden?: boolean; whitelist?: string[] }) => {
+      getSyncState().then((state: { scrollbarHidden?: boolean; whitelist?: string[]; theme?: string }) => {
         // Settings
         if (settingHideScrollbar) {
           settingHideScrollbar.checked = Boolean(state.scrollbarHidden);
+        }
+
+        // Theme
+        const theme = state.theme || 'system';
+        if (settingTheme) {
+          settingTheme.value = theme;
+        }
+        if (applyTheme) {
+          applyTheme(theme);
         }
 
         // Whitelist
@@ -167,6 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (settingHideScrollbar && setSyncValue) {
     settingHideScrollbar.addEventListener('change', () => {
       setSyncValue({ scrollbarHidden: settingHideScrollbar.checked });
+    });
+  }
+
+  if (settingTheme && setSyncValue) {
+    settingTheme.addEventListener('change', () => {
+      const themeVal = settingTheme.value;
+      if (applyTheme) applyTheme(themeVal);
+      setSyncValue({ theme: themeVal });
     });
   }
 
@@ -215,6 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (Array.isArray(data.whitelist)) {
             nextState.whitelist = normalizeWhitelist ? normalizeWhitelist(data.whitelist) : data.whitelist;
+          }
+          if (typeof data.theme === 'string' && ['system', 'light', 'dark'].includes(data.theme)) {
+            nextState.theme = data.theme;
           }
 
           setSyncValue(nextState).then(() => {
@@ -353,6 +374,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (namespace === 'sync') {
         if (changes.scrollbarHidden && settingHideScrollbar) {
           settingHideScrollbar.checked = Boolean(changes.scrollbarHidden.newValue);
+        }
+        if (changes.theme) {
+          const newTheme = String(changes.theme.newValue || 'system');
+          if (settingTheme) settingTheme.value = newTheme;
+          if (applyTheme) applyTheme(newTheme);
         }
       }
     });

@@ -90,5 +90,29 @@
     },
     "rulerCopied": {
         "message": "Đã sao chép kích thước!"
+    },
+    "pageDraw": {
+        "message": "Vẽ trên trang"
+    },
+    "drawSaved": {
+        "message": "Đã lưu ảnh vẽ!"
+    },
+    "appearanceGroup": {
+        "message": "Giao diện"
+    },
+    "themeTitle": {
+        "message": "Chủ đề giao diện"
+    },
+    "themeDesc": {
+        "message": "Tùy chọn giao diện: Theo hệ thống, Sáng hoặc Tối"
+    },
+    "themeSystem": {
+        "message": "Theo hệ thống"
+    },
+    "themeLight": {
+        "message": "Sáng"
+    },
+    "themeDark": {
+        "message": "Tối"
     }
 }

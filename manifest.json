@@ -25,7 +25,7 @@
     }
   },
   "side_panel": {
-    "default_path": "src/features/sidepanel/sidepanel.html"
+    "default_path": "src/features/favicon/favicon.html"
   },
   "options_ui": {
     "page": "src/features/settings/settings.html",
@@ -47,6 +47,17 @@
       ],
       "run_at": "document_start",
       "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/features/draw/draw.css",
+        "src/features/ruler/ruler.css"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

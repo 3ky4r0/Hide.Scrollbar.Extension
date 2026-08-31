@@ -1,7 +1,16 @@
-import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../../shared/types';
+import { RulerMode, SelectionRect } from '../../shared/types';
 
 (() => {
-  const win = window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null };
+  const win = window as unknown as {
+    __SCROLLHIDE_PAGE_RULER__?: PageRuler | null;
+    __SCROLLHIDE_PAGE_DRAW__?: { destroy: () => void } | null;
+  };
+
+  if (win.__SCROLLHIDE_PAGE_DRAW__) {
+    win.__SCROLLHIDE_PAGE_DRAW__.destroy();
+    win.__SCROLLHIDE_PAGE_DRAW__ = null;
+  }
+
   if (win.__SCROLLHIDE_PAGE_RULER__) {
     win.__SCROLLHIDE_PAGE_RULER__.destroy();
     win.__SCROLLHIDE_PAGE_RULER__ = null;
@@ -14,12 +23,13 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
     isDragging: boolean;
     isResizing: boolean;
     resizeHandle: string | null;
-    resizeStart: ResizeStartState | null;
+    resizeStart: { x: number; y: number; width: number; height: number; mx: number; my: number } | null;
     startX: number;
     startY: number;
     selection: SelectionRect | null;
     hoveredElement: Element | null;
 
+    // DOM
     host!: HTMLDivElement;
     shadow!: ShadowRoot;
     interactiveLayer!: HTMLDivElement;
@@ -27,9 +37,9 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
     highlightBadge!: HTMLDivElement;
     lockDot!: HTMLSpanElement;
     selectionBox!: HTMLDivElement;
-    selectionLabel!: HTMLDivElement;
+    selectionLabelW!: HTMLDivElement;
+    selectionLabelH!: HTMLDivElement;
     hud!: HTMLDivElement;
-    toast!: HTMLDivElement;
 
     sW!: HTMLElement | null;
     sH!: HTMLElement | null;
@@ -38,13 +48,16 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
     btnInspect!: HTMLButtonElement | null;
     btnSelect!: HTMLButtonElement | null;
     btnCopy!: HTMLButtonElement | null;
-    btnMove!: HTMLButtonElement | null;
     btnClose!: HTMLButtonElement | null;
 
-    positionIdx: number;
-    positions: CornerPosition[];
+    // Dragging HUD
+    isDraggingToolbar: boolean = false;
+    dragOffsetX: number = 0;
+    dragOffsetY: number = 0;
+    _onToolbarDragStart!: (e: PointerEvent) => void;
+    _onToolbarDragMove!: (e: PointerEvent) => void;
+    _onToolbarDragEnd!: () => void;
 
-    _toastT?: ReturnType<typeof setTimeout>;
     _onMove!: (e: PointerEvent) => void;
     _onDown!: (e: PointerEvent) => void;
     _onUp!: (e: PointerEvent) => void;
@@ -64,14 +77,6 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       this.selection = null;
       this.hoveredElement = null;
 
-      this.positionIdx = 0;
-      this.positions = [
-        { bottom: '14px', left: '14px',  top: 'auto', right: 'auto'  },
-        { bottom: '14px', right: '14px', top: 'auto', left: 'auto'   },
-        { top:    '14px', right: '14px', bottom: 'auto', left: 'auto' },
-        { top:    '14px', left: '14px',  bottom: 'auto', right: 'auto' },
-      ];
-
       this.init();
     }
 
@@ -84,252 +89,31 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
     createHost(): void {
       this.host = document.createElement('div');
       this.host.id = 'scrollhide-page-ruler-root';
-      this.host.style.cssText = 'all:initial;position:absolute;top:0;left:0;z-index:2147483647;pointer-events:none;';
+      this.host.style.cssText = 'all:initial;position:absolute;top:0;left:0;z-index:2147483647;pointer-events:none;opacity:0;transition:opacity 0.08s ease;';
+
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+        chrome.storage.sync.get({ theme: 'system' }, (res) => {
+          if (res.theme === 'light' || res.theme === 'dark') {
+            this.host.setAttribute('data-theme', res.theme);
+          }
+        });
+      }
+
       this.shadow = this.host.attachShadow({ mode: 'open' });
       (document.body || document.documentElement).appendChild(this.host);
     }
 
     render(): void {
-      const style = document.createElement('style');
-      style.textContent = `
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        /* ── Color tokens — auto light/dark matching tokens.css ── */
-        :host {
-          all: initial;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-          /* dark defaults */
-          --bg:        #282828;
-          --bg2:       #282828;
-          --text:      #ffffff;
-          --muted:     #8b949e;
-          --accent:    #58a6ff;
-          --border:    rgba(255,255,255,0.1);
-          --sep:       rgba(255,255,255,0.15);
-          --btn-hover: rgba(255,255,255,0.1);
-          --shadow:    rgba(0,0,0,0.55);
-          --badge-tag: #ff7b72;
-          --badge-dim: #7ee787;
-        }
-        @media (prefers-color-scheme: light) {
-          :host {
-            --bg:        #ffffff;
-            --bg2:       #ffffff;
-            --text:      #2f3446;
-            --muted:     #8b949e;
-            --accent:    #2772ed;
-            --border:    rgba(0,0,0,0.1);
-            --sep:       rgba(0,0,0,0.12);
-            --btn-hover: rgba(0,0,0,0.06);
-            --shadow:    rgba(0,0,0,0.2);
-            --badge-tag: #cf222e;
-            --badge-dim: #1a7f37;
-          }
-        }
-
-        /* ── Interactive capture layer (selection mode only) ── */
-        .interactive-layer {
-          position: fixed;
-          inset: 0;
-          pointer-events: none;
-          cursor: crosshair;
-          z-index: 90;
-        }
-        .interactive-layer.active {
-          pointer-events: auto;
-        }
-
-        /* ── Element highlight box ── */
-        .highlight-box {
-          position: absolute;
-          display: none;
-          border: 2px solid #2772ed;
-          background: rgba(39, 114, 237, 0.14);
-          pointer-events: none;
-          z-index: 105;
-          transition: border-color 0.15s;
-        }
-        .highlight-box.locked {
-          border-color: #00e676;
-          background: rgba(0, 230, 118, 0.1);
-        }
-
-        .highlight-badge {
-          position: absolute;
-          top: -25px;
-          left: 0;
-          background: var(--bg);
-          color: var(--text);
-          border: none;
-          box-shadow: 0 2px 8px var(--shadow);
-          border-radius: 1px;
-          padding: 2px 7px;
-          white-space: nowrap;
-          pointer-events: none;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          font-size: 11px;
-          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        }
-        /* flip badge below when element is near top of viewport */
-        .highlight-badge.below {
-          top: auto;
-          bottom: -25px;
-        }
-
-        .badge-lock {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: #00e676;
-          flex-shrink: 0;
-          display: none;
-        }
-        .highlight-box.locked .badge-lock { display: block; }
-
-        .badge-tag  { color: var(--badge-tag); font-weight: 600; }
-        .badge-dim  { color: var(--badge-dim); font-weight: 700; }
-
-        /* ── Selection box ── */
-        .selection-box {
-          position: absolute;
-          display: none;
-          border: 2px dashed #00e676;
-          background: rgba(0, 230, 118, 0.1);
-          pointer-events: none;
-          cursor: crosshair;
-          z-index: 110;
-        }
-
-        .selection-label {
-          position: absolute;
-          bottom: calc(100% + 5px);
-          left: 50%;
-          transform: translateX(-50%);
-          background: var(--bg);
-          border: none;
-          box-shadow: 0 2px 8px var(--shadow);
-          border-radius: 1px;
-          padding: 2px 8px;
-          font-size: 11px;
-          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-          color: var(--badge-dim);
-          font-weight: 700;
-          white-space: nowrap;
-          pointer-events: none;
-        }
-
-        /* ── 8 resize handles ── */
-        .handle {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          background: #fff;
-          border: 2px solid #00c853;
-          border-radius: 2px;
-          pointer-events: auto;
-        }
-        .handle-nw { top:-4px; left:-4px; cursor:nwse-resize; }
-        .handle-n  { top:-4px; left:calc(50% - 4px); cursor:ns-resize; }
-        .handle-ne { top:-4px; right:-4px; cursor:nesw-resize; }
-        .handle-e  { top:calc(50% - 4px); right:-4px; cursor:ew-resize; }
-        .handle-se { bottom:-4px; right:-4px; cursor:nwse-resize; }
-        .handle-s  { bottom:-4px; left:calc(50% - 4px); cursor:ns-resize; }
-        .handle-sw { bottom:-4px; left:-4px; cursor:nesw-resize; }
-        .handle-w  { top:calc(50% - 4px); left:-4px; cursor:ew-resize; }
-
-        /* ── Floating HUD — single row, bottom-left ── */
-        .hud {
-          position: fixed;
-          bottom: 14px;
-          left: 14px;
-          background: var(--bg);
-          border: none;
-          box-shadow: 0 4px 20px var(--shadow);
-          border-radius: 1px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          overflow: hidden;
-          pointer-events: auto;
-          z-index: 200;
-          user-select: none;
-          height: 32px;
-          transition: top 0.18s, bottom 0.18s, left 0.18s, right 0.18s;
-        }
-
-        .hud-stats-group {
-          display: flex;
-          align-items: center;
-          height: 100%;
-          background: var(--bg2);
-        }
-
-        .hud-stat {
-          display: flex;
-          align-items: center;
-          gap: 3px;
-          padding: 0 8px;
-          font-size: 11px;
-          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-          background: transparent;
-        }
-
-        .hud-stat-lbl { color: var(--muted); font-weight: 500; }
-        .hud-stat-val { color: var(--text); font-weight: 700; min-width: 38px; }
-
-        .hud-sep {
-          width: 1px;
-          height: 14px;
-          background: var(--sep);
-          flex-shrink: 0;
-        }
-
-        .hud-btn {
-          height: 100%;
-          padding: 0 10px;
-          background: transparent;
-          border: none;
-          color: var(--muted);
-          font-size: 11px;
-          font-weight: 500;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 4px;
-          transition: none;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-          white-space: nowrap;
-        }
-        .hud-btn:hover { background: var(--btn-hover); color: var(--text); }
-        .hud-btn.active { color: var(--text); font-weight: 700; background: var(--btn-hover); }
-
-        /* toast */
-        .toast {
-          position: fixed;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%) translateY(6px);
-          background: #238636;
-          color: #fff;
-          font-size: 11px;
-          font-weight: 600;
-          padding: 5px 12px;
-          border-radius: 20px;
-          opacity: 0;
-          transition: opacity 0.18s, transform 0.18s;
-          pointer-events: none;
-          z-index: 250;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        .toast.show {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
-        }
-      `;
-
-      this.shadow.appendChild(style);
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = chrome.runtime.getURL('src/features/ruler/ruler.css');
+      link.onload = () => {
+        if (this.host) this.host.style.opacity = '1';
+      };
+      setTimeout(() => {
+        if (this.host) this.host.style.opacity = '1';
+      }, 50);
+      this.shadow.appendChild(link);
 
       // Interactive layer
       this.interactiveLayer = document.createElement('div');
@@ -348,9 +132,12 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       // Selection box
       this.selectionBox = document.createElement('div');
       this.selectionBox.className = 'selection-box';
-      this.selectionLabel = document.createElement('div');
-      this.selectionLabel.className = 'selection-label';
-      this.selectionBox.appendChild(this.selectionLabel);
+      this.selectionLabelW = document.createElement('div');
+      this.selectionLabelW.className = 'selection-label-w';
+      this.selectionLabelH = document.createElement('div');
+      this.selectionLabelH.className = 'selection-label-h';
+      this.selectionBox.appendChild(this.selectionLabelW);
+      this.selectionBox.appendChild(this.selectionLabelH);
 
       ['nw','n','ne','e','se','s','sw','w'].forEach(h => {
         const el = document.createElement('div');
@@ -359,57 +146,77 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
         this.selectionBox.appendChild(el);
       });
 
-      // HUD
+      // HUD toolbar matching PageDraw design
       this.hud = document.createElement('div');
       this.hud.className = 'hud';
       this.hud.innerHTML = `
-        <div class="hud-stats-group">
-          <div class="hud-stat">
-            <span class="hud-stat-lbl">W</span>
-            <span id="sW" class="hud-stat-val">—</span>
+        <div class="drag-handle" title="Kéo để di chuyển">
+          <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor">
+            <circle cx="2" cy="2" r="1.5"/><circle cx="8" cy="2" r="1.5"/>
+            <circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/>
+            <circle cx="2" cy="14" r="1.5"/><circle cx="8" cy="14" r="1.5"/>
+          </svg>
+        </div>
+
+        <div class="stats-group">
+          <div class="stat-item">
+            <span class="stat-lbl">W</span>
+            <span id="sW" class="stat-val">—</span>
           </div>
-          <div class="hud-sep"></div>
-          <div class="hud-stat">
-            <span class="hud-stat-lbl">H</span>
-            <span id="sH" class="hud-stat-val">—</span>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-lbl">H</span>
+            <span id="sH" class="stat-val">—</span>
           </div>
-          <div class="hud-sep"></div>
-          <div class="hud-stat">
-            <span class="hud-stat-lbl">X</span>
-            <span id="sX" class="hud-stat-val">—</span>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-lbl">X</span>
+            <span id="sX" class="stat-val">—</span>
           </div>
-          <div class="hud-sep"></div>
-          <div class="hud-stat">
-            <span class="hud-stat-lbl">Y</span>
-            <span id="sY" class="hud-stat-val">—</span>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-lbl">Y</span>
+            <span id="sY" class="stat-val">—</span>
           </div>
         </div>
-        <button id="btnInspect" class="hud-btn" title="Inspect element">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m14 14 7 7-3 1-1 3-3-11Z"/></svg>
-          Inspect
-        </button>
-        <button id="btnSelect" class="hud-btn active" title="Draw selection">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          Select
-        </button>
-        <button id="btnCopy" class="hud-btn" title="Copy dimensions">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-          Copy
-        </button>
-        <button id="btnMove" class="hud-btn" title="Move to next corner">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>
-        </button>
-        <button id="btnClose" class="hud-btn" title="Close ruler">✕</button>
-      `;
 
-      this.toast = document.createElement('div');
-      this.toast.className = 'toast';
+        <div class="divider"></div>
+
+        <div class="btn-group">
+          <button id="btnInspect" class="tool-btn" title="Kiểm tra phần tử (I)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/>
+              <path d="m14 14 7 7-3 1-1 3-3-11Z"/>
+            </svg>
+          </button>
+
+          <button id="btnSelect" class="tool-btn active" title="Vẽ vùng chọn (S)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"/>
+              <path d="M3 9h18M9 21V9"/>
+            </svg>
+          </button>
+
+          <button id="btnCopy" class="tool-btn" title="Sao chép kích thước (C)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="14" x="8" y="8" rx="2"/>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+          </button>
+
+          <button id="btnClose" class="tool-btn" title="Đóng thước đo (Esc)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      `;
 
       this.shadow.appendChild(this.interactiveLayer);
       this.shadow.appendChild(this.highlightBox);
       this.shadow.appendChild(this.selectionBox);
       this.shadow.appendChild(this.hud);
-      this.shadow.appendChild(this.toast);
 
       // Refs
       this.sW = this.shadow.getElementById('sW');
@@ -419,7 +226,6 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       this.btnInspect = this.shadow.getElementById('btnInspect') as HTMLButtonElement | null;
       this.btnSelect  = this.shadow.getElementById('btnSelect') as HTMLButtonElement | null;
       this.btnCopy    = this.shadow.getElementById('btnCopy') as HTMLButtonElement | null;
-      this.btnMove    = this.shadow.getElementById('btnMove') as HTMLButtonElement | null;
       this.btnClose   = this.shadow.getElementById('btnClose') as HTMLButtonElement | null;
     }
 
@@ -439,8 +245,39 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       this.btnInspect?.addEventListener('click', e => { e.stopPropagation(); this.setMode('inspect'); });
       this.btnSelect?.addEventListener('click',  e => { e.stopPropagation(); this.setMode('selection'); });
       this.btnCopy?.addEventListener('click',    e => { e.stopPropagation(); this.copy(); });
-      this.btnMove?.addEventListener('click',    e => { e.stopPropagation(); this.cyclePosition(); });
       this.btnClose?.addEventListener('click',   e => { e.stopPropagation(); this.destroy(); });
+
+      // Dragging HUD handle
+      const dragHandle = this.shadow.querySelector<HTMLDivElement>('.drag-handle');
+      if (dragHandle) {
+        this._onToolbarDragStart = (e: PointerEvent) => {
+          this.isDraggingToolbar = true;
+          const rect = this.hud.getBoundingClientRect();
+          this.dragOffsetX = e.clientX - rect.left;
+          this.dragOffsetY = e.clientY - rect.top;
+          dragHandle.setPointerCapture(e.pointerId);
+          e.stopPropagation();
+        };
+
+        this._onToolbarDragMove = (e: PointerEvent) => {
+          if (!this.isDraggingToolbar) return;
+          const x = Math.max(10, Math.min(window.innerWidth - this.hud.offsetWidth - 10, e.clientX - this.dragOffsetX));
+          const y = Math.max(10, Math.min(window.innerHeight - this.hud.offsetHeight - 10, e.clientY - this.dragOffsetY));
+          this.hud.style.left = `${x}px`;
+          this.hud.style.top = `${y}px`;
+          this.hud.style.bottom = 'auto';
+          this.hud.style.right = 'auto';
+          this.hud.style.transform = 'none';
+        };
+
+        this._onToolbarDragEnd = () => {
+          this.isDraggingToolbar = false;
+        };
+
+        dragHandle.addEventListener('pointerdown', this._onToolbarDragStart);
+        dragHandle.addEventListener('pointermove', this._onToolbarDragMove);
+        dragHandle.addEventListener('pointerup', this._onToolbarDragEnd);
+      }
 
       // Block all click events on page in inspect mode
       this._onClick = (e: MouseEvent) => {
@@ -471,12 +308,6 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       }
     }
 
-    cyclePosition(): void {
-      this.positionIdx = (this.positionIdx + 1) % this.positions.length;
-      const pos = this.positions[this.positionIdx];
-      Object.assign(this.hud.style, pos);
-    }
-
     updateStats(w: number | null, h: number | null, x: number | null, y: number | null): void {
       if (this.sW) this.sW.textContent = w != null ? `${w}px` : '—';
       if (this.sH) this.sH.textContent = h != null ? `${h}px` : '—';
@@ -496,20 +327,11 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
         document.body.appendChild(ta);
         ta.focus({ preventScroll: true });
         ta.select();
-        const ok = document.execCommand('copy');
+        document.execCommand('copy');
         ta.remove();
-        this.showToast(ok ? `Copied ${text}` : `${text}`);
       } catch (_) {
         navigator.clipboard?.writeText(text).catch(() => {});
-        this.showToast(`Copied ${text}`);
       }
-    }
-
-    showToast(msg: string): void {
-      this.toast.textContent = msg;
-      this.toast.classList.add('show');
-      clearTimeout(this._toastT);
-      this._toastT = setTimeout(() => this.toast.classList.remove('show'), 1600);
     }
 
     /* ── Events ── */
@@ -582,15 +404,22 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
         } else {
           this.destroy();
         }
+      } else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        const key = e.key.toLowerCase();
+        if (key === 'i') this.setMode('inspect');
+        else if (key === 's') this.setMode('selection');
+        else if (key === 'c') this.copy();
       }
     }
 
     onScroll(): void {
       if (this.mode === 'inspect' && this.hoveredElement) {
         const r = this.hoveredElement.getBoundingClientRect();
-        const sx = window.scrollX, sy = window.scrollY;
+        const sx = window.scrollX || 0, sy = window.scrollY || 0;
         this.highlightBox.style.top  = `${r.top  + sy}px`;
         this.highlightBox.style.left = `${r.left + sx}px`;
+      } else if (this.mode === 'selection' && this.selection) {
+        this.setSelection(this.selection.x, this.selection.y, this.selection.width, this.selection.height);
       }
     }
 
@@ -605,7 +434,7 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
 
       this.hoveredElement = el;
       const r  = el.getBoundingClientRect();
-      const sx = window.scrollX, sy = window.scrollY;
+      const sx = window.scrollX || 0, sy = window.scrollY || 0;
       const w  = Math.round(r.width);
       const h  = Math.round(r.height);
 
@@ -645,7 +474,84 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       this.selectionBox.style.width   = `${w}px`;
       this.selectionBox.style.height  = `${h}px`;
 
-      this.selectionLabel.textContent = `${w} × ${h} px`;
+      this.selectionLabelW.textContent = `${w}px`;
+      this.selectionLabelH.textContent = `${h}px`;
+
+      const sy = window.scrollY || window.pageYOffset || 0;
+      const sx = window.scrollX || window.pageXOffset || 0;
+      const vTop = y - sy;
+      const vBottom = vTop + h;
+      const vLeft = x - sx;
+      const vRight = vLeft + w;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // ── Position Width Label (Horizontal) ──
+      if (vTop < 32) {
+        if (vBottom + 32 <= vh) {
+          // Below the box
+          this.selectionLabelW.style.top = 'calc(100% + 6px)';
+          this.selectionLabelW.style.bottom = 'auto';
+        } else {
+          // Inside at top of the box
+          this.selectionLabelW.style.top = '6px';
+          this.selectionLabelW.style.bottom = 'auto';
+        }
+      } else {
+        // Normal: above the box
+        this.selectionLabelW.style.top = 'auto';
+        this.selectionLabelW.style.bottom = 'calc(100% + 6px)';
+      }
+
+      // Clamp horizontally so it never goes off screen
+      const centerX = vLeft + w / 2;
+      if (centerX < 35) {
+        this.selectionLabelW.style.left = `${Math.max(6, 30 - vLeft)}px`;
+        this.selectionLabelW.style.right = 'auto';
+        this.selectionLabelW.style.transform = 'none';
+      } else if (centerX > vw - 35) {
+        this.selectionLabelW.style.left = 'auto';
+        this.selectionLabelW.style.right = `${Math.max(6, vRight - (vw - 30))}px`;
+        this.selectionLabelW.style.transform = 'none';
+      } else {
+        this.selectionLabelW.style.left = '50%';
+        this.selectionLabelW.style.right = 'auto';
+        this.selectionLabelW.style.transform = 'translateX(-50%)';
+      }
+
+      // ── Position Height Label (Vertical) ──
+      if (vLeft < 55) {
+        if (vRight + 55 <= vw) {
+          // Right outside the box
+          this.selectionLabelH.style.left = 'calc(100% + 6px)';
+          this.selectionLabelH.style.right = 'auto';
+        } else {
+          // Inside at left of the box
+          this.selectionLabelH.style.left = '6px';
+          this.selectionLabelH.style.right = 'auto';
+        }
+      } else {
+        // Normal: left outside the box
+        this.selectionLabelH.style.left = 'auto';
+        this.selectionLabelH.style.right = 'calc(100% + 6px)';
+      }
+
+      // Clamp vertically so it never goes off screen
+      const centerY = vTop + h / 2;
+      if (centerY < 25) {
+        this.selectionLabelH.style.top = `${Math.max(6, 20 - vTop)}px`;
+        this.selectionLabelH.style.bottom = 'auto';
+        this.selectionLabelH.style.transform = 'none';
+      } else if (centerY > vh - 25) {
+        this.selectionLabelH.style.top = 'auto';
+        this.selectionLabelH.style.bottom = `${Math.max(6, vBottom - (vh - 20))}px`;
+        this.selectionLabelH.style.transform = 'none';
+      } else {
+        this.selectionLabelH.style.top = '50%';
+        this.selectionLabelH.style.bottom = 'auto';
+        this.selectionLabelH.style.transform = 'translateY(-50%)';
+      }
+
       this.updateStats(w, h, Math.round(x), Math.round(y));
     }
 
@@ -673,7 +579,6 @@ import { CornerPosition, ResizeStartState, RulerMode, SelectionRect } from '../.
       window.removeEventListener('keydown',     this._onKey,  { capture: true });
       window.removeEventListener('click',       this._onClick, { capture: true });
       window.removeEventListener('scroll',      this._onScroll);
-      clearTimeout(this._toastT);
       this.host?.parentNode?.removeChild(this.host);
       (window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null }).__SCROLLHIDE_PAGE_RULER__ = null;
     }

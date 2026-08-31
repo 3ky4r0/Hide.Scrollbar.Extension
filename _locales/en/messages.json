@@ -90,5 +90,29 @@
     },
     "rulerCopied": {
         "message": "Dimensions copied!"
+    },
+    "pageDraw": {
+        "message": "Draw on Page"
+    },
+    "drawSaved": {
+        "message": "Drawing saved!"
+    },
+    "appearanceGroup": {
+        "message": "Appearance"
+    },
+    "themeTitle": {
+        "message": "Theme"
+    },
+    "themeDesc": {
+        "message": "Choose appearance theme: System default, Light, or Dark"
+    },
+    "themeSystem": {
+        "message": "System default"
+    },
+    "themeLight": {
+        "message": "Light"
+    },
+    "themeDark": {
+        "message": "Dark"
     }
 }
