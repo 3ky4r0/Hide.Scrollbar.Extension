@@ -27,7 +27,10 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     startX: number;
     startY: number;
     selection: SelectionRect | null;
+    lockedElements: Set<Element>;
+    lockedBoxesMap: Map<Element, HTMLDivElement>;
     hoveredElement: Element | null;
+    lockedContainer!: HTMLDivElement;
 
     // DOM
     host!: HTMLDivElement;
@@ -37,7 +40,6 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     highlightBadge!: HTMLDivElement;
     badgeTagSpan!: HTMLSpanElement;
     badgeDimSpan!: HTMLSpanElement;
-    lockDot!: HTMLSpanElement;
     selectionBox!: HTMLDivElement;
     selectionLabelW!: HTMLDivElement;
     selectionLabelH!: HTMLDivElement;
@@ -74,6 +76,8 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     constructor() {
       this.mode = 'selection';
       this.locked = false;
+      this.lockedElements = new Set();
+      this.lockedBoxesMap = new Map();
       this.isDragging = false;
       this.isResizing = false;
       this.resizeHandle = null;
@@ -125,20 +129,21 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       this.interactiveLayer = document.createElement('div');
       this.interactiveLayer.className = 'interactive-layer active';
 
-      // Highlight box
+      // Locked container for multi-select
+      this.lockedContainer = document.createElement('div');
+      this.lockedContainer.className = 'locked-container';
+
+      // Highlight box (Blue hover)
       this.highlightBox = document.createElement('div');
       this.highlightBox.className = 'highlight-box';
       this.highlightBadge = document.createElement('div');
       this.highlightBadge.className = 'highlight-badge';
-      this.lockDot = document.createElement('span');
-      this.lockDot.className = 'badge-lock';
 
       this.badgeTagSpan = document.createElement('span');
       this.badgeTagSpan.className = 'badge-tag';
       this.badgeDimSpan = document.createElement('span');
       this.badgeDimSpan.className = 'badge-dim';
 
-      this.highlightBadge.appendChild(this.lockDot);
       this.highlightBadge.appendChild(this.badgeTagSpan);
       this.highlightBadge.appendChild(this.badgeDimSpan);
       this.highlightBox.appendChild(this.highlightBadge);
@@ -228,6 +233,7 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       `;
 
       this.shadow.appendChild(this.interactiveLayer);
+      this.shadow.appendChild(this.lockedContainer);
       this.shadow.appendChild(this.highlightBox);
       this.shadow.appendChild(this.selectionBox);
       this.shadow.appendChild(this.hud);
@@ -308,7 +314,6 @@ import { RulerMode, SelectionRect } from '../../shared/types';
 
     setMode(m: RulerMode): void {
       this.mode = m;
-      this.locked = false;
       this.btnInspect?.classList.toggle('active', m === 'inspect');
       this.btnSelect?.classList.toggle('active',  m === 'selection');
 
@@ -316,11 +321,11 @@ import { RulerMode, SelectionRect } from '../../shared/types';
         this.interactiveLayer.classList.add('active');
         this.selectionBox.style.display = 'none';
         this.selection = null;
-        this.highlightBox.classList.remove('locked');
+        this.updateLockedBoxes();
       } else {
         this.interactiveLayer.classList.add('active');
         this.highlightBox.style.display = 'none';
-        this.highlightBox.classList.remove('locked');
+        this.clearLockedBoxes();
       }
     }
 
@@ -332,10 +337,23 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     }
 
     copy(): void {
-      const w = this.sW?.textContent;
-      const h = this.sH?.textContent;
-      if (!w || !h || w === '—') return;
-      const text = `${w} × ${h}`;
+      let text = '';
+      if (this.lockedElements.size > 1 && (!this.hoveredElement || this.lockedElements.has(this.hoveredElement))) {
+        const items: string[] = [];
+        this.lockedElements.forEach(el => {
+          const r = el.getBoundingClientRect();
+          const tag = el.tagName.toLowerCase();
+          const id = el.id ? `#${el.id}` : '';
+          items.push(`${tag}${id}: ${Math.round(r.width)}px × ${Math.round(r.height)}px`);
+        });
+        text = items.join('\n');
+      } else {
+        const w = this.sW?.textContent;
+        const h = this.sH?.textContent;
+        if (!w || !h || w === '—') return;
+        text = `${w} × ${h}`;
+      }
+
       try {
         const ta = document.createElement('textarea');
         ta.value = text;
@@ -363,9 +381,7 @@ import { RulerMode, SelectionRect } from '../../shared/types';
         this.rafMoveId = null;
 
         if (this.mode === 'inspect') {
-          if (!this.locked) {
-            this.inspectAt(clientX, clientY);
-          }
+          this.inspectAt(clientX, clientY);
           return;
         }
 
@@ -389,11 +405,32 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       if (this.mode === 'inspect') {
         e.preventDefault();
         e.stopImmediatePropagation();
-        this.locked = false;
         this.inspectAt(e.clientX, e.clientY);
         if (this.hoveredElement) {
-          this.locked = true;
-          this.highlightBox.classList.add('locked');
+          const el = this.hoveredElement;
+          const isMulti = e.ctrlKey || e.metaKey;
+
+          if (isMulti) {
+            if (this.lockedElements.has(el)) {
+              const box = this.lockedBoxesMap.get(el);
+              box?.remove();
+              this.lockedBoxesMap.delete(el);
+              this.lockedElements.delete(el);
+            } else {
+              this.lockedElements.add(el);
+              const box = this.createLockedBoxForElement(el);
+              this.lockedBoxesMap.set(el, box);
+            }
+          } else {
+            this.clearLockedBoxes();
+            this.lockedElements.add(el);
+            const box = this.createLockedBoxForElement(el);
+            this.lockedBoxesMap.set(el, box);
+          }
+
+          if (this.lockedElements.has(el)) {
+            this.highlightBox.style.display = 'none';
+          }
         }
         return;
       }
@@ -425,9 +462,8 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     onKey(e: KeyboardEvent): void {
       if (e.key === 'Escape') {
         e.preventDefault();
-        if (this.locked) {
-          this.locked = false;
-          this.highlightBox.classList.remove('locked');
+        if (this.lockedElements.size > 0) {
+          this.clearLockedBoxes();
         } else {
           this.destroy();
         }
@@ -478,11 +514,16 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       if (this.rafScrollId !== null) return;
       this.rafScrollId = requestAnimationFrame(() => {
         this.rafScrollId = null;
-        if (this.mode === 'inspect' && this.hoveredElement) {
-          const r = this.hoveredElement.getBoundingClientRect();
-          const sx = window.scrollX || 0, sy = window.scrollY || 0;
-          this.highlightBox.style.top  = `${r.top  + sy}px`;
-          this.highlightBox.style.left = `${r.left + sx}px`;
+        if (this.mode === 'inspect') {
+          if (this.lockedElements.size > 0) {
+            this.updateLockedBoxes();
+          }
+          if (this.hoveredElement && !this.lockedElements.has(this.hoveredElement)) {
+            const r = this.hoveredElement.getBoundingClientRect();
+            const sx = window.scrollX || 0, sy = window.scrollY || 0;
+            this.highlightBox.style.top  = `${r.top  + sy}px`;
+            this.highlightBox.style.left = `${r.left + sx}px`;
+          }
         } else if (this.mode === 'selection' && this.selection) {
           this.setSelection(this.selection.x, this.selection.y, this.selection.width, this.selection.height);
         }
@@ -490,6 +531,85 @@ import { RulerMode, SelectionRect } from '../../shared/types';
     }
 
     /* ── Inspect ── */
+
+    createLockedBoxForElement(el: Element): HTMLDivElement {
+      const box = document.createElement('div');
+      box.className = 'locked-box';
+      box.style.display = 'block';
+
+      const badge = document.createElement('div');
+      badge.className = 'locked-badge';
+      const dot = document.createElement('span');
+      dot.className = 'badge-lock';
+
+      const tagSpan = document.createElement('span');
+      tagSpan.className = 'badge-tag';
+      const dimSpan = document.createElement('span');
+      dimSpan.className = 'badge-dim';
+
+      badge.appendChild(dot);
+      badge.appendChild(tagSpan);
+      badge.appendChild(dimSpan);
+      box.appendChild(badge);
+
+      const r = el.getBoundingClientRect();
+      const sx = window.scrollX || 0, sy = window.scrollY || 0;
+      const w = Math.round(r.width);
+      const h = Math.round(r.height);
+
+      box.style.top = `${r.top + sy}px`;
+      box.style.left = `${r.left + sx}px`;
+      box.style.width = `${w}px`;
+      box.style.height = `${h}px`;
+
+      badge.classList.toggle('below', r.top < 80);
+
+      const tag = el.tagName.toLowerCase();
+      const id = el.id ? `#${el.id}` : '';
+      const cls = typeof el.className === 'string'
+        ? el.className.split(' ').filter(Boolean).slice(0, 2).map(c => `.${c}`).join('')
+        : '';
+
+      tagSpan.textContent = `${tag}${id}${cls}`;
+      dimSpan.textContent = `${w} × ${h}`;
+
+      this.lockedContainer.appendChild(box);
+      return box;
+    }
+
+    updateLockedBoxes(): void {
+      for (const [el, box] of this.lockedBoxesMap.entries()) {
+        if (!document.contains(el)) {
+          box.remove();
+          this.lockedBoxesMap.delete(el);
+          this.lockedElements.delete(el);
+          continue;
+        }
+        const r = el.getBoundingClientRect();
+        const sx = window.scrollX || 0, sy = window.scrollY || 0;
+        const w = Math.round(r.width);
+        const h = Math.round(r.height);
+
+        box.style.top = `${r.top + sy}px`;
+        box.style.left = `${r.left + sx}px`;
+        box.style.width = `${w}px`;
+        box.style.height = `${h}px`;
+
+        const badge = box.querySelector('.locked-badge');
+        badge?.classList.toggle('below', r.top < 80);
+
+        const dimSpan = box.querySelector('.badge-dim');
+        if (dimSpan) dimSpan.textContent = `${w} × ${h}`;
+      }
+    }
+
+    clearLockedBoxes(): void {
+      for (const box of this.lockedBoxesMap.values()) {
+        box.remove();
+      }
+      this.lockedBoxesMap.clear();
+      this.lockedElements.clear();
+    }
 
     inspectAt(cx: number, cy: number): void {
       // Find the element without toggling visibility to prevent layout thrashing
@@ -502,32 +622,42 @@ import { RulerMode, SelectionRect } from '../../shared/types';
         break;
       }
 
-      if (!el) return;
+      if (!el) {
+        this.hoveredElement = null;
+        this.highlightBox.style.display = 'none';
+        return;
+      }
 
       this.hoveredElement = el;
-      const r  = el.getBoundingClientRect();
-      const sx = window.scrollX || 0, sy = window.scrollY || 0;
-      const w  = Math.round(r.width);
-      const h  = Math.round(r.height);
 
-      this.highlightBox.style.display = 'block';
-      this.highlightBox.style.top     = `${r.top  + sy}px`;
-      this.highlightBox.style.left    = `${r.left + sx}px`;
-      this.highlightBox.style.width   = `${w}px`;
-      this.highlightBox.style.height  = `${h}px`;
+      if (this.lockedElements.has(el)) {
+        this.highlightBox.style.display = 'none';
+      } else {
+        const r  = el.getBoundingClientRect();
+        const sx = window.scrollX || 0, sy = window.scrollY || 0;
+        const w  = Math.round(r.width);
+        const h  = Math.round(r.height);
 
-      this.highlightBadge.classList.toggle('below', r.top < 80);
+        this.highlightBox.style.display = 'block';
+        this.highlightBox.style.top     = `${r.top  + sy}px`;
+        this.highlightBox.style.left    = `${r.left + sx}px`;
+        this.highlightBox.style.width   = `${w}px`;
+        this.highlightBox.style.height  = `${h}px`;
 
-      const tag  = el.tagName.toLowerCase();
-      const id   = el.id ? `#${el.id}` : '';
-      const cls  = typeof el.className === 'string'
-        ? el.className.split(' ').filter(Boolean).slice(0,2).map(c => `.${c}`).join('')
-        : '';
+        this.highlightBadge.classList.toggle('below', r.top < 80);
 
-      this.badgeTagSpan.textContent = `${tag}${id}${cls}`;
-      this.badgeDimSpan.textContent = `${w} × ${h}`;
+        const tag  = el.tagName.toLowerCase();
+        const id   = el.id ? `#${el.id}` : '';
+        const cls  = typeof el.className === 'string'
+          ? el.className.split(' ').filter(Boolean).slice(0,2).map(c => `.${c}`).join('')
+          : '';
 
-      this.updateStats(w, h, Math.round(r.left), Math.round(r.top));
+        this.badgeTagSpan.textContent = `${tag}${id}${cls}`;
+        this.badgeDimSpan.textContent = `${w} × ${h}`;
+      }
+
+      const r = el.getBoundingClientRect();
+      this.updateStats(Math.round(r.width), Math.round(r.height), Math.round(r.left), Math.round(r.top));
     }
 
     /* ── Selection ── */
@@ -656,6 +786,7 @@ import { RulerMode, SelectionRect } from '../../shared/types';
       window.removeEventListener('click',       this._onClick, { capture: true });
       window.removeEventListener('scroll',      this._onScroll, { capture: true } as any);
       window.removeEventListener('wheel',       this._onWheel,  { capture: true } as any);
+      this.clearLockedBoxes();
       this.host?.parentNode?.removeChild(this.host);
       (window as unknown as { __SCROLLHIDE_PAGE_RULER__?: PageRuler | null }).__SCROLLHIDE_PAGE_RULER__ = null;
     }

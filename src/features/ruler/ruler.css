@@ -79,7 +79,7 @@
   pointer-events: auto;
 }
 
-/* ── Element highlight box ── */
+/* ── Element highlight box (Hover blue) ── */
 .highlight-box {
   position: absolute;
   display: none;
@@ -88,16 +88,21 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
   pointer-events: none;
   z-index: 105;
-  transition: border-color 0.15s;
 }
 
-.highlight-box.locked {
+/* ── Element locked box (Selected green) ── */
+.locked-box {
+  position: absolute;
+  display: none;
   border: 1px solid #34c759;
   background: rgba(52, 199, 89, 0.08);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 104;
 }
 
-.highlight-badge {
+.highlight-badge,
+.locked-badge {
   position: absolute;
   top: -28px;
   left: 0;
@@ -118,8 +123,13 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+.locked-badge {
+  border-color: rgba(52, 199, 89, 0.4);
+}
+
 /* flip badge below when element is near top of viewport */
-.highlight-badge.below {
+.highlight-badge.below,
+.locked-badge.below {
   top: auto;
   bottom: -28px;
 }
@@ -130,11 +140,7 @@
   border-radius: 50%;
   background: #34c759;
   flex-shrink: 0;
-  display: none;
-}
-
-.highlight-box.locked .badge-lock {
-  display: block;
+  display: inline-block;
 }
 
 .badge-tag {
