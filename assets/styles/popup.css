@@ -1,5 +1,6 @@
 body {
   width: 220px;
+  min-height: 158px;
   overflow: hidden;
   display: flex;
   flex-direction: column;

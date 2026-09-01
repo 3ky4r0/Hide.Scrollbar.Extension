@@ -11,11 +11,11 @@
 
 <body>
   <div class="top-bar">
-    <div id="domainDisplay" class="domain-display">loading...</div>
+    <div id="domainDisplay" class="domain-display">&nbsp;</div>
   </div>
 
   <div class="main-power-section">
-    <button id="toggleScroll" class="power-btn" aria-label="Toggle hiding scrollbar" title="Toggle scrollbar">
+    <button id="toggleScroll" class="power-btn active" aria-label="Toggle hiding scrollbar" title="Toggle scrollbar">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
@@ -26,7 +26,7 @@
     <div class="stats-section">
       <div class="stats-item">
         <span class="stats-label" data-i18n="statsStatus">Status</span>
-        <span id="statusValue" class="stats-value">...</span>
+        <span id="statusValue" class="stats-value status-dot active" title="Active"></span>
       </div>
       <div class="stats-item">
         <span class="stats-label" data-i18n="statsExceptions">Exceptions</span>
