@@ -270,6 +270,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       this.canvas.style.width = `${w}px`;
       this.canvas.style.height = `${h}px`;
 
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.scale(dpr, dpr);
       this.redraw();
     }
@@ -437,6 +438,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
       const docY = e.clientY + scroll.y;
 
       this.isDrawing = true;
+      this.canvas.setPointerCapture(e.pointerId);
       this.startX = docX;
       this.startY = docY;
       this.currentPoints = [{ x: docX, y: docY }];
@@ -496,8 +498,10 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
           if (!this.isDrawing) return;
 
           this.redraw();
+          const freshScroll = this.getScroll();
+          const lastPt = this.currentPoints[this.currentPoints.length - 1];
           this.ctx.save();
-          this.ctx.translate(-scroll.x, -scroll.y);
+          this.ctx.translate(-freshScroll.x, -freshScroll.y);
 
           if (this.currentTool === 'highlighter') {
             this.renderStroke({
@@ -507,7 +511,7 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
               opacity: 0.35,
               points: this.currentPoints,
             });
-          } else {
+          } else if (lastPt) {
             this.renderStroke({
               tool: this.currentTool,
               color: this.currentColor,
@@ -515,8 +519,8 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
               opacity: 1,
               x: this.startX,
               y: this.startY,
-              endX: docX,
-              endY: docY,
+              endX: lastPt.x,
+              endY: lastPt.y,
             });
           }
           this.ctx.restore();
@@ -598,8 +602,10 @@ import { DrawPoint, DrawStroke, DrawToolMode } from '../../shared/types';
 
     redraw(): void {
       if (!this.ctx) return;
-      const dpr = window.devicePixelRatio || 1;
-      this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      this.ctx.save();
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.restore();
       const scroll = this.getScroll();
       this.ctx.save();
       this.ctx.translate(-scroll.x, -scroll.y);

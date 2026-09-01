@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initPopup = () => {
   const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
   const { openPanelForCurrentTab, getActiveTab } = (globalThis as any).ScrollHideBrowserApi || {};
   const { getSyncState, getSyncValue, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
@@ -526,4 +526,10 @@ document.addEventListener('DOMContentLoaded', () => {
       updateNotice(currentWhitelist, currentScrollbarHidden);
     }
   );
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPopup);
+} else {
+  initPopup();
+}
