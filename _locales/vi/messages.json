@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Xóa trang khỏi danh sách trắng"
     },
+    "reloadTab": {
+        "message": "Tải lại trang"
+    },
     "exportData": {
         "message": "Xuất dữ liệu"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Lỗi: Tệp tin không hợp lệ!"
-    },
-    "pickColor": {
-        "message": "Lấy mã màu"
-    },
-    "getFavicon": {
-        "message": "Lấy Favicon"
-    },
-    "colorCopied": {
-        "message": "Đã sao chép!"
-    },
-    "pageRuler": {
-        "message": "Thước đo trang"
-    },
-    "rulerCopied": {
-        "message": "Đã sao chép kích thước!"
-    },
-    "pageDraw": {
-        "message": "Vẽ trên trang"
-    },
-    "drawSaved": {
-        "message": "Đã lưu ảnh vẽ!"
     },
     "appearanceGroup": {
         "message": "Giao diện"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Thông tin hữu ích nên gửi kèm trong báo cáo"
-    },
-    "faviconTitle": {
-        "message": "Trích xuất Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "Trích xuất và tải về biểu tượng favicon độ phân giải cao từ mọi trang web."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Dán từ bộ nhớ tạm"
-    },
-    "faviconExtract": {
-        "message": "Trích xuất Favicon"
-    },
-    "faviconSelectFormat": {
-        "message": "Chọn kích thước / định dạng"
-    },
-    "faviconSelectedUrl": {
-        "message": "Đường dẫn đã chọn"
-    },
-    "faviconCopyUrl": {
-        "message": "Sao chép liên kết"
-    },
-    "faviconOpenTab": {
-        "message": "Mở trong thẻ mới"
-    },
-    "faviconDownload": {
-        "message": "Tải xuống favicon"
-    },
-    "faviconNotFound": {
-        "message": "Không tìm thấy favicon hợp lệ cho trang web này."
-    },
-    "faviconInvalidUrl": {
-        "message": "Vui lòng nhập đường dẫn trang web hợp lệ."
-    },
-    "copied": {
-        "message": "Đã sao chép!"
-    },
-    "drawPen": {
-        "message": "Bút vẽ (P)"
-    },
-    "drawHighlighter": {
-        "message": "Bút dạ quang (H)"
-    },
-    "drawRect": {
-        "message": "Hình chữ nhật (R)"
-    },
-    "drawCircle": {
-        "message": "Hình tròn (C)"
-    },
-    "drawArrow": {
-        "message": "Mũi tên (A)"
-    },
-    "drawLine": {
-        "message": "Đường thẳng (L)"
-    },
-    "drawText": {
-        "message": "Văn bản (T)"
-    },
-    "drawEraser": {
-        "message": "Tẩy xóa (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Cỡ nét vẽ"
-    },
-    "drawUndo": {
-        "message": "Hoàn tác (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Làm lại (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Xóa nét vẽ"
-    },
-    "drawSave": {
-        "message": "Lưu ảnh vẽ"
-    },
-    "drawClose": {
-        "message": "Đóng (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Soi phần tử (I)"
-    },
-    "rulerSelect": {
-        "message": "Kéo vùng chọn (S)"
-    },
-    "rulerTarget": {
-        "message": "Mục tiêu"
-    },
-    "rulerCopyDim": {
-        "message": "Sao chép kích thước"
-    },
-    "rulerClose": {
-        "message": "Đóng (Esc)"
     },
     "shortcutsGroup": {
         "message": "Phím tắt"

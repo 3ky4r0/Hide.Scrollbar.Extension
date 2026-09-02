@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "从白名单中移除"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "导出数据"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "错误：文件格式无效！"
-    },
-    "pickColor": {
-        "message": "屏幕取色"
-    },
-    "getFavicon": {
-        "message": "提取图标"
-    },
-    "colorCopied": {
-        "message": "已复制颜色！"
-    },
-    "pageRuler": {
-        "message": "网页标尺"
-    },
-    "rulerCopied": {
-        "message": "尺寸已复制！"
-    },
-    "pageDraw": {
-        "message": "网页涂鸦"
-    },
-    "drawSaved": {
-        "message": "涂鸦已保存！"
     },
     "appearanceGroup": {
         "message": "外观"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "报告中建议包含的有用信息"
-    },
-    "faviconTitle": {
-        "message": "Favicon 图标提取器"
-    },
-    "faviconSubtitle": {
-        "message": "从任何网站提取并下载高清 Favicon 图标。"
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "从剪贴板粘贴"
-    },
-    "faviconExtract": {
-        "message": "提取 Favicon"
-    },
-    "faviconSelectFormat": {
-        "message": "选择尺寸与格式"
-    },
-    "faviconSelectedUrl": {
-        "message": "已选图标地址"
-    },
-    "faviconCopyUrl": {
-        "message": "复制链接"
-    },
-    "faviconOpenTab": {
-        "message": "在新标签页打开"
-    },
-    "faviconDownload": {
-        "message": "下载图标"
-    },
-    "faviconNotFound": {
-        "message": "未找到此网站的有效 Favicon 图标。"
-    },
-    "faviconInvalidUrl": {
-        "message": "请输入有效的网站网址。"
-    },
-    "copied": {
-        "message": "已复制！"
-    },
-    "drawPen": {
-        "message": "画笔 (P)"
-    },
-    "drawHighlighter": {
-        "message": "荧光笔 (H)"
-    },
-    "drawRect": {
-        "message": "矩形 (R)"
-    },
-    "drawCircle": {
-        "message": "圆形 (C)"
-    },
-    "drawArrow": {
-        "message": "箭头 (A)"
-    },
-    "drawLine": {
-        "message": "直线 (L)"
-    },
-    "drawText": {
-        "message": "文本 (T)"
-    },
-    "drawEraser": {
-        "message": "橡皮擦 (E)"
-    },
-    "drawStrokeSize": {
-        "message": "线条粗细"
-    },
-    "drawUndo": {
-        "message": "撤销 (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "重做 (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "清除画布"
-    },
-    "drawSave": {
-        "message": "保存图片"
-    },
-    "drawClose": {
-        "message": "关闭 (Esc)"
-    },
-    "rulerInspect": {
-        "message": "元素检查器 (I)"
-    },
-    "rulerSelect": {
-        "message": "框选测距 (S)"
-    },
-    "rulerTarget": {
-        "message": "目标"
-    },
-    "rulerCopyDim": {
-        "message": "复制尺寸"
-    },
-    "rulerClose": {
-        "message": "关闭 (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

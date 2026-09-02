@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialTab = location.hash.replace('#', '');
   switchTab(validTabs.includes(initialTab) ? initialTab : 'settings');
 
+  window.addEventListener('hashchange', () => {
+    const currentTab = location.hash.replace('#', '');
+    if (validTabs.includes(currentTab)) {
+      switchTab(currentTab);
+    }
+  });
+
   /* ── Line Numbers & Editor Helper ─────────────────────────── */
 
   function updateLineNumbers(): void {
@@ -173,6 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         statCleanedCount.textContent = (res.hideCount || 0).toLocaleString();
       });
     }
+
+    // Version display
+    const version = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest)
+      ? chrome.runtime.getManifest().version
+      : '2.1';
+    const versionText = `v${version}`;
+    const extVersionEl = document.getElementById('extVersion');
+    if (extVersionEl) extVersionEl.textContent = versionText;
+    document.querySelectorAll<HTMLElement>('.ext-version-badge').forEach((el) => {
+      el.textContent = versionText;
+    });
   }
 
   loadAllState();

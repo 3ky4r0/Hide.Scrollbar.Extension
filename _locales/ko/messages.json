@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "화이트리스트에서 제거"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "데이터 내보내기"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "오류: 잘못된 파일 형식입니다!"
-    },
-    "pickColor": {
-        "message": "색상 추출"
-    },
-    "getFavicon": {
-        "message": "파비콘 가져오기"
-    },
-    "colorCopied": {
-        "message": "색상이 복사되었습니다!"
-    },
-    "pageRuler": {
-        "message": "페이지 눈금자"
-    },
-    "rulerCopied": {
-        "message": "크기가 복사되었습니다!"
-    },
-    "pageDraw": {
-        "message": "페이지 그리기"
-    },
-    "drawSaved": {
-        "message": "그림이 저장되었습니다!"
     },
     "appearanceGroup": {
         "message": "화면 테마"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "보고서에 포함하면 유용한 정보"
-    },
-    "faviconTitle": {
-        "message": "파비콘 추출기"
-    },
-    "faviconSubtitle": {
-        "message": "모든 웹사이트에서 고해상도 파비콘 아이콘을 추출하고 다운로드합니다."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "클립보드에서 붙여넣기"
-    },
-    "faviconExtract": {
-        "message": "파비콘 추출"
-    },
-    "faviconSelectFormat": {
-        "message": "크기 / 형식 선택"
-    },
-    "faviconSelectedUrl": {
-        "message": "선택된 URL"
-    },
-    "faviconCopyUrl": {
-        "message": "URL 복사"
-    },
-    "faviconOpenTab": {
-        "message": "새 탭에서 열기"
-    },
-    "faviconDownload": {
-        "message": "파비콘 다운로드"
-    },
-    "faviconNotFound": {
-        "message": "이 웹사이트에서 유효한 파비콘을 찾을 수 없습니다."
-    },
-    "faviconInvalidUrl": {
-        "message": "올바른 웹사이트 URL을 입력해주세요."
-    },
-    "copied": {
-        "message": "복사됨!"
-    },
-    "drawPen": {
-        "message": "펜 (P)"
-    },
-    "drawHighlighter": {
-        "message": "형광펜 (H)"
-    },
-    "drawRect": {
-        "message": "직사각형 (R)"
-    },
-    "drawCircle": {
-        "message": "원 (C)"
-    },
-    "drawArrow": {
-        "message": "화살표 (A)"
-    },
-    "drawLine": {
-        "message": "직선 (L)"
-    },
-    "drawText": {
-        "message": "텍스트 (T)"
-    },
-    "drawEraser": {
-        "message": "지우개 (E)"
-    },
-    "drawStrokeSize": {
-        "message": "선 굵기"
-    },
-    "drawUndo": {
-        "message": "실행 취소 (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "다시 실행 (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "캔버스 지우기"
-    },
-    "drawSave": {
-        "message": "이미지 저장"
-    },
-    "drawClose": {
-        "message": "닫기 (Esc)"
-    },
-    "rulerInspect": {
-        "message": "요소 검사기 (I)"
-    },
-    "rulerSelect": {
-        "message": "영역 선택 (S)"
-    },
-    "rulerTarget": {
-        "message": "타겟"
-    },
-    "rulerCopyDim": {
-        "message": "크기 복사"
-    },
-    "rulerClose": {
-        "message": "닫기 (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

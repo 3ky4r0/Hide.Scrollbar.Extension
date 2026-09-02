@@ -50,6 +50,17 @@ body {
   display: block;
 }
 
+.ext-version-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: rgba(127, 127, 127, 0.12);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
 .nav-tabs {
   display: flex;
   align-items: center;
@@ -60,6 +71,7 @@ body {
 .nav-tab {
   background: transparent;
   border: none;
+  border-bottom: 2px solid transparent;
   color: var(--text);
   font-size: 13px;
   font-weight: 500;
@@ -72,20 +84,28 @@ body {
   text-decoration: none;
   outline: none;
   box-sizing: border-box;
+  position: relative;
 }
 
 .nav-tab:hover {
   background: rgba(127, 127, 127, 0.12);
+  border-bottom-color: var(--muted);
   color: var(--text);
 }
 
-.nav-tab.active {
+.nav-tab.active,
+.nav-tab.active:hover,
+.nav-tab:focus,
+.nav-tab:focus-visible {
   color: var(--accent);
+  border-bottom-color: var(--accent);
   background: rgba(127, 127, 127, 0.08);
   font-weight: 500;
 }
 
-.nav-tab.active svg {
+.nav-tab.active svg,
+.nav-tab:focus svg,
+.nav-tab:focus-visible svg {
   color: var(--accent);
 }
 

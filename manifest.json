@@ -11,9 +11,7 @@
   "permissions": [
     "storage",
     "tabs",
-    "sidePanel",
-    "scripting",
-    "contextMenus"
+    "scripting"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -23,9 +21,6 @@
     "default_icon": {
       "48": "assets/icons/icon48.png"
     }
-  },
-  "side_panel": {
-    "default_path": "src/features/favicon/favicon.html"
   },
   "options_ui": {
     "page": "src/features/settings/settings.html",
@@ -49,17 +44,6 @@
       "all_frames": true
     }
   ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "src/features/draw/draw.css",
-        "src/features/ruler/ruler.css"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
   "commands": {
     "_execute_action": {
       "suggested_key": {
@@ -69,18 +53,6 @@
     },
     "toggle-scrollbar": {
       "description": "Toggle Hide/Show Scrollbar"
-    },
-    "toggle-ruler": {
-      "description": "Toggle Page Ruler"
-    },
-    "toggle-draw": {
-      "description": "Toggle Page Draw"
-    },
-    "pick-color": {
-      "description": "Pick Color from page"
-    },
-    "get-favicon": {
-      "description": "Get Favicon"
     }
   }
 }

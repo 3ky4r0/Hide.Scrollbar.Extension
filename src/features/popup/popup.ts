@@ -1,7 +1,7 @@
 const initPopup = () => {
   const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
-  const { openPanelForCurrentTab, getActiveTab } = (globalThis as any).ScrollHideBrowserApi || {};
-  const { getSyncState, getSyncValue, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
+  const { getActiveTab } = (globalThis as any).ScrollHideBrowserApi || {};
+  const { getSyncState, setSyncValue, applyTheme } = (globalThis as any).ScrollHideStorage || {};
   const { isRestrictedUrl, isWhitelisted, sanitizeDomain } = (globalThis as any).ScrollHideWhitelist || {};
 
   const toggle = document.getElementById('toggleScroll') as HTMLButtonElement;
@@ -9,12 +9,11 @@ const initPopup = () => {
   const addCurrentVertical = document.getElementById('addCurrentVertical') as HTMLElement;
   const whitelistedNotice = document.getElementById('whitelistedNotice') as HTMLElement;
   const restrictedNotice = document.getElementById('restrictedNotice') as HTMLElement;
+  const reloadTabBtn = document.getElementById('reloadTabBtn') as HTMLButtonElement | null;
+  const openWhitelistBtn = document.getElementById('openWhitelistBtn') as HTMLButtonElement | null;
+  const openReportBtn = document.getElementById('openReportBtn') as HTMLButtonElement | null;
   const openSettingsBtn = document.getElementById('openSettingsBtn') as HTMLButtonElement | null;
   const domainDisplay = document.getElementById('domainDisplay') as HTMLElement;
-  const pickColorBtn = document.getElementById('pickColorBtn') as HTMLButtonElement | null;
-  const getFaviconBtn = document.getElementById('getFaviconBtn') as HTMLButtonElement | null;
-  const pageRulerBtn = document.getElementById('pageRulerBtn') as HTMLButtonElement | null;
-  const pageDrawBtn = document.getElementById('pageDrawBtn') as HTMLButtonElement | null;
   const statusVal = document.getElementById('statusValue');
   const exceptionsCnt = document.getElementById('exceptionsCount');
   const cleanedCnt = document.getElementById('cleanedCount');
@@ -37,10 +36,7 @@ const initPopup = () => {
     }
     if (restrictedNotice) restrictedNotice.style.display = 'flex';
     if (addCurrentBtn) addCurrentBtn.disabled = true;
-    if (pickColorBtn) pickColorBtn.disabled = true;
-    if (getFaviconBtn) getFaviconBtn.disabled = true;
-    if (pageRulerBtn) pageRulerBtn.disabled = true;
-    if (pageDrawBtn) pageDrawBtn.disabled = true;
+    if (reloadTabBtn) reloadTabBtn.disabled = true;
   };
 
   const updateAddButtonState = (inList: boolean): void => {
@@ -110,9 +106,7 @@ const initPopup = () => {
     updateStats(whitelist, scrollbarHidden && !inList);
 
     if (addCurrentBtn) addCurrentBtn.disabled = isRestricted;
-    if (pickColorBtn) pickColorBtn.disabled = isRestricted;
-    if (getFaviconBtn) getFaviconBtn.disabled = isRestricted;
-    if (pageRulerBtn) pageRulerBtn.disabled = isRestricted;
+    if (reloadTabBtn) reloadTabBtn.disabled = isRestricted;
   };
 
   const addDomain = async (raw: string): Promise<void> => {
@@ -175,266 +169,51 @@ const initPopup = () => {
     });
   }
 
+  if (reloadTabBtn) {
+    reloadTabBtn.addEventListener('click', async () => {
+      if (isRestricted || !getActiveTab) return;
+      const tab = await getActiveTab();
+      if (tab?.id && typeof chrome !== 'undefined' && chrome.tabs?.reload) {
+        chrome.tabs.reload(tab.id);
+        window.close();
+      }
+    });
+  }
+
+  const openOrFocusSettingsTab = (hash: string = ''): void => {
+    if (typeof chrome === 'undefined' || !chrome.tabs) return;
+    const settingsUrlPrefix = chrome.runtime.getURL('src/features/settings/settings.html');
+    const targetUrl = hash ? `${settingsUrlPrefix}#${hash}` : settingsUrlPrefix;
+
+    chrome.tabs.query({}, (tabs) => {
+      const existingTab = tabs.find((t) => t.url && t.url.startsWith(settingsUrlPrefix));
+      if (existingTab && existingTab.id) {
+        chrome.tabs.update(existingTab.id, { active: true, url: targetUrl });
+        if (existingTab.windowId && chrome.windows?.update) {
+          chrome.windows.update(existingTab.windowId, { focused: true });
+        }
+      } else {
+        chrome.tabs.create({ url: targetUrl });
+      }
+      window.close();
+    });
+  };
+
+  if (openWhitelistBtn) {
+    openWhitelistBtn.addEventListener('click', () => {
+      openOrFocusSettingsTab('whitelist');
+    });
+  }
+
+  if (openReportBtn) {
+    openReportBtn.addEventListener('click', () => {
+      openOrFocusSettingsTab('report');
+    });
+  }
+
   if (openSettingsBtn) {
     openSettingsBtn.addEventListener('click', () => {
-      if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage();
-      } else {
-        chrome.tabs.create({ url: chrome.runtime.getURL('src/features/settings/settings.html') });
-      }
-    });
-  }
-
-  if (pickColorBtn) {
-    pickColorBtn.addEventListener('click', async () => {
-      if (isRestricted || !getActiveTab) return;
-      const tab = await getActiveTab();
-      if (!tab || !tab.id) return;
-      let currentTheme = 'system';
-      if (getSyncValue) {
-        try {
-          const syncData = (await getSyncValue({ theme: 'system' })) as { theme?: string };
-          currentTheme = syncData?.theme || 'system';
-        } catch (_) {}
-      }
-      const copiedText = (typeof chrome !== 'undefined' && chrome.i18n && chrome.i18n.getMessage)
-        ? (chrome.i18n.getMessage('copied') || chrome.i18n.getMessage('colorCopied') || 'Copied!')
-        : 'Copied!';
-
-      window.close();
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          args: [currentTheme, copiedText],
-          func: async (themePref: string, copiedLabel: string) => {
-            const win = window as any;
-            if (win.__SCROLLHIDE_PAGE_RULER__) {
-              win.__SCROLLHIDE_PAGE_RULER__.destroy();
-              win.__SCROLLHIDE_PAGE_RULER__ = null;
-            }
-            if (win.__SCROLLHIDE_PAGE_DRAW__) {
-              win.__SCROLLHIDE_PAGE_DRAW__.destroy();
-              win.__SCROLLHIDE_PAGE_DRAW__ = null;
-            }
-            if (win.__SCROLLHIDE_PICK_OVERLAY__) {
-              win.__SCROLLHIDE_PICK_OVERLAY__.remove();
-              win.__SCROLLHIDE_PICK_OVERLAY__ = null;
-            }
-
-            if (!('EyeDropper' in window)) {
-              alert('EyeDropper is not supported on this page.');
-              return;
-            }
-
-            const showToast = (hex: string) => {
-              const oldToast = document.getElementById('scrollhide-color-toast-root');
-              if (oldToast) oldToast.remove();
-
-              const isLight = themePref === 'light' || (themePref === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
-
-              const host = document.createElement('div');
-              host.id = 'scrollhide-color-toast-root';
-              host.setAttribute('data-theme', isLight ? 'light' : 'dark');
-              const shadow = host.attachShadow({ mode: 'open' });
-
-              const style = document.createElement('style');
-              style.textContent = `
-                .toast {
-                  position: fixed;
-                  bottom: 24px;
-                  left: 50%;
-                  transform: translateX(-50%) translateY(20px);
-                  background: rgba(28, 28, 30, 0.9);
-                  backdrop-filter: blur(20px);
-                  -webkit-backdrop-filter: blur(20px);
-                  border: none;
-                  border-radius: 8px;
-                  padding: 6px 12px;
-                  display: flex;
-                  align-items: center;
-                  gap: 8px;
-                  color: #ffffff;
-                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                  font-size: 13px;
-                  font-weight: 500;
-                  opacity: 0;
-                  pointer-events: none;
-                  box-shadow: none;
-                  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-                  z-index: 2147483647;
-                }
-                :host([data-theme="light"]) .toast {
-                  background: rgba(255, 255, 255, 0.95);
-                  border: none;
-                  color: #1c1c1e;
-                  box-shadow: none;
-                }
-                .toast.show {
-                  opacity: 1;
-                  transform: translateX(-50%) translateY(0);
-                }
-                .swatch {
-                  width: 14px;
-                  height: 14px;
-                  border-radius: 50%;
-                  background: ${hex};
-                  border: none;
-                  box-shadow: none;
-                  flex-shrink: 0;
-                }
-                :host([data-theme="light"]) .swatch {
-                  border: none;
-                }
-                .hex {
-                  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-                  font-weight: 700;
-                  font-size: 13px;
-                  letter-spacing: 0.5px;
-                }
-              `;
-
-              const toast = document.createElement('div');
-              toast.className = 'toast';
-              toast.innerHTML = `
-                <div class="swatch"></div>
-                <span class="hex">${hex}</span>
-              `;
-
-              shadow.appendChild(style);
-              shadow.appendChild(toast);
-              document.documentElement.appendChild(host);
-
-              requestAnimationFrame(() => {
-                toast.classList.add('show');
-              });
-
-              setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => host.remove(), 300);
-              }, 2200);
-            };
-
-            const copyAndHandle = async (hex: string) => {
-              try {
-                await navigator.clipboard.writeText(hex);
-              } catch (_) {
-                const ta = document.createElement('textarea');
-                ta.value = hex;
-                ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-                document.body.appendChild(ta);
-                ta.focus();
-                ta.select();
-                document.execCommand('copy');
-                ta.remove();
-              }
-              showToast(hex);
-            };
-
-            const triggerDropper = async () => {
-              try {
-                const dropper = new (window as any).EyeDropper();
-                const result = await dropper.open();
-                const hex = (result.sRGBHex || '').toUpperCase();
-                if (hex) {
-                  await copyAndHandle(hex);
-                }
-              } catch (err: any) {
-                if (err && err.name === 'AbortError') {
-                  return;
-                }
-                throw err;
-              }
-            };
-
-            try {
-              await triggerDropper();
-            } catch (err: any) {
-              const overlay = document.createElement('div');
-              win.__SCROLLHIDE_PICK_OVERLAY__ = overlay;
-              overlay.style.cssText = 'all:initial;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2147483647;cursor:crosshair;background:transparent;user-select:none;pointer-events:auto;';
-
-              const cleanUp = () => {
-                window.removeEventListener('keydown', onKey, true);
-                overlay.remove();
-                win.__SCROLLHIDE_PICK_OVERLAY__ = null;
-              };
-
-              const onKey = (e: KeyboardEvent) => {
-                if (e.key === 'Escape') {
-                  cleanUp();
-                }
-              };
-
-              overlay.addEventListener('pointerdown', async (e: PointerEvent) => {
-                e.preventDefault();
-                e.stopPropagation();
-                cleanUp();
-                await triggerDropper().catch(() => {});
-              }, { once: true });
-
-              window.addEventListener('keydown', onKey, true);
-              document.documentElement.appendChild(overlay);
-            }
-          },
-        });
-      } catch (_) {}
-    });
-  }
-
-  if (getFaviconBtn) {
-    getFaviconBtn.addEventListener('click', async () => {
-      if (isRestricted || !getActiveTab) return;
-      const tab = await getActiveTab();
-      const favUrl = tab?.favIconUrl || '';
-      const tabUrl = tab?.url || '';
-
-      if (chrome.sidePanel && chrome.sidePanel.open && tab?.id) {
-        try {
-          await chrome.sidePanel.setOptions({
-            tabId: tab.id,
-            path: 'src/features/favicon/favicon.html',
-            enabled: true,
-          });
-          await chrome.sidePanel.open({ tabId: tab.id });
-          window.close();
-          return;
-        } catch (_) {}
-      }
-
-      const viewerUrl = chrome.runtime.getURL('src/features/favicon/favicon.html')
-        + `?favUrl=${encodeURIComponent(favUrl)}&tabUrl=${encodeURIComponent(tabUrl)}`;
-      chrome.tabs.create({ url: viewerUrl });
-      window.close();
-    });
-  }
-
-  if (pageRulerBtn) {
-    pageRulerBtn.addEventListener('click', async () => {
-      if (isRestricted || !getActiveTab) return;
-      const tab = await getActiveTab();
-      if (!tab || !tab.id) return;
-      window.close();
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['src/features/ruler/ruler.js'],
-        });
-      } catch (_) {}
-    });
-  }
-
-  if (pageDrawBtn) {
-    pageDrawBtn.addEventListener('click', async () => {
-      if (isRestricted || !getActiveTab) return;
-      const tab = await getActiveTab();
-      if (!tab || !tab.id) return;
-      window.close();
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['src/features/draw/draw.js'],
-        });
-      } catch (_) {}
+      openOrFocusSettingsTab('settings');
     });
   }
 
@@ -533,3 +312,4 @@ if (document.readyState === 'loading') {
 } else {
   initPopup();
 }
+

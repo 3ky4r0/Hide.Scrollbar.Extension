@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "إزالة الموقع من القائمة البيضاء"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "تصدير البيانات"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "خطأ: تنسيق الملف غير صالح!"
-    },
-    "pickColor": {
-        "message": "أداة اختيار اللون"
-    },
-    "getFavicon": {
-        "message": "استخراج الأيقونة"
-    },
-    "colorCopied": {
-        "message": "تم النسخ!"
-    },
-    "pageRuler": {
-        "message": "مسطرة الصفحة"
-    },
-    "rulerCopied": {
-        "message": "تم نسخ الأبعاد!"
-    },
-    "pageDraw": {
-        "message": "الرسم على الصفحة"
-    },
-    "drawSaved": {
-        "message": "تم حفظ الرسم!"
     },
     "appearanceGroup": {
         "message": "المظهر"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "تفاصيل مفيدة لتضمينها في تقريرك"
-    },
-    "faviconTitle": {
-        "message": "مستخرج الأيقونات Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "استخرج وحمل أيقونات Favicon عالية الدقة من أي موقع ويب."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "لصق من الحافظة"
-    },
-    "faviconExtract": {
-        "message": "استخراج الأيقونات"
-    },
-    "faviconSelectFormat": {
-        "message": "اختر الحجم / التنسيق"
-    },
-    "faviconSelectedUrl": {
-        "message": "الرابط المحدد"
-    },
-    "faviconCopyUrl": {
-        "message": "نسخ الرابط"
-    },
-    "faviconOpenTab": {
-        "message": "فتح في علامة تبويب جديدة"
-    },
-    "faviconDownload": {
-        "message": "تنزيل الأيقونة"
-    },
-    "faviconNotFound": {
-        "message": "لم يتم العثور على أيقونة صالحة لهذا الموقع."
-    },
-    "faviconInvalidUrl": {
-        "message": "يرجى إدخال عنوان URL صالح للموقع."
-    },
-    "copied": {
-        "message": "تم النسخ!"
-    },
-    "drawPen": {
-        "message": "قلم (P)"
-    },
-    "drawHighlighter": {
-        "message": "قلم تمييز (H)"
-    },
-    "drawRect": {
-        "message": "مستطيل (R)"
-    },
-    "drawCircle": {
-        "message": "دائرة (C)"
-    },
-    "drawArrow": {
-        "message": "سهم (A)"
-    },
-    "drawLine": {
-        "message": "خط (L)"
-    },
-    "drawText": {
-        "message": "نص (T)"
-    },
-    "drawEraser": {
-        "message": "ممحاة (E)"
-    },
-    "drawStrokeSize": {
-        "message": "سمك الخط"
-    },
-    "drawUndo": {
-        "message": "تراجع (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "إعادة (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "مسح اللوحة"
-    },
-    "drawSave": {
-        "message": "حفظ الصورة"
-    },
-    "drawClose": {
-        "message": "إغلاق (Esc)"
-    },
-    "rulerInspect": {
-        "message": "فاحص العناصر (I)"
-    },
-    "rulerSelect": {
-        "message": "تحديد بالصندوق (S)"
-    },
-    "rulerTarget": {
-        "message": "الهدف"
-    },
-    "rulerCopyDim": {
-        "message": "نسخ الأبعاد"
-    },
-    "rulerClose": {
-        "message": "إغلاق (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

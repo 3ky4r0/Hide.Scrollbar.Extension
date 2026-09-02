@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Hapus situs dari daftar putih"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "Ekspor data"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Kesalahan: Format berkas tidak valid!"
-    },
-    "pickColor": {
-        "message": "Pengambil Warna"
-    },
-    "getFavicon": {
-        "message": "Ambil Favicon"
-    },
-    "colorCopied": {
-        "message": "Tersalin!"
-    },
-    "pageRuler": {
-        "message": "Penggaris Halaman"
-    },
-    "rulerCopied": {
-        "message": "Dimensi tersalin!"
-    },
-    "pageDraw": {
-        "message": "Menggambar di Halaman"
-    },
-    "drawSaved": {
-        "message": "Gambar tersimpan!"
     },
     "appearanceGroup": {
         "message": "Tampilan"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Detail Berguna untuk Disertakan dalam Laporan Anda"
-    },
-    "faviconTitle": {
-        "message": "Pengekstrak Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "Ekstrak dan unduh ikon favicon resolusi tinggi dari situs web mana pun."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Tempel dari papan klip"
-    },
-    "faviconExtract": {
-        "message": "Ekstrak favicon"
-    },
-    "faviconSelectFormat": {
-        "message": "Pilih ukuran / format"
-    },
-    "faviconSelectedUrl": {
-        "message": "URL yang Dipilih"
-    },
-    "faviconCopyUrl": {
-        "message": "Salin URL"
-    },
-    "faviconOpenTab": {
-        "message": "Buka di tab baru"
-    },
-    "faviconDownload": {
-        "message": "Unduh favicon"
-    },
-    "faviconNotFound": {
-        "message": "Tidak ditemukan favicon yang valid untuk situs web ini."
-    },
-    "faviconInvalidUrl": {
-        "message": "Silakan masukkan URL situs web yang valid."
-    },
-    "copied": {
-        "message": "Tersalin!"
-    },
-    "drawPen": {
-        "message": "Pena (P)"
-    },
-    "drawHighlighter": {
-        "message": "Stabilo (H)"
-    },
-    "drawRect": {
-        "message": "Persegi Panjang (R)"
-    },
-    "drawCircle": {
-        "message": "Lingkaran (C)"
-    },
-    "drawArrow": {
-        "message": "Panah (A)"
-    },
-    "drawLine": {
-        "message": "Garis (L)"
-    },
-    "drawText": {
-        "message": "Teks (T)"
-    },
-    "drawEraser": {
-        "message": "Penghapus (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Ukuran goresan"
-    },
-    "drawUndo": {
-        "message": "Urungkan (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Ulangi (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Bersihkan kanvas"
-    },
-    "drawSave": {
-        "message": "Simpan gambar"
-    },
-    "drawClose": {
-        "message": "Tutup (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Inspektur Elemen (I)"
-    },
-    "rulerSelect": {
-        "message": "Pemilihan Kotak (S)"
-    },
-    "rulerTarget": {
-        "message": "Target"
-    },
-    "rulerCopyDim": {
-        "message": "Salin dimensi"
-    },
-    "rulerClose": {
-        "message": "Tutup (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

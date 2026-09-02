@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "साइट को व्हाइटलिस्ट से हटाएं"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "डेटा निर्यात करें"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "त्रुटि: अमान्य फ़ाइल प्रारूप!"
-    },
-    "pickColor": {
-        "message": "रंग चुनें"
-    },
-    "getFavicon": {
-        "message": "फेविकॉन प्राप्त करें"
-    },
-    "colorCopied": {
-        "message": "कॉपी किया गया!"
-    },
-    "pageRuler": {
-        "message": "पेज रूलर"
-    },
-    "rulerCopied": {
-        "message": "आयाम कॉपी किए गए!"
-    },
-    "pageDraw": {
-        "message": "पेज पर ड्रा करें"
-    },
-    "drawSaved": {
-        "message": "ड्राइंग सहेजी गई!"
     },
     "appearanceGroup": {
         "message": "दिखावट"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "आपकी रिपोर्ट में शामिल करने के लिए उपयोगी विवरण"
-    },
-    "faviconTitle": {
-        "message": "फेविकॉन एक्सट्रैक्टर"
-    },
-    "faviconSubtitle": {
-        "message": "किसी भी वेबसाइट से उच्च-रिज़ॉल्यूशन फेविकॉन आइकन निकालें और डाउनलोड करें।"
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "क्लिपबोर्ड से पेस्ट करें"
-    },
-    "faviconExtract": {
-        "message": "फेविकॉन निकालें"
-    },
-    "faviconSelectFormat": {
-        "message": "आकार / प्रारूप चुनें"
-    },
-    "faviconSelectedUrl": {
-        "message": "चयनित URL"
-    },
-    "faviconCopyUrl": {
-        "message": "URL कॉपी करें"
-    },
-    "faviconOpenTab": {
-        "message": "नए टैब में खोलें"
-    },
-    "faviconDownload": {
-        "message": "फेविकॉन डाउनलोड करें"
-    },
-    "faviconNotFound": {
-        "message": "इस वेबसाइट के लिए कोई मान्य फेविकॉन नहीं मिला।"
-    },
-    "faviconInvalidUrl": {
-        "message": "कृपया एक मान्य वेबसाइट URL दर्ज करें।"
-    },
-    "copied": {
-        "message": "कॉपी किया गया!"
-    },
-    "drawPen": {
-        "message": "पेन (P)"
-    },
-    "drawHighlighter": {
-        "message": "हाइलाइटर (H)"
-    },
-    "drawRect": {
-        "message": "आयत (R)"
-    },
-    "drawCircle": {
-        "message": "वृत्त (C)"
-    },
-    "drawArrow": {
-        "message": "तीर (A)"
-    },
-    "drawLine": {
-        "message": "रेखा (L)"
-    },
-    "drawText": {
-        "message": "पाठ (T)"
-    },
-    "drawEraser": {
-        "message": "इरेज़र (E)"
-    },
-    "drawStrokeSize": {
-        "message": "स्ट्रोक का आकार"
-    },
-    "drawUndo": {
-        "message": "पूर्ववत करें (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "फिर से करें (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "कैनवास साफ करें"
-    },
-    "drawSave": {
-        "message": "छवि सहेजें"
-    },
-    "drawClose": {
-        "message": "बंद करें (Esc)"
-    },
-    "rulerInspect": {
-        "message": "तत्व निरीक्षक (I)"
-    },
-    "rulerSelect": {
-        "message": "बॉक्स चयन (S)"
-    },
-    "rulerTarget": {
-        "message": "लक्ष्य"
-    },
-    "rulerCopyDim": {
-        "message": "आयाम कॉपी करें"
-    },
-    "rulerClose": {
-        "message": "बंद करें (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

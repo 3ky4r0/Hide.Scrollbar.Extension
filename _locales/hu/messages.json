@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Webhely eltávolítása a kivételek közül"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "Adatok exportálása"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Hiba: Érvénytelen fájlformátum!"
-    },
-    "pickColor": {
-        "message": "Pick Color"
-    },
-    "getFavicon": {
-        "message": "Get Favicon"
-    },
-    "colorCopied": {
-        "message": "Copied!"
-    },
-    "pageRuler": {
-        "message": "Page Ruler"
-    },
-    "rulerCopied": {
-        "message": "Dimensions copied!"
-    },
-    "pageDraw": {
-        "message": "Draw on Page"
-    },
-    "drawSaved": {
-        "message": "Drawing saved!"
     },
     "appearanceGroup": {
         "message": "Appearance"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Helpful Details to Include in Your Report"
-    },
-    "faviconTitle": {
-        "message": "Favicon Extractor"
-    },
-    "faviconSubtitle": {
-        "message": "Extract and download high-resolution favicons from any website."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Paste from clipboard"
-    },
-    "faviconExtract": {
-        "message": "Extract favicons"
-    },
-    "faviconSelectFormat": {
-        "message": "Select size / format"
-    },
-    "faviconSelectedUrl": {
-        "message": "Selected URL"
-    },
-    "faviconCopyUrl": {
-        "message": "Copy URL"
-    },
-    "faviconOpenTab": {
-        "message": "Open in new tab"
-    },
-    "faviconDownload": {
-        "message": "Download favicon"
-    },
-    "faviconNotFound": {
-        "message": "No valid favicon found for this website."
-    },
-    "faviconInvalidUrl": {
-        "message": "Please enter a valid website URL."
-    },
-    "copied": {
-        "message": "Copied!"
-    },
-    "drawPen": {
-        "message": "Pen (P)"
-    },
-    "drawHighlighter": {
-        "message": "Highlighter (H)"
-    },
-    "drawRect": {
-        "message": "Rectangle (R)"
-    },
-    "drawCircle": {
-        "message": "Circle (C)"
-    },
-    "drawArrow": {
-        "message": "Arrow (A)"
-    },
-    "drawLine": {
-        "message": "Line (L)"
-    },
-    "drawText": {
-        "message": "Text (T)"
-    },
-    "drawEraser": {
-        "message": "Eraser (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Stroke size"
-    },
-    "drawUndo": {
-        "message": "Undo (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Redo (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Clear canvas"
-    },
-    "drawSave": {
-        "message": "Save image"
-    },
-    "drawClose": {
-        "message": "Close (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Element Inspector (I)"
-    },
-    "rulerSelect": {
-        "message": "Box Selection (S)"
-    },
-    "rulerTarget": {
-        "message": "Target"
-    },
-    "rulerCopyDim": {
-        "message": "Copy dimensions"
-    },
-    "rulerClose": {
-        "message": "Close (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

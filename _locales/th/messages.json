@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "ลบไซต์ออกจากรายการที่อนุญาต"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "ส่งออกข้อมูล"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "ข้อผิดพลาด: รูปแบบไฟล์ไม่ถูกต้อง!"
-    },
-    "pickColor": {
-        "message": "ดูดสี"
-    },
-    "getFavicon": {
-        "message": "รับ Favicon"
-    },
-    "colorCopied": {
-        "message": "คัดลอกแล้ว!"
-    },
-    "pageRuler": {
-        "message": "ไม้บรรทัดหน้าเว็บ"
-    },
-    "rulerCopied": {
-        "message": "คัดลอกขนาดแล้ว!"
-    },
-    "pageDraw": {
-        "message": "วาดบนหน้าเว็บ"
-    },
-    "drawSaved": {
-        "message": "บันทึกภาพวาดแล้ว!"
     },
     "appearanceGroup": {
         "message": "รูปลักษณ์"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "รายละเอียดที่เป็นประโยชน์ในการรายงานของคุณ"
-    },
-    "faviconTitle": {
-        "message": "เครื่องมือแยก Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "แยกและดาวน์โหลดไอคอน Favicon ความละเอียดสูงจากทุกเว็บไซต์"
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "วางจากคลิปบอร์ด"
-    },
-    "faviconExtract": {
-        "message": "แยก Favicon"
-    },
-    "faviconSelectFormat": {
-        "message": "เลือกขนาด / รูปแบบ"
-    },
-    "faviconSelectedUrl": {
-        "message": "URL ที่เลือก"
-    },
-    "faviconCopyUrl": {
-        "message": "คัดลอก URL"
-    },
-    "faviconOpenTab": {
-        "message": "เปิดในแท็บใหม่"
-    },
-    "faviconDownload": {
-        "message": "ดาวน์โหลด Favicon"
-    },
-    "faviconNotFound": {
-        "message": "ไม่พบ Favicon ที่ถูกต้องสำหรับเว็บไซต์นี้"
-    },
-    "faviconInvalidUrl": {
-        "message": "โปรดป้อน URL เว็บไซต์ที่ถูกต้อง"
-    },
-    "copied": {
-        "message": "คัดลอกแล้ว!"
-    },
-    "drawPen": {
-        "message": "ปากกา (P)"
-    },
-    "drawHighlighter": {
-        "message": "ปากกาเน้นข้อความ (H)"
-    },
-    "drawRect": {
-        "message": "สี่เหลี่ยมผืนผ้า (R)"
-    },
-    "drawCircle": {
-        "message": "วงกลม (C)"
-    },
-    "drawArrow": {
-        "message": "ลูกศร (A)"
-    },
-    "drawLine": {
-        "message": "เส้นตรง (L)"
-    },
-    "drawText": {
-        "message": "ข้อความ (T)"
-    },
-    "drawEraser": {
-        "message": "ยางลบ (E)"
-    },
-    "drawStrokeSize": {
-        "message": "ขนาดเส้น"
-    },
-    "drawUndo": {
-        "message": "เลิกทำ (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "ทำซ้ำ (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "ล้างผืนผ้าใบ"
-    },
-    "drawSave": {
-        "message": "บันทึกภาพ"
-    },
-    "drawClose": {
-        "message": "ปิด (Esc)"
-    },
-    "rulerInspect": {
-        "message": "ตรวจสอบองค์ประกอบ (I)"
-    },
-    "rulerSelect": {
-        "message": "เลือกพื้นที่ (S)"
-    },
-    "rulerTarget": {
-        "message": "เป้าหมาย"
-    },
-    "rulerCopyDim": {
-        "message": "คัดลอกขนาด"
-    },
-    "rulerClose": {
-        "message": "ปิด (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

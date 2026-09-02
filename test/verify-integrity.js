@@ -120,7 +120,6 @@ function checkHtmlFile(relPath) {
 
 checkHtmlFile('src/features/popup/popup.html');
 checkHtmlFile('src/features/settings/settings.html');
-checkHtmlFile('src/features/favicon/favicon.html');
 
 
 // 4. Whitelist Service logic
@@ -158,12 +157,7 @@ assert(fs.existsSync(path.join(distPath, '_locales/vi/messages.json')), 'dist/_l
 assert(fs.existsSync(path.join(distPath, 'src/entries/background.js')), 'dist/src/entries/background.js compiled');
 assert(fs.existsSync(path.join(distPath, 'src/entries/content.js')), 'dist/src/entries/content.js compiled');
 assert(fs.existsSync(path.join(distPath, 'src/features/popup/popup.js')), 'dist/src/features/popup/popup.js compiled');
-assert(fs.existsSync(path.join(distPath, 'src/features/ruler/ruler.js')), 'dist/src/features/ruler/ruler.js compiled');
-assert(fs.existsSync(path.join(distPath, 'src/features/ruler/ruler.css')), 'dist/src/features/ruler/ruler.css exists');
-assert(fs.existsSync(path.join(distPath, 'src/features/draw/draw.js')), 'dist/src/features/draw/draw.js compiled');
-assert(fs.existsSync(path.join(distPath, 'src/features/draw/draw.css')), 'dist/src/features/draw/draw.css exists');
 assert(fs.existsSync(path.join(distPath, 'src/features/settings/settings.js')), 'dist/src/features/settings/settings.js compiled');
-assert(fs.existsSync(path.join(distPath, 'src/features/favicon/favicon.js')), 'dist/src/features/favicon/favicon.js compiled');
 
 console.log('\n======================================================');
 if (allPassed) {

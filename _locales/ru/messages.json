@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Удалить сайт из белого списка"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "Экспорт данных"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Ошибка: неверный формат файла!"
-    },
-    "pickColor": {
-        "message": "Пипетка цвета"
-    },
-    "getFavicon": {
-        "message": "Получить Favicon"
-    },
-    "colorCopied": {
-        "message": "Скопировано!"
-    },
-    "pageRuler": {
-        "message": "Линейка страницы"
-    },
-    "rulerCopied": {
-        "message": "Размеры скопированы!"
-    },
-    "pageDraw": {
-        "message": "Рисовать на странице"
-    },
-    "drawSaved": {
-        "message": "Рисунок сохранен!"
     },
     "appearanceGroup": {
         "message": "Внешний вид"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Полезные данные для отчета"
-    },
-    "faviconTitle": {
-        "message": "Экстрактор Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "Извлекайте и скачивайте иконки Favicon высокого разрешения с любого сайта."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Вставить из буфера"
-    },
-    "faviconExtract": {
-        "message": "Извлечь Favicon"
-    },
-    "faviconSelectFormat": {
-        "message": "Выбрать размер / формат"
-    },
-    "faviconSelectedUrl": {
-        "message": "Выбранный URL"
-    },
-    "faviconCopyUrl": {
-        "message": "Копировать URL"
-    },
-    "faviconOpenTab": {
-        "message": "Открыть в новой вкладке"
-    },
-    "faviconDownload": {
-        "message": "Скачать Favicon"
-    },
-    "faviconNotFound": {
-        "message": "Действительный Favicon для этого сайта не найден."
-    },
-    "faviconInvalidUrl": {
-        "message": "Пожалуйста, введите правильный URL сайта."
-    },
-    "copied": {
-        "message": "Скопировано!"
-    },
-    "drawPen": {
-        "message": "Карандаш (P)"
-    },
-    "drawHighlighter": {
-        "message": "Маркер (H)"
-    },
-    "drawRect": {
-        "message": "Прямоугольник (R)"
-    },
-    "drawCircle": {
-        "message": "Круг (C)"
-    },
-    "drawArrow": {
-        "message": "Стрелка (A)"
-    },
-    "drawLine": {
-        "message": "Линия (L)"
-    },
-    "drawText": {
-        "message": "Текст (T)"
-    },
-    "drawEraser": {
-        "message": "Ластик (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Толщина линии"
-    },
-    "drawUndo": {
-        "message": "Отменить (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Повторить (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Очистить холст"
-    },
-    "drawSave": {
-        "message": "Сохранить рисунок"
-    },
-    "drawClose": {
-        "message": "Закрыть (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Инспектор элементов (I)"
-    },
-    "rulerSelect": {
-        "message": "Выбор области (S)"
-    },
-    "rulerTarget": {
-        "message": "Цель"
-    },
-    "rulerCopyDim": {
-        "message": "Копировать размеры"
-    },
-    "rulerClose": {
-        "message": "Закрыть (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Eliminar sitio de la lista blanca"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "Exportar datos"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Error: ¡Formato de archivo no válido!"
-    },
-    "pickColor": {
-        "message": "Selector de color"
-    },
-    "getFavicon": {
-        "message": "Obtener Favicon"
-    },
-    "colorCopied": {
-        "message": "¡Copiado!"
-    },
-    "pageRuler": {
-        "message": "Regla de página"
-    },
-    "rulerCopied": {
-        "message": "¡Dimensiones copiadas!"
-    },
-    "pageDraw": {
-        "message": "Dibujar en página"
-    },
-    "drawSaved": {
-        "message": "¡Dibujo guardado!"
     },
     "appearanceGroup": {
         "message": "Apariencia"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Detalles útiles para incluir en tu reporte"
-    },
-    "faviconTitle": {
-        "message": "Extractor de Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "Extrae y descarga favicons de alta resolución de cualquier sitio web."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Pegar desde portapapeles"
-    },
-    "faviconExtract": {
-        "message": "Extraer favicons"
-    },
-    "faviconSelectFormat": {
-        "message": "Seleccionar tamaño / formato"
-    },
-    "faviconSelectedUrl": {
-        "message": "URL seleccionada"
-    },
-    "faviconCopyUrl": {
-        "message": "Copiar URL"
-    },
-    "faviconOpenTab": {
-        "message": "Abrir en nueva pestaña"
-    },
-    "faviconDownload": {
-        "message": "Descargar favicon"
-    },
-    "faviconNotFound": {
-        "message": "No se encontró ningún favicon válido para este sitio web."
-    },
-    "faviconInvalidUrl": {
-        "message": "Por favor, introduce una URL de sitio web válida."
-    },
-    "copied": {
-        "message": "¡Copiado!"
-    },
-    "drawPen": {
-        "message": "Pluma (P)"
-    },
-    "drawHighlighter": {
-        "message": "Resaltador (H)"
-    },
-    "drawRect": {
-        "message": "Rectángulo (R)"
-    },
-    "drawCircle": {
-        "message": "Círculo (C)"
-    },
-    "drawArrow": {
-        "message": "Flecha (A)"
-    },
-    "drawLine": {
-        "message": "Línea (L)"
-    },
-    "drawText": {
-        "message": "Texto (T)"
-    },
-    "drawEraser": {
-        "message": "Borrador (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Grosor del trazo"
-    },
-    "drawUndo": {
-        "message": "Deshacer (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Rehacer (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Limpiar lienzo"
-    },
-    "drawSave": {
-        "message": "Guardar imagen"
-    },
-    "drawClose": {
-        "message": "Cerrar (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Inspeccionar elemento (I)"
-    },
-    "rulerSelect": {
-        "message": "Selección de cuadro (S)"
-    },
-    "rulerTarget": {
-        "message": "Objetivo"
-    },
-    "rulerCopyDim": {
-        "message": "Copiar dimensiones"
-    },
-    "rulerClose": {
-        "message": "Cerrar (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"

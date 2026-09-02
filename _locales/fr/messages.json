@@ -35,6 +35,9 @@
     "removeCurrentHost": {
         "message": "Retirer le site de la liste blanche"
     },
+    "reloadTab": {
+        "message": "Reload page"
+    },
     "exportData": {
         "message": "Exporter les données"
     },
@@ -73,27 +76,6 @@
     },
     "invalidFileError": {
         "message": "Erreur : format de fichier non valide !"
-    },
-    "pickColor": {
-        "message": "Pipette de couleur"
-    },
-    "getFavicon": {
-        "message": "Obtenir le Favicon"
-    },
-    "colorCopied": {
-        "message": "Copié !"
-    },
-    "pageRuler": {
-        "message": "Règle de page"
-    },
-    "rulerCopied": {
-        "message": "Dimensions copiées !"
-    },
-    "pageDraw": {
-        "message": "Dessiner sur la page"
-    },
-    "drawSaved": {
-        "message": "Dessin enregistré !"
     },
     "appearanceGroup": {
         "message": "Apparence"
@@ -193,102 +175,6 @@
     },
     "reportHelpfulDetails": {
         "message": "Détails utiles à inclure dans votre rapport"
-    },
-    "faviconTitle": {
-        "message": "Extracteur de Favicon"
-    },
-    "faviconSubtitle": {
-        "message": "Extrayez et téléchargez des favicons haute résolution depuis n'importe quel site web."
-    },
-    "faviconPlaceholder": {
-        "message": "https://example.com/"
-    },
-    "faviconPaste": {
-        "message": "Coller depuis le presse-papiers"
-    },
-    "faviconExtract": {
-        "message": "Extraire les favicons"
-    },
-    "faviconSelectFormat": {
-        "message": "Sélectionner taille / format"
-    },
-    "faviconSelectedUrl": {
-        "message": "URL sélectionnée"
-    },
-    "faviconCopyUrl": {
-        "message": "Copier l'URL"
-    },
-    "faviconOpenTab": {
-        "message": "Ouvrir dans un nouvel onglet"
-    },
-    "faviconDownload": {
-        "message": "Télécharger le favicon"
-    },
-    "faviconNotFound": {
-        "message": "Aucun favicon valide trouvé pour ce site web."
-    },
-    "faviconInvalidUrl": {
-        "message": "Veuillez saisir une URL de site web valide."
-    },
-    "copied": {
-        "message": "Copié !"
-    },
-    "drawPen": {
-        "message": "Stylo (P)"
-    },
-    "drawHighlighter": {
-        "message": "Surligneur (H)"
-    },
-    "drawRect": {
-        "message": "Rectangle (R)"
-    },
-    "drawCircle": {
-        "message": "Cercle (C)"
-    },
-    "drawArrow": {
-        "message": "Flèche (A)"
-    },
-    "drawLine": {
-        "message": "Ligne (L)"
-    },
-    "drawText": {
-        "message": "Texte (T)"
-    },
-    "drawEraser": {
-        "message": "Gomme (E)"
-    },
-    "drawStrokeSize": {
-        "message": "Taille du trait"
-    },
-    "drawUndo": {
-        "message": "Annuler (Ctrl+Z)"
-    },
-    "drawRedo": {
-        "message": "Rétablir (Ctrl+Y)"
-    },
-    "drawClear": {
-        "message": "Effacer le canevas"
-    },
-    "drawSave": {
-        "message": "Enregistrer l'image"
-    },
-    "drawClose": {
-        "message": "Fermer (Esc)"
-    },
-    "rulerInspect": {
-        "message": "Inspecteur d'élément (I)"
-    },
-    "rulerSelect": {
-        "message": "Sélection de zone (S)"
-    },
-    "rulerTarget": {
-        "message": "Cible"
-    },
-    "rulerCopyDim": {
-        "message": "Copier les dimensions"
-    },
-    "rulerClose": {
-        "message": "Fermer (Esc)"
     },
     "shortcutsGroup": {
         "message": "Keyboard Shortcuts"
