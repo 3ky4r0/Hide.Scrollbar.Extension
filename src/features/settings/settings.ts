@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initSettings = () => {
   'use strict';
 
   const { applyI18n } = (globalThis as any).ScrollHideI18n || {};
@@ -415,4 +415,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSettings);
+} else {
+  initSettings();
+}
