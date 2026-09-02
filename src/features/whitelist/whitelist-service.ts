@@ -19,7 +19,9 @@ export const sanitizeDomain = (raw: unknown): string => {
   return str
     .toLowerCase()
     .replace(/^(https?:\/\/)?/, '')
-    .replace(/[/?#].*$/, '');
+    .replace(/^\*+\.?/, '')
+    .replace(/[/?#].*$/, '')
+    .replace(/:\d+$/, '');
 };
 
 export const normalizeWhitelist = (domains: unknown): string[] =>
@@ -37,14 +39,22 @@ let cachedSet = new Set<string>();
 
 export const isWhitelisted = (hostname: string | null | undefined, whitelist: string[] | unknown): boolean => {
   if (!hostname) return false;
+  const cleanHost = String(hostname).toLowerCase().replace(/:\d+$/, '').trim();
+  if (!cleanHost) return false;
+
   if (whitelist !== cachedWhitelist) {
     cachedWhitelist = whitelist;
-    cachedSet = new Set(Array.isArray(whitelist) ? (whitelist as string[]) : []);
+    cachedSet = new Set(
+      (Array.isArray(whitelist) ? (whitelist as string[]) : [])
+        .map((d) => sanitizeDomain(d))
+        .filter(Boolean)
+    );
   }
-  if (cachedSet.has(hostname)) return true;
+
+  if (cachedSet.has(cleanHost)) return true;
 
   // Check parent domains (e.g., mail.google.com -> google.com)
-  const parts = hostname.split('.');
+  const parts = cleanHost.split('.');
   while (parts.length > 2) {
     parts.shift();
     if (cachedSet.has(parts.join('.'))) return true;

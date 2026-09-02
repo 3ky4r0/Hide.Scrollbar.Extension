@@ -133,12 +133,18 @@ assert(service.sanitizeDomain('https://example.com/path?query=1') === 'example.c
 assert(service.sanitizeDomain('! This is a comment') === '', 'Ignore comment starting with !');
 assert(service.sanitizeDomain('# This is a comment') === '', 'Ignore comment starting with #');
 assert(service.sanitizeDomain('   sub.domain.co.uk/   ') === 'sub.domain.co.uk', 'Sanitize subdomain with whitespace');
+assert(service.sanitizeDomain('http://localhost:3000/test') === 'localhost', 'Sanitize localhost with port');
+assert(service.sanitizeDomain('127.0.0.1:8080') === '127.0.0.1', 'Sanitize IP with port');
+assert(service.sanitizeDomain('*.google.com') === 'google.com', 'Sanitize wildcard prefix *.domain');
 
-const list = service.normalizeWhitelist(['example.com', '  ! note', '  YOUTUBE.COM  ', 'example.com', '# note 2']);
-assert(list.length === 2 && list[0] === 'example.com' && list[1] === 'youtube.com', 'Normalize whitelist deduplicates and strips comments');
+const list = service.normalizeWhitelist(['example.com', '  ! note', '  YOUTUBE.COM  ', 'example.com', '# note 2', '*.github.com', 'localhost:3000']);
+assert(list.length === 4 && list.includes('example.com') && list.includes('youtube.com') && list.includes('github.com') && list.includes('localhost'), 'Normalize whitelist deduplicates, strips comments, ports & wildcards');
 
 assert(service.isWhitelisted('example.com', list) === true, 'isWhitelisted finds domain');
 assert(service.isWhitelisted('sub.example.com', list) === true, 'isWhitelisted finds subdomain');
+assert(service.isWhitelisted('gist.github.com', list) === true, 'isWhitelisted matches subdomain of wildcard domain');
+assert(service.isWhitelisted('localhost', list) === true, 'isWhitelisted finds localhost');
+assert(service.isWhitelisted('localhost:3000', list) === true, 'isWhitelisted matches localhost with port');
 assert(service.isWhitelisted('other.com', list) === false, 'isWhitelisted returns false for non-listed site');
 
 assert(service.isRestrictedUrl('chrome://settings') === true, 'Restricted on chrome://');
