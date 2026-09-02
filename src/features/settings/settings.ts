@@ -63,7 +63,7 @@ const initSettings = () => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
 
-  const validTabs = ['settings', 'whitelist', 'guide', 'report'];
+  const validTabs = ['settings', 'whitelist', 'guide', 'report', 'about'];
   const initialTab = location.hash.replace('#', '');
   switchTab(validTabs.includes(initialTab) ? initialTab : 'settings');
 

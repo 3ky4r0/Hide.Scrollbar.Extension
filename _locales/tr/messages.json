@@ -36,7 +36,7 @@
         "message": "Siteyi beyaz listeden kaldır"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Sayfayı yenile"
     },
     "exportData": {
         "message": "Verileri dışa aktar"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Hakkında ve Gizlilik"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Gizlilik Politikası"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide hiçbir tarama verisini toplamaz, saklamaz veya iletmez. Her şey %100 yerel olarak çalışır."
+    },
+    "aboutPermissionsTitle": {
+        "message": "İzinlerin Açıklaması"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Açık Kaynak ve Lisans"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide, MIT Lisansı altında yayınlanan ücretsiz ve açık kaynaklı bir yazılımdır."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

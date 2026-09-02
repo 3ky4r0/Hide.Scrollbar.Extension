@@ -36,7 +36,7 @@
         "message": "ลบไซต์ออกจากรายการที่อนุญาต"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "โหลดหน้านี้ใหม่"
     },
     "exportData": {
         "message": "ส่งออกข้อมูล"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "รายงานปัญหา"
+    },
+    "tabAbout": {
+        "message": "เกี่ยวกับ & ความเป็นส่วนตัว"
+    },
+    "aboutPrivacyTitle": {
+        "message": "นโยบายความเป็นส่วนตัว"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide ไม่มีการเก็บรวบรวม บันทึก หรือส่งต่อข้อมูลการท่องเว็บใดๆ ทุกอย่างทำงานแบบออฟไลน์ 100%"
+    },
+    "aboutPermissionsTitle": {
+        "message": "คำอธิบายเกี่ยวกับสิทธิ์การใช้งาน"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "โอเพนซอร์ส & ใบอนุญาต"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide เป็นซอฟต์แวร์ฟรีและโอเพนซอร์สที่เผยแพร่ภายใต้ใบอนุญาต MIT"
     },
     "generalSettingsGroup": {
         "message": "การตั้งค่าทั่วไป"

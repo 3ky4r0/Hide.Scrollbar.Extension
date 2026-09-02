@@ -36,7 +36,7 @@
         "message": "ដកគេហទំព័រចេញពីបញ្ជីស"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "ផ្ទុកទំព័រឡើងវិញ"
     },
     "exportData": {
         "message": "នាំចេញទិន្នន័យ"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "អំពី & ភាពឯកជន"
+    },
+    "aboutPrivacyTitle": {
+        "message": "គោលការណ៍​ភាព​ឯកជន"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide មិនប្រមូល ផ្ទុក ឬបញ្ជូនទិន្នន័យរុករកណាមួយឡើយ។ អ្វីៗទាំងអស់ដំណើរការក្នុងមូលដ្ឋាន 100%។"
+    },
+    "aboutPermissionsTitle": {
+        "message": "ការពន្យល់អំពីការអនុញ្ញាត"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "ប្រភពបើកចំហ & អាជ្ញាប័ណ្ណ"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide គឺជាកម្មវិធីឥតគិតថ្លៃ និងប្រភពបើកចំហដែលចេញផ្សាយក្រោមអាជ្ញាប័ណ្ណ MIT។"
     },
     "generalSettingsGroup": {
         "message": "General Settings"

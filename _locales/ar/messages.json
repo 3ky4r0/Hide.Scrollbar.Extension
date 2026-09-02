@@ -36,7 +36,7 @@
         "message": "إزالة الموقع من القائمة البيضاء"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "إعادة تحميل الصفحة"
     },
     "exportData": {
         "message": "تصدير البيانات"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "إبلاغ"
+    },
+    "tabAbout": {
+        "message": "حول والخصوصية"
+    },
+    "aboutPrivacyTitle": {
+        "message": "سياسة الخصوصية"
+    },
+    "aboutPrivacyDesc": {
+        "message": "لا يقوم ScrollHide بجمع أي بيانات تصفح أو تخزينها أو نقلها. كل شيء يعمل محليًا بنسبة 100%."
+    },
+    "aboutPermissionsTitle": {
+        "message": "شرح الأذونات"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "المصدر المفتوح والترخيص"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide هو برنامج مجاني ومفتوح المصدر تم إصداره بموجب ترخيص MIT."
     },
     "generalSettingsGroup": {
         "message": "الإعدادات العامة"

@@ -36,7 +36,7 @@
         "message": "從白名單中移除"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "重新載入頁面"
     },
     "exportData": {
         "message": "匯出資料"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "回報問題"
+    },
+    "tabAbout": {
+        "message": "關於與隱私"
+    },
+    "aboutPrivacyTitle": {
+        "message": "隱私政策"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide 不會收集、儲存或傳輸任何瀏覽資料。所有操作均為 100% 本地離線運行。"
+    },
+    "aboutPermissionsTitle": {
+        "message": "權限說明"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "開源與授權條款"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide 是根據 MIT 授權條款發布的免費開源軟體。"
     },
     "generalSettingsGroup": {
         "message": "一般設定"

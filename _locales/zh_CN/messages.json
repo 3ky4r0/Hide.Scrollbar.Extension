@@ -36,7 +36,7 @@
         "message": "从白名单中移除"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "重新加载页面"
     },
     "exportData": {
         "message": "导出数据"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "反馈报告"
+    },
+    "tabAbout": {
+        "message": "关于与隐私"
+    },
+    "aboutPrivacyTitle": {
+        "message": "隐私政策"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide 不会收集、存储或传输任何浏览数据。所有操作均为 100% 本地离线运行。"
+    },
+    "aboutPermissionsTitle": {
+        "message": "权限说明"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "开源与许可协议"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide 是根据 MIT 许可证发布的免费开源软件。"
     },
     "generalSettingsGroup": {
         "message": "常规设置"

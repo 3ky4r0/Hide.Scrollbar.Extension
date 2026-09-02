@@ -55,6 +55,14 @@
         </svg>
         <span data-i18n="tabReport">Report</span>
       </button>
+      <button class="nav-tab" data-tab="about" role="tab" aria-selected="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+          <path d="m9 12 2 2 4-4"></path>
+        </svg>
+        <span data-i18n="tabAbout">About & Privacy</span>
+      </button>
     </nav>
     <a href="https://github.com/3ky4r0/Hide.Scrollbar.Extension" target="_blank" rel="noopener noreferrer"
       class="nav-github-btn" title="GitHub Repository" aria-label="GitHub Repository">
@@ -178,19 +186,6 @@
               </svg>
               <span data-i18n="backupReset">Reset to defaults</span>
             </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="settings-group">
-        <h2 class="group-title" data-i18n="info">Information</h2>
-        <div class="settings-card">
-          <div class="stat-row">
-            <div>
-              <div class="setting-title" data-i18n="extName">Hide Scrollbar</div>
-              <div class="setting-desc" data-i18n="extDesc">Automatically hides scrollbars for a cleaner interface. Supports whitelist and toggle.</div>
-            </div>
-            <span id="extVersion" class="ext-version-badge"></span>
           </div>
         </div>
       </div>
@@ -369,6 +364,66 @@
           <li><strong>Browser & OS:</strong> Your browser version and Operating System.</li>
           <li><strong>Screenshot:</strong> A quick screenshot showing the visible scrollbar helps us fix it quickly.</li>
         </ul>
+      </div>
+    </section>
+
+    <!-- TAB 5: ABOUT & PRIVACY -->
+    <section id="tab-about" class="tab-pane">
+      <div class="settings-group">
+        <div class="settings-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 15px; font-weight: 600;" data-i18n="extName">Hide Scrollbar</span>
+                <span id="extVersion" class="ext-version-badge"></span>
+              </div>
+              <div class="setting-desc" style="margin-top: 4px;" data-i18n="extDesc">Automatically hides scrollbars for a cleaner interface. Supports whitelist and toggle.</div>
+            </div>
+            <a href="https://github.com/3ky4r0/Hide.Scrollbar.Extension" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex-shrink: 0; text-decoration: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="group-title" data-i18n="aboutPrivacyTitle">Privacy Policy</h2>
+        <div class="settings-card">
+          <div class="setting-desc" data-i18n="aboutPrivacyDesc" style="margin-bottom: 12px;">
+            ScrollHide does not collect, store, or transmit any browsing data. Everything is 100% offline.
+          </div>
+          <ul class="guide-list">
+            <li><strong>Zero Data Collection:</strong> No analytics, no tracking, and zero telemetry.</li>
+            <li><strong>Local Storage Only:</strong> Whitelist entries and preferences stay strictly on your local browser profile.</li>
+            <li><strong>No External Requests:</strong> The extension operates without connecting to any external servers.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="group-title" data-i18n="aboutPermissionsTitle">Permissions Explanation</h2>
+        <div class="settings-card">
+          <ul class="guide-list">
+            <li><strong>storage:</strong> Used solely to save your on/off preference and website whitelist.</li>
+            <li><strong>tabs / scripting:</strong> Used to inject the minimal stylesheet that hides scrollbars on web pages.</li>
+            <li><strong>&lt;all_urls&gt;:</strong> Necessary to apply the cleaner scrollbar view across any web page you browse.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h2 class="group-title" data-i18n="aboutOpenSourceTitle">Open Source & License</h2>
+        <div class="settings-card">
+          <div class="setting-desc" data-i18n="aboutOpenSourceDesc">
+            ScrollHide is free and open-source software under the MIT License.
+          </div>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--muted);">
+            © 2026 ScrollHide Contributors. Released under the MIT License.
+          </div>
+        </div>
       </div>
     </section>
   </main>

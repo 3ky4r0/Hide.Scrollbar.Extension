@@ -36,7 +36,7 @@
         "message": "Alisin ang site sa whitelist"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "I-reload ang pahina"
     },
     "exportData": {
         "message": "I-export ang data"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Tungkol at Privacy"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Patakaran sa Privacy"
+    },
+    "aboutPrivacyDesc": {
+        "message": "Ang ScrollHide ay hindi nangongolekta, nag-iimbak, o nagpapadala ng data ng pag-browse. Lahat ay 100% lokal."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Paliwanag sa mga Pahintulot"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Open Source at Lisensya"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "Ang ScrollHide ay libre at open-source na software sa ilalim ng Lisensya ng MIT."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

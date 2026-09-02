@@ -36,7 +36,7 @@
         "message": "Webhely eltávolítása a kivételek közül"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Oldal újratöltése"
     },
     "exportData": {
         "message": "Adatok exportálása"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Névjegy és adatvédelem"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Adatvédelmi irányelvek"
+    },
+    "aboutPrivacyDesc": {
+        "message": "A ScrollHide nem gyűjt, nem tárol és nem továbbít böngészési adatokat. Minden 100%-ban helyben működik."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Engedélyek magyarázata"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Nyílt forráskód és licenc"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "A ScrollHide egy ingyenes és nyílt forráskódú szoftver az MIT licenc alatt."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

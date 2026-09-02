@@ -36,7 +36,7 @@
         "message": "화이트리스트에서 제거"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "페이지 새로고침"
     },
     "exportData": {
         "message": "데이터 내보내기"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "문제 보고"
+    },
+    "tabAbout": {
+        "message": "정보 및 개인정보 보호"
+    },
+    "aboutPrivacyTitle": {
+        "message": "개인정보 처리방침"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide는 검색 데이터를 수집, 저장 또는 전송하지 않습니다. 모든 작업은 100% 로컬에서 오프라인으로 실행됩니다."
+    },
+    "aboutPermissionsTitle": {
+        "message": "권한 설명"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "오픈 소스 및 라이선스"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide는 MIT 라이선스에 따라 배포되는 무료 오픈 소스 소프트웨어입니다."
     },
     "generalSettingsGroup": {
         "message": "일반 설정"

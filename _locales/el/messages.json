@@ -36,7 +36,7 @@
         "message": "Αφαίρεση ιστοτόπου από τη λίστα εξαιρέσεων"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Επαναφόρτωση σελίδας"
     },
     "exportData": {
         "message": "Εξαγωγή δεδομένων"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Σχετικά & Απόρρητο"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Πολιτική απορρήτου"
+    },
+    "aboutPrivacyDesc": {
+        "message": "Το ScrollHide δεν συλλέγει, δεν αποθηκεύει και δεν μεταδίδει δεδομένα περιήγησης. Όλα λειτουργούν 100% τοπικά."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Επεξήγηση αδειών"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Ανοιχτός κώδικας & Άδεια χρήσης"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "Το ScrollHide είναι δωρεάν λογισμικό ανοιχτού κώδικα που κυκλοφορεί υπό την άδεια MIT."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

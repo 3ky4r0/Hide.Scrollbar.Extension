@@ -36,7 +36,7 @@
         "message": "Site uit whitelist verwijderen"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Pagina vernieuwen"
     },
     "exportData": {
         "message": "Gegevens exporteren"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Over & Privacy"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Privacybeleid"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide verzamelt, bewaart of verzendt geen browsegegevens. Alles werkt 100% lokaal."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Uitleg over machtigingen"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Open source & Licentie"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide is gratis en open-sourcesoftware uitgebracht onder de MIT-licentie."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

@@ -36,7 +36,7 @@
         "message": "Удалить сайт из белого списка"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Перезагрузить страницу"
     },
     "exportData": {
         "message": "Экспорт данных"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Отчет об ошибке"
+    },
+    "tabAbout": {
+        "message": "О расширении и конфиденциальность"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Политика конфиденциальности"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide не собирает, не сохраняет и не передает данные о просмотре. Всё работает на 100% локально."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Описание разрешений"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Открытый исходный код и лицензия"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide — это бесплатное программное обеспечение с открытым исходным кодом, выпущенное под лицензией MIT."
     },
     "generalSettingsGroup": {
         "message": "Основные настройки"

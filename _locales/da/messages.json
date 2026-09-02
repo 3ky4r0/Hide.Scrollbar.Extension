@@ -36,7 +36,7 @@
         "message": "Fjern websted fra undtagelser"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Genindlæs side"
     },
     "exportData": {
         "message": "Eksporter data"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Om & Privatliv"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Privatlivspolitik"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide indsamler, gemmer eller overfører ikke browserdata. Alt fungerer 100 % lokalt."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Forklaring af tilladelser"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Open Source & Licens"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide er gratis og open source-software udgivet under MIT-licensen."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

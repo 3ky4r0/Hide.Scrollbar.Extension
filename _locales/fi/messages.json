@@ -36,7 +36,7 @@
         "message": "Poista sivusto sallittujen listalta"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Lataa sivu uudelleen"
     },
     "exportData": {
         "message": "Vie tiedot"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Tietoja ja tietosuoja"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Tietosuojakäytäntö"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide ei kerää, tallenna tai lähetä selaustietoja. Kaikki toimii 100-prosenttisesti paikallisesti."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Käyttöoikeuksien selitys"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Avoin lähdekoodi ja lisenssi"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide on ilmainen ja avoimen lähdekoodin ohjelmisto, joka on julkaistu MIT-lisenssillä."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

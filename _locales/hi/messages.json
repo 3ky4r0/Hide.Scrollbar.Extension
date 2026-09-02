@@ -36,7 +36,7 @@
         "message": "साइट को व्हाइटलिस्ट से हटाएं"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "पृष्ठ पुनः लोड करें"
     },
     "exportData": {
         "message": "डेटा निर्यात करें"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "रिपोर्ट करें"
+    },
+    "tabAbout": {
+        "message": "परिचय और गोपनीयता"
+    },
+    "aboutPrivacyTitle": {
+        "message": "गोपनीयता नीति"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide कोई भी ब्राउज़िंग डेटा एकत्र, संग्रहीत या प्रसारित नहीं करता है। सब कुछ 100% ऑफ़लाइन काम करता है।"
+    },
+    "aboutPermissionsTitle": {
+        "message": "अनुमतियों का विवरण"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "ओपन सोर्स और लाइसेंस"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide MIT लाइसेंस के तहत जारी किया गया मुफ्त और ओपन-सोर्स सॉफ्टवेयर है।"
     },
     "generalSettingsGroup": {
         "message": "सामान्य सेटिंग्स"

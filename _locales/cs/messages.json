@@ -36,7 +36,7 @@
         "message": "Odebrat web ze seznamu výjimek"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Znovu načíst stránku"
     },
     "exportData": {
         "message": "Exportovat data"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "O aplikaci a soukromí"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Zásady ochrany osobních údajů"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide neshromažďuje, neukládá ani nepřenáší žádná data o prohlížení. Vše funguje 100% lokálně."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Vysvětlení oprávnění"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Open Source a licence"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide je bezplatný software s otevřeným zdrojovým kódem vydaný pod licencí MIT."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

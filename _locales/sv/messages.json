@@ -36,7 +36,7 @@
         "message": "Ta bort webbplats från vitlistan"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Ladda om sidan"
     },
     "exportData": {
         "message": "Exportera data"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Om & Integritet"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Integritetspolicy"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide samlar inte in, lagrar eller överför någon webbläsardata. Allt fungerar 100 % lokalt."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Förklaring av behörigheter"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Öppen källkod och licens"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide är gratis programvara med öppen källkod som släpps under MIT-licensen."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

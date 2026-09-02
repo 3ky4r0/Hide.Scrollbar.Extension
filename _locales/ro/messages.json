@@ -36,7 +36,7 @@
         "message": "Elimină site-ul din lista albă"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Reîncărcați pagina"
     },
     "exportData": {
         "message": "Exportă datele"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Despre și Confidențialitate"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Politica de confidențialitate"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide nu colectează, nu stochează și nu transmite date de navigare. Totul funcționează 100% local."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Explicația permisiunilor"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Sursă deschisă și Licență"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide este un software gratuit și cu sursă deschisă lansat sub licența MIT."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

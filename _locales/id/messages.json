@@ -36,7 +36,7 @@
         "message": "Hapus situs dari daftar putih"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Muat ulang halaman"
     },
     "exportData": {
         "message": "Ekspor data"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Laporan"
+    },
+    "tabAbout": {
+        "message": "Tentang & Privasi"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Kebijakan Privasi"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide tidak mengumpulkan, menyimpan, atau mengirimkan data penjelajahan. Semuanya berfungsi 100% lokal."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Penjelasan Izin"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Sumber Terbuka & Lisensi"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide adalah perangkat lunak gratis dan sumber terbuka yang dirilis di bawah Lisensi MIT."
     },
     "generalSettingsGroup": {
         "message": "Pengaturan Umum"

@@ -36,7 +36,7 @@
         "message": "Видалити сайт із білого списку"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Перезавантажити сторінку"
     },
     "exportData": {
         "message": "Експортувати дані"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Report"
+    },
+    "tabAbout": {
+        "message": "Про розширення та конфіденційність"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Політика конфіденційності"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide не збирає, не зберігає та не передає жодних даних перегляду. Усе працює на 100% локально."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Пояснення дозволів"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Відкритий код та ліцензія"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide — це безкоштовне програмне забезпечення з відкритим кодом, випущене під ліцензією MIT."
     },
     "generalSettingsGroup": {
         "message": "General Settings"

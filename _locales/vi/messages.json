@@ -107,6 +107,24 @@
     "tabReport": {
         "message": "Báo cáo"
     },
+    "tabAbout": {
+        "message": "Giới thiệu & Quyền riêng tư"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Chính sách quyền riêng tư"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide hoàn toàn không thu thập, lưu trữ hay gửi dữ liệu của bạn đi đâu. Hoạt động 100% offline."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Giải thích quyền hạn"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Mã nguồn mở & Bản quyền"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide là phần mềm mã nguồn mở miễn phí phát hành theo giấy phép MIT."
+    },
     "generalSettingsGroup": {
         "message": "Cài đặt chung"
     },

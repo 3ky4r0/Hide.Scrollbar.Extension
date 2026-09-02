@@ -36,7 +36,7 @@
         "message": "ホワイトリストから削除"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "ページを再読み込み"
     },
     "exportData": {
         "message": "データのエクスポート"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "問題の報告"
+    },
+    "tabAbout": {
+        "message": "概要とプライバシー"
+    },
+    "aboutPrivacyTitle": {
+        "message": "プライバシーポリシー"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide は閲覧データを収集、保存、送信しません。すべてが100%オフラインでローカルに動作します。"
+    },
+    "aboutPermissionsTitle": {
+        "message": "権限の説明"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "オープンソースとライセンス"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide は MIT ライセンスの下でリリースされた無料のオープンソース ソフトウェアです。"
     },
     "generalSettingsGroup": {
         "message": "一般設定"

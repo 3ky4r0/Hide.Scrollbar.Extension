@@ -36,7 +36,7 @@
         "message": "Eliminar sitio de la lista blanca"
     },
     "reloadTab": {
-        "message": "Reload page"
+        "message": "Recargar página"
     },
     "exportData": {
         "message": "Exportar datos"
@@ -106,6 +106,24 @@
     },
     "tabReport": {
         "message": "Reportar"
+    },
+    "tabAbout": {
+        "message": "Acerca de y Privacidad"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Política de privacidad"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide no recopila, almacena ni transmite ningún dato de navegación. Todo funciona 100% localmente."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Explicación de permisos"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Código abierto y Licencia"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide es un software gratuito y de código abierto publicado bajo la licencia MIT."
     },
     "generalSettingsGroup": {
         "message": "Configuración general"

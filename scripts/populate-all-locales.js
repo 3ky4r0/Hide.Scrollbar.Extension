@@ -1418,7 +1418,7 @@ allLocaleDirs.forEach((lang) => {
 
   Object.keys(en).forEach((key) => {
     fullMessages[key] = {
-      message: existing[key]?.message || langDict[key] || en[key].message
+      message: langDict[key] || existing[key]?.message || en[key].message
     };
   });
 

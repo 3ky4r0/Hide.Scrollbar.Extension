@@ -107,6 +107,24 @@
     "tabReport": {
         "message": "Report"
     },
+    "tabAbout": {
+        "message": "About & Privacy"
+    },
+    "aboutPrivacyTitle": {
+        "message": "Privacy Policy"
+    },
+    "aboutPrivacyDesc": {
+        "message": "ScrollHide does not collect, store, or transmit any browsing data. Everything is 100% offline."
+    },
+    "aboutPermissionsTitle": {
+        "message": "Permissions Explanation"
+    },
+    "aboutOpenSourceTitle": {
+        "message": "Open Source & License"
+    },
+    "aboutOpenSourceDesc": {
+        "message": "ScrollHide is free and open-source software under the MIT License."
+    },
     "generalSettingsGroup": {
         "message": "General Settings"
     },
